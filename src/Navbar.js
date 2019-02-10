@@ -33,7 +33,7 @@ class Navbar extends React.Component {
       <div>
         <header>
           <Router>
-            <MDBNavbar color="indigo" dark fixed="top">
+            <MDBNavbar color="indigo" dark expand="md" fixed="top">
               <MDBNavbarBrand href="/">
                 <strong>MyKinoFlex</strong>
               </MDBNavbarBrand>
