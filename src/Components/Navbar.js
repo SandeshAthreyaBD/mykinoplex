@@ -71,10 +71,10 @@ class NavbarPage extends Component {
               </MDBDropdownMenu>
             </MDBDropdown>
             <MDBNavItem>
-              <MDBNavLink to="/login">Login</MDBNavLink>
+              <MDBNavLink to="/contact">Contact</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
-              <MDBNavLink to="/contact">Contact</MDBNavLink>
+              <MDBNavLink to="/login">Sign-In</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem />
           </MDBNavbarNav>
