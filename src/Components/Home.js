@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Coverflow from "react-coverflow";
 import { MDBBtn } from "mdbreact";
-import MoviecardGrid from "./MoviecardGrid";
 
 class Home extends Component {
   constructor(props) {
@@ -110,7 +109,6 @@ class Home extends Component {
             data-action="http://tw.yahoo.com"
           />
         </Coverflow>
-        <MoviecardGrid/>
       </div>
     );
   }
