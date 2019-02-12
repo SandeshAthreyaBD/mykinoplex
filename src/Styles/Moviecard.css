@@ -1,0 +1,18 @@
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: space-around;
+  }
+  
+  .no-gutter-card-deck.card-columns {
+    column-gap: 0;
+  }
+  
+  .cardtitle {
+    font-size: 16px;
+  }
+  
+  .cardsubtitle {
+    font-size: 12px;
+  }
