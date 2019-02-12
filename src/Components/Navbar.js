@@ -7,22 +7,31 @@ import {
   MDBNavLink,
   MDBNavbarToggler,
   MDBCollapse,
-  MDBFormInline,
   MDBDropdown,
   MDBDropdownToggle,
   MDBDropdownMenu,
   MDBDropdownItem
 } from "mdbreact";
 import Searchbar from "./Searchbar";
+
 class NavbarPage extends Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    showModal: false
   };
-
+  toggleModal = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  };
   toggleCollapse = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
-
+  lanchModal = () => {
+    this.setState({
+      showModal: !this.state.showModal
+    });
+  };
   render() {
     return (
       <MDBNavbar color="indigo" dark expand="md">
@@ -73,10 +82,6 @@ class NavbarPage extends Component {
             <MDBNavItem>
               <MDBNavLink to="/contact">Contact</MDBNavLink>
             </MDBNavItem>
-            <MDBNavItem>
-              <MDBNavLink to="/login">Sign-In</MDBNavLink>
-            </MDBNavItem>
-            <MDBNavItem />
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBNavbar>
