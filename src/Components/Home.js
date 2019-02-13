@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Navbar from "./Navbar";
 import CarouselComponent from "./CarouselComponent";
 import MoviecardGrid from "./MoviecardGrid";
+import Footer from "./Footer";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -99,6 +100,7 @@ class Home extends Component {
         <Navbar />
         <CarouselComponent />
         <MoviecardGrid moviesList={this.state.moviesList} />
+        <Footer/>
       </div>
     );
   }

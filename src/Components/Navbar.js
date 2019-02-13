@@ -34,7 +34,7 @@ class NavbarPage extends Component {
   };
   render() {
     return (
-      <MDBNavbar color="indigo" dark expand="md">
+      <MDBNavbar fixed="top" color="indigo" dark expand="md">
         <MDBNavbarBrand>
           <strong className="white-text">MyKinoPlex</strong>
         </MDBNavbarBrand>
