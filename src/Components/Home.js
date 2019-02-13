@@ -17,6 +17,7 @@ class Home extends Component {
           tagline: "",
           synopsis: "",
           cast: "",
+          imgsrc: "kgf",
           id: 1
         },
         {
@@ -27,16 +28,18 @@ class Home extends Component {
           tagline: "A Surgical strike",
           synopsis: "A fight for India",
           cast: "",
+          imgsrc: "uri",
           id: 2
         },
         {
-          name: "Natasarobhoma",
+          name: "Natasarawbhoma",
           language: "Kannada",
           certificate: "UA",
           genre: "Drama",
           tagline: "",
           synopsis: "",
           cast: "",
+          imgsrc: "Gully",
           id: 3
         },
         {
@@ -47,6 +50,7 @@ class Home extends Component {
           tagline: "Love story of teenagers",
           synopsis: "",
           cast: "",
+          imgsrc: "kgf",
           id: 4
         },
         {
@@ -57,6 +61,7 @@ class Home extends Component {
           tagline: "The queen of Jhansi",
           synopsis: "",
           cast: "",
+          imgsrc: "manikarnika",
           id: 5
         },
         {
@@ -67,6 +72,7 @@ class Home extends Component {
           tagline: "Funnymovie",
           synopsis: "",
           cast: "",
+          imgsrc: "Gully",
           id: 6
         },
         {
@@ -77,16 +83,18 @@ class Home extends Component {
           tagline: "",
           synopsis: "",
           cast: "",
+          imgsrc: "uri",
           id: 7
         },
         {
-          name: "SpiderMan",
+          name: "Aquaman",
           language: "English",
           certificate: "UA",
           genre: "Thriller",
           tagline: "",
           synopsis: "",
           cast: "",
+          imgsrc: "aquaman",
           id: 8
         }
       ]

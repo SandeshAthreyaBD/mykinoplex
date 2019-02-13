@@ -20,13 +20,13 @@ const Moviecard = ({ movieInfo }) => {
     movieInfo.tagline != ""
       ? movieInfo.name + ": " + movieInfo.tagline
       : movieInfo.name;
+
   return (
     <div className="col-12 col-sm-6 col-md-4 p-2 moviedivcard">
       <Card className="moviecard">
         <Card.Img
           variant="top"
-          src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg"
-          waves
+          src={require('../Images/' + movieInfo.imgsrc + '.jpg')}
           style={{ height: "18rem" }}
         />
         <Card.Body>
