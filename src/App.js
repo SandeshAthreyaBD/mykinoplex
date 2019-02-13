@@ -8,6 +8,7 @@ import Hindi from "./Components/Languages/Hindi";
 import Malayalam from "./Components/Languages/Malayalam";
 import Home from "./Components/Home";
 import Contact from "./Components/Contact";
+import MovieDetails from "./Components/MovieDetails";
 import Signin from "./Components/Modals/Signin";
 import NotFound from "./Components/NotFound";
 
@@ -24,6 +25,7 @@ class App extends Component {
           <Route path="/malayalam" component={Malayalam} />
           <Route path="/login" component={Login} />
           <Route path="/contact" component={Contact} />
+          <Route path="/movieDetail" component={MovieDetails} />
           <Route path="/admin-login-mykinoplex" component={Signin} />
           <Route path="*" component={NotFound} />
         </Switch>
