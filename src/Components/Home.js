@@ -4,6 +4,7 @@ import CarouselComponent from "./CarouselComponent";
 import MoviecardGrid from "./MoviecardGrid";
 import Footer from "./Footer";
 import Heading from "./Heading";
+import IframeComponent from "./IframeComponent";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -121,6 +122,7 @@ class Home extends Component {
         <CarouselComponent />
         <Heading />
         <MoviecardGrid moviesList={this.state.moviesList} />
+        <IframeComponent />
         <Footer />
       </div>
     );
