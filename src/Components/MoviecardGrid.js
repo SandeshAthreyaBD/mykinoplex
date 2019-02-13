@@ -1,22 +1,23 @@
 import React from "react";
 // eslint-disable-next-line
 import { MDBContainer, MDBRow, MDBCol, MDBCardGroup } from "mdbreact";
+// eslint-disable-next-line
+import { CardColumns, Col } from "react-bootstrap";
 import Moviecard from "./Moviecard.js";
-import { CardDeck } from "react-bootstrap";
 
-const MoviecardGrid = () => {
+const MoviecardGrid = ({moviesList}) => {
+
   return (
     <MDBContainer>
-      <CardDeck>
-        <Moviecard />
-        <Moviecard />
-        <Moviecard />
-        <Moviecard />
-        <Moviecard />
-        <Moviecard />
-        <Moviecard />
-        <Moviecard />
-</CardDeck>
+      <div className="row no-gutters">
+        {
+          moviesList.map(movie => {
+            return (
+              <Moviecard movieInfo={movie} />
+            )
+          })
+        }
+      </div>
     </MDBContainer>
   );
 }
