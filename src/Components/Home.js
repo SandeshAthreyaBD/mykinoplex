@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import CarouselComponent from "./CarouselComponent";
 import MoviecardGrid from "./MoviecardGrid";
 import Footer from "./Footer";
+import Heading from "./Heading";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -111,11 +112,16 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          backgroundColor: "Black"
+        }}
+      >
         <Navbar />
         <CarouselComponent />
+        <Heading />
         <MoviecardGrid moviesList={this.state.moviesList} />
-        <Footer/>
+        <Footer />
       </div>
     );
   }
