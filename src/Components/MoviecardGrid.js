@@ -8,7 +8,7 @@ import Moviecard from "./Moviecard.js";
 const MoviecardGrid = ({moviesList}) => {
 
   return (
-    <MDBContainer>
+    <MDBContainer className="moviecardgrid">
       <div className="row no-gutters">
         {
           moviesList.map(movie => {

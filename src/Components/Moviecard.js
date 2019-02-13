@@ -22,7 +22,7 @@ const Moviecard = ({ movieInfo }) => {
       : movieInfo.name;
 
   return (
-    <div className="col-12 col-sm-6 col-md-4 p-2 moviedivcard">
+    <div className="col-12 col-sm-6 col-md-4 px-2 py-3 moviedivcard">
       <Card className="moviecard">
         <Card.Img
           variant="top"
@@ -33,11 +33,18 @@ const Moviecard = ({ movieInfo }) => {
           <Card.Title className="cardtitle">
             <TextTruncate line={1} truncateText="…" text={cardtitle} />
           </Card.Title>
-          <Card.Text className="flex-container">
-            <h6 className="cardsubtitle">
+          <Card.Text>
+          <div className="flex-container">
+          <h6 className="cardsubtitle">
               {movieInfo.certificate} | {movieInfo.language}
             </h6>
             <Card.Link href="#!">Book >></Card.Link>
+          </div>
+            <div>
+            <h6 className="cardsubtitle">
+              {movieInfo.status}
+            </h6>
+            </div>
           </Card.Text>
         </Card.Body>
       </Card>

@@ -18,6 +18,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "kgf",
+          status: "Now Showing",
           id: 1
         },
         {
@@ -29,6 +30,7 @@ class Home extends Component {
           synopsis: "A fight for India",
           cast: "",
           imgsrc: "uri",
+          status: "Now Showing",
           id: 2
         },
         {
@@ -40,6 +42,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "Gully",
+          status: "Coming Soon",
           id: 3
         },
         {
@@ -51,6 +54,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "kgf",
+          status: "Coming Soon",
           id: 4
         },
         {
@@ -62,6 +66,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "manikarnika",
+          status: "Now Showing",
           id: 5
         },
         {
@@ -73,6 +78,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "Gully",
+          status: "Now Showing",
           id: 6
         },
         {
@@ -84,6 +90,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "uri",
+          status: "Coming Soon",
           id: 7
         },
         {
@@ -95,6 +102,7 @@ class Home extends Component {
           synopsis: "",
           cast: "",
           imgsrc: "aquaman",
+          status: "Now Showing",
           id: 8
         }
       ]
