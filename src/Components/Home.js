@@ -102,7 +102,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.state.moviesList);
     return (
       <div>
         <Navbar />
