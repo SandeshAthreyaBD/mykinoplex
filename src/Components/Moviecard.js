@@ -1,23 +1,12 @@
 import React from "react";
 import "../Styles/Moviecard.css";
 // eslint-disable-next-line
-import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBCardTitle,
-  MDBCardText,
-  MDBCol,
-  MDBIcon,
-  MDBRow
-} from "mdbreact";
 import { Card } from "react-bootstrap";
 import TextTruncate from "react-text-truncate";
 
 const Moviecard = ({ movieInfo }) => {
   let cardtitle =
-    movieInfo.tagline != ""
+    movieInfo.tagline !== ""
       ? movieInfo.name + ": " + movieInfo.tagline
       : movieInfo.name;
 
@@ -38,7 +27,7 @@ const Moviecard = ({ movieInfo }) => {
           <h6 className="cardsubtitle">
               {movieInfo.certificate} | {movieInfo.language}
             </h6>
-            <Card.Link href="#!">Book >></Card.Link>
+            <Card.Link href="/movieinfopage">Book >></Card.Link>
           </div>
             <div>
             <h6 className="cardsubtitle">
