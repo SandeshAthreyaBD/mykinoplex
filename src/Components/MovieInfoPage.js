@@ -2,8 +2,10 @@ import React, {Component} from "react";
 import Navbar from "./Navbar";
 import ImageFlex from "./ImageFlexComponent";
 import MovieDetailComponent from "./MovieDetailComponent";
+import Footer from "./Footer";
+import MovieshowsGrid from "./MovieshowsGrid";
 
-class MovieDetailPage extends Component{
+class MovieInfoPage extends Component{
     render()
     {
         return(
@@ -11,9 +13,11 @@ class MovieDetailPage extends Component{
                 <Navbar/>
                 <ImageFlex/>
                 <MovieDetailComponent/>
+                <MovieshowsGrid />
+                <Footer />
             </div>
         );
     }
 }
 
-export default MovieDetailPage;
+export default MovieInfoPage;
