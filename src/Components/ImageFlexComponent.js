@@ -7,7 +7,7 @@ import {
 
 const ImageFlex = () =>{
     return(
-        <div
+      <div
           media={{
             "@media (max-width: 900px)": {
               width: "600px",
@@ -22,12 +22,16 @@ const ImageFlex = () =>{
           style={{ backgroundColor: "#1C2331" }}
         >
        <MDBContainer fluid className="mt-5">
-          <MDBCol className="w-auto">
-            <img 
-            src={require("../Images/bell.jpg")}
-            className="d-block w-100" 
-            alt="flex" />
-          </MDBCol>
+          <MDBRow>
+            <MDBCol>
+              <img 
+              resizeMode={'cover'}
+              style={{width: 100, height: 250}}
+              src={require("../Images/bell.jpg")}
+              className="d-block w-100" 
+              alt="flex" />
+            </MDBCol>
+          </MDBRow>
         </MDBContainer>
         </div>
     );
