@@ -122,7 +122,6 @@ class Home extends Component {
         <CarouselComponent />
         <Heading />
         <MoviecardGrid moviesList={this.state.moviesList} />
-        <IframeComponent />
         <Footer />
       </div>
     );
