@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import {
   MDBRow,
   MDBCol,
@@ -13,11 +14,30 @@ import {
 class ContactComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      name: "",
+      email: "",
+      subject: "",
+      message: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit = e => {
+  async handleSubmit(e) {
     e.preventDefault();
+    const { name, email, subject, message } = this.state;
+    console.log(this.state);
+
+    const form = await axios.post("/api/form", {
+      name,
+      email,
+      subject,
+      message
+    });
+  }
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
@@ -49,11 +69,13 @@ class ContactComponent extends Component {
                     </MDBModalHeader>
                     <div className="md-form">
                       <MDBInput
+                        name="name"
                         icon="user"
                         label="Your name"
                         iconClass="grey-text"
                         type="text"
                         id="form-name"
+                        onChange={this.handleChange}
                       />
                     </div>
                     <div className="md-form">
@@ -63,6 +85,8 @@ class ContactComponent extends Component {
                         iconClass="grey-text"
                         type="text"
                         id="form-email"
+                        name="email"
+                        onChange={this.handleChange}
                       />
                     </div>
                     <div className="md-form">
@@ -72,6 +96,8 @@ class ContactComponent extends Component {
                         iconClass="grey-text"
                         type="text"
                         id="form-subject"
+                        name="subject"
+                        onChange={this.handleChange}
                       />
                     </div>
                     <div className="md-form">
@@ -81,6 +107,8 @@ class ContactComponent extends Component {
                         iconClass="grey-text"
                         type="textarea"
                         id="form-text"
+                        name="message"
+                        onChange={this.handleChange}
                       />
                     </div>
                     <div className="text-center">
