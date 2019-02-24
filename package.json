@@ -1,10 +1,10 @@
 {
-  "name": "mykinoplex-beta",
+  "name": "mykinoplex",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd mykinoplexserver && node server.js\" \"cd mykinoplex && npm start\""
+    "start": "concurrently \"cd server && node server.js\" \"cd client && npm start\""
   },
   "author": "",
   "license": "ISC",
