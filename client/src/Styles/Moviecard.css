@@ -1,0 +1,30 @@
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: space-around;
+}
+
+.moviedivcard {
+  display: inline-block;
+  align-self: center;
+}
+
+.moviecard {
+  margin: auto;
+  max-width: 18rem;
+  max-height: 24.5rem;
+}
+
+.moviecardgrid {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardtitle {
+  font-size: 16px;
+}
+
+.cardsubtitle {
+  font-size: 12px;
+}
