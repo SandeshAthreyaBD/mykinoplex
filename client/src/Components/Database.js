@@ -19,7 +19,7 @@ class Database extends Component {
   componentDidMount() {
     this.getDataFromDb();
     if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
+      let interval = setInterval(this.getDataFromDb, 60000);
       this.setState({ intervalIsSet: interval });
     }
   }
@@ -41,24 +41,27 @@ class Database extends Component {
   // our first get method that uses our backend api to
   // fetch data from our data base
   getDataFromDb = () => {
-    fetch("http://localhost:3001/api/getData")
-      .then(data => data.json())
-      .then(res => this.setState({ data: res.data }));
+      axios.get('http://localhost:3001/api/getData')
+      .then(response => {
+          this.setState({data: response.data});
+      })
+      .catch(error => {
+          console.log(error);
+      }); 
   };
 
   // our put method that uses our backend api
   // to create new query into our data base
-  putDataToDB = message => {
+  putDataToDB = (message) => {
     let currentIds = this.state.data.map(data => data.id);
     let idToBeAdded = 0;
     while (currentIds.includes(idToBeAdded)) {
       ++idToBeAdded;
     }
-
     axios.post("http://localhost:3001/api/putData", {
       id: idToBeAdded,
       message: message
-    });
+    })
   };
 
   // our delete method that uses our backend api
@@ -119,7 +122,7 @@ class Database extends Component {
             placeholder="add something in the database"
             style={{ width: "200px" }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => {this.putDataToDB(this.state.message)} }>
             ADD
           </button>
         </div>
