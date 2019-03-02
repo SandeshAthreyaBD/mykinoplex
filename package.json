@@ -1,6 +1,8 @@
 {
   "name": "mykinoplex",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "private": true,
   "dependencies": {
     "mdbreact": "^4.10.0",
@@ -15,21 +17,20 @@
     "react-scripts": "^2.1.5",
     "react-slick": "^0.23.2",
     "react-text-truncate": "^0.13.1",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "axios": "^0.18.0",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"cd server && node server.js\" \"cd client && npm start\""
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "expect": "^24.1.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "supertest": "^3.4.2"
+  }
 }
