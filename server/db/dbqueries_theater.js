@@ -36,24 +36,11 @@ module.exports = {
     return output;
   },
 
-  insertOneTheater: async (session, theater) => {
+  insertTheater: async (session, theaterArray) => {
     var output;
-    const { theaterId, theaterName, address } = theater;
-    const opts = { session: session };
+    const opts = { session, new: true };
 
-    let theater1 = new Theater({
-        _id: new mongoose.Types.ObjectId(),
-        theaterId: theaterId,
-        theaterName: theaterName,
-        address: {
-          country: address.country,
-          city: address.city,
-          street: address.street,
-          zipcode: address.zipcode
-        }
-      });
-
-    await Theater.create(theater1, opts) //testing including session
+    await Theater.insertMany(theaterArray, opts) //testing including session
       .then(result => {
         output = result;
         return result;
@@ -68,7 +55,7 @@ module.exports = {
   updateTheaterById: async (session, theater, theaterId) => {
     var output;
     const { theaterName, address } = theater;
-    const opts = { session: session };
+    const opts = { session, new: true };
     let date = new Date().valueOf();
 
     await Theater.findOneAndUpdate(

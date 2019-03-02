@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
+  "author": "mykinoplexteam",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "mdbreact": "^4.10.0",

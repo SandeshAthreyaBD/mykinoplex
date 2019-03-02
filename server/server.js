@@ -7,7 +7,9 @@ const logger = require("morgan");
 
 const dbqueries_theater = require("./db/dbqueries_theater");
 const dbqueries_showdetails = require("./db/dbqueries_showdetails");
-const Data = require("./data");
+const dbqueries_movieinfo = require("./db/dbqueries_movieinfo");
+
+const MovieInfo = require("./schemas/MovieInfo");
 const Theater = require("./schemas/Theater");
 const ShowDetails = require("./schemas/ShowDetails");
 
@@ -29,68 +31,12 @@ db.on("open", () => {
 });
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// this is our create method
-// this method adds new data in our database
-router.route("/putData").post(async (req, res) => {
-  const session = await db.startSession();
-  session.startTransaction();
-
-  try {
-    const opts = { session: session };
-
-    const { id, message } = req.body;
-    let data = new Data({
-      id: id,
-      message: message
-    });
-
-    await Data.create(data)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.log(error);
-        throw new Error("Error occurred while inserting data: " + error);
-      });
-
-    await Data.findOneAndUpdate(
-      { id: id },
-      { $set: { messag: "Updating after insert with transactions" } },
-      opts
-    )
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.log(error);
-        throw new Error(
-          "Error occurred while updating after insert data: " + error
-        );
-      });
-
-    await session.commitTransaction();
-    session.endSession();
-
-    return res
-      .status(200)
-      .json({ success: "data updated after insert successfully" });
-  } catch (error) {
-    // If an error occurred, abort the whole transaction and
-    // undo any changes that might have happened
-
-    await session.abortTransaction();
-    session.endSession();
-
-    return res.status(400).send("updating data adter insert failed" + error); // Rethrow so calling function sees error
-  }
-});
 
 // queries for theater collection to read and write
-router.route("/getTheater").get((req, res) => {
+router.route("/getTheater").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_theater.findAllTheater(session)
   .then(result => {
-    console.log(result);
     res.status(200).send(result);
   })
   .catch(error => {
@@ -99,7 +45,7 @@ router.route("/getTheater").get((req, res) => {
   session.endSession();
 });
 
-router.route("/getTheater/:id").get((req, res) => {
+router.route("/getTheater/:id").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_theater.findTheaterById(session, req.params.id)
   .then(result => {
@@ -111,9 +57,9 @@ router.route("/getTheater/:id").get((req, res) => {
   session.endSession();
 });
 
-router.route("/insertTheater").post((req, res) => {
+router.route("/insertTheater").post(async (req, res) => {
   const session = await db.startSession();
-  await dbqueries_theater.insertOneTheater(session, req.body)
+  await dbqueries_theater.insertTheater(session, req.body)
   .then(result => {
     res.status(200).send(result);
   })
@@ -123,12 +69,12 @@ router.route("/insertTheater").post((req, res) => {
   session.endSession();
 });
 
-router.route("/updateTheater/:id").post((req, res) => {
+router.route("/updateTheater/:id").post(async (req, res) => {
   const session = await db.startSession();
   session.startTransaction();
   try {
     const theaterId = req.params.id;
-    await dbqueries_theater.updateTheaterById(session, req.body, theaterId, opts)
+    await dbqueries_theater.updateTheaterById(session, req.body, theaterId)
       .then(result => {
         console.log(result);
       })
@@ -149,19 +95,19 @@ router.route("/updateTheater/:id").post((req, res) => {
           zipcode: address.zipcode
         }
       });
-      await dbqueries_theater.insertOneTheater(session, theater1)
+      await dbqueries_theater.insertTheater(session, theater1)
       .then(result => {
         console.log(result);
       })
       .catch(error => {
         console.log(error);
-        throw new Error("Error occurred while inserting theater: " + error);
+        throw new Error("Error occurred while inserting updated theater: " + error);
       });
 
     await session.commitTransaction();
     session.endSession();
 
-    return res.status(200).json({ success: "theater updated with insert successfully" });
+    return res.status(200).send("theater updated with insert successfully");
 
   } catch (error) {
     // If an error occurred, abort the whole transaction and
@@ -169,13 +115,13 @@ router.route("/updateTheater/:id").post((req, res) => {
     await session.abortTransaction();
     session.endSession();
 
-    return res.status(400).send("updating data with insert failed" + error); // Rethrow so calling function sees error
+    return res.status(400).send("updating theater with insert failed" + error); // Rethrow so calling function sees error
   }
 });
 
-router.route("/deleteTheater/:id").post((req, res) => {
+router.route("/deleteTheater/:id").post(async (req, res) => {
   const session = await db.startSession();
-  let theaterId = res.params.theaterId;
+  let theaterId = req.params.id;
   await dbqueries_theater.deleteTheaterById(session, theaterId)
   .then(result => {
     res.status(200).send(result);
@@ -187,7 +133,7 @@ router.route("/deleteTheater/:id").post((req, res) => {
 });
 
 // queries for showdetails collection to read and write
-router.route("/getShowDetails").get((req, res) => {
+router.route("/getShowDetails").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_showdetails.findAllShowDetails(session)
   .then(result => {
@@ -199,7 +145,7 @@ router.route("/getShowDetails").get((req, res) => {
   session.endSession();
 });
 
-router.route("/getMultipleShowDetails").get((req, res) => {
+router.route("/getMultipleShowDetails").get(async (req, res) => {
   let showIds = res.params.userIds;
   const session = await db.startSession();
   await dbqueries_showdetails.findMultipleShowDetails(session, showIds)
@@ -212,7 +158,7 @@ router.route("/getMultipleShowDetails").get((req, res) => {
   session.endSession();
 });
 
-router.route("/getShowDetails/:id").get((req, res) => {
+router.route("/getShowDetails/:id").get(async (req, res) => {
   let showId = req.params.showId;
   const session = await db.startSession();
   await dbqueries_showdetails.findShowDetailsById(session, showId)
@@ -225,9 +171,10 @@ router.route("/getShowDetails/:id").get((req, res) => {
   session.endSession();
 });
 
-router.route("/insertShowDetails").post((req, res) => {
+router.route("/insertShowDetails").post(async (req, res) => {
+  const showDetailsArray = req.body.showDetailsArray;
   const session = await db.startSession();
-  await dbqueries_showdetails.insertOneShowDetail(session, req.body)
+  await dbqueries_showdetails.insertShowDetails(session, showDetailsArray)
   .then(result => {
     res.status(200).send(result);
   })
@@ -237,63 +184,189 @@ router.route("/insertShowDetails").post((req, res) => {
   session.endSession();
 });
 
-router.route("/insertMultipleShowDetails").post((req, res) => {
-  const showDetailsArray = req.params.showDetailsArray;
+router.route("/updateShowDetails/:id").post(async (req, res) => {
+  const session = await db.startSession();
+  session.startTransaction();
+  try {
+    const showId = req.params.id;
+    await dbqueries_showdetails.updateShowDetailsById(session, req.body, showId)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error("Error occurred while updating showdetails: " + error);
+      });
 
-  ShowDetails.insertMany(showDetailsArray, err => {
-    if (err) {
-      res.status(400).send("adding multiple shows failed. err: " + err);
-    }
-    res
-      .status(200)
-      .json({ showDetailsArray: "multiple shows inserted successfully" });
-  });
-});
+      const { bookNowUrl, startTime, endTime, screeningDate, theaterId } = req.body;
+      let showDetailsArray = new Array();
 
-router.route("/updateShowDetails/:id").post((req, res) => {
-  const {
-    showId,
-    bookNowUrl,
-    startTime,
-    endTime,
-    screeningDate,
-    theaterId
-  } = req.body;
-
-  ShowDetails.findOneAndUpdate(
-    { showId: showId, inactivatedDateTime: 0, deletedDateTime: 0 },
-    { $set: { inactivatedDateTime: Date.now } },
-    (err, updatedshowinfo) => {
-      if (!updatedshowinfo) {
-        res.status(404).send("theater is not found");
-      } else {
-        axios.post("http://localhost:3001/api/insertShowDetails", {
-          showId: showId,
+      let showdetails = new ShowDetails({
+        _id: new mongoose.Types.ObjectId(),
+        showId: showId,
           bookNowUrl: bookNowUrl,
           theaterId: theaterId,
           startTime: startTime,
           endTime: endTime,
           screeningDate: screeningDate
-        });
-      }
-    }
-  );
+      });
+
+      showDetailsArray.push(showdetails);
+
+      await dbqueries_showdetails.insertShowDetails(session, showDetailsArray)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error("Error occurred while inserting updated showdetails: " + error);
+      });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.status(200).json({ success: "showdetails updated with insert successfully" });
+
+  } catch (error) {
+    // If an error occurred, abort the whole transaction and
+    // undo any changes that might have happened
+    await session.abortTransaction();
+    session.endSession();
+
+    return res.status(400).send("updating showdetails with insert failed" + error); // Rethrow so calling function sees error
+  }
 });
 
-router.route("/deleteShowDetails/:id").post((req, res) => {
-  let showId = res.params.showId;
+router.route("/deleteShowDetails/:id").post(async (req, res) => {
+  const session = await db.startSession();
+  let showId = req.params.id;
+  await dbqueries_showdetails.deleteShowDetailsById(session, showId)
+  .then(result => {
+    res.status(200).send(result);
+  })
+  .catch(error => {
+    res.status(400).send(error);
+  });
+  session.endSession();
+});
 
-  Theater.updateMany(
-    { showId: showId, deletedDateTime: 0 },
-    { $set: { deletedDateTime: Date.now } },
-    (err, deletedshowinfo) => {
-      if (err) {
-        res.status(404).send("show is not found");
-      } else {
-        res.status(200).send("showdetails is deleted");
-      }
-    }
-  );
+
+// queries for movieinfo collection to read and write
+router.route("/getMovieInfo").get(async (req, res) => {
+  const session = await db.startSession();
+  await dbqueries_movieinfo.findAllMoviesInfo(session)
+  .then(result => {
+    res.status(200).send(result);
+  })
+  .catch(error => {
+    res.status(400).send(error);
+  });
+  session.endSession();
+});
+
+router.route("/getMultipleMovieInfo").get(async (req, res) => {
+  let showIds = res.params.userIds;
+  const session = await db.startSession();
+  await dbqueries_showdetails.findMultipleShowDetails(session, showIds)
+  .then(result => {
+    res.status(200).send(result);
+  })
+  .catch(error => {
+    res.status(400).send(error);
+  });
+  session.endSession();
+});
+
+router.route("/getMovieInfo/:id").get(async (req, res) => {
+  let showId = req.params.showId;
+  const session = await db.startSession();
+  await dbqueries_showdetails.findShowDetailsById(session, showId)
+  .then(result => {
+    res.status(200).send(result);
+  })
+  .catch(error => {
+    res.status(400).send(error);
+  });
+  session.endSession();
+});
+
+router.route("/insertMovieInfo").post(async (req, res) => {
+  const showDetailsArray = req.body.showDetailsArray;
+  const session = await db.startSession();
+  await dbqueries_showdetails.insertShowDetails(session, showDetailsArray)
+  .then(result => {
+    res.status(200).send(result);
+  })
+  .catch(error => {
+    res.status(400).send(error);
+  });
+  session.endSession();
+});
+
+router.route("/updateMovieInfo/:id").post(async (req, res) => {
+  const session = await db.startSession();
+  session.startTransaction();
+  try {
+    const movieId = req.params.id;
+    await dbqueries_showdetails.updateShowDetailsById(session, req.body, movieId)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error("Error occurred while updating showdetails: " + error);
+      });
+
+      const { bookNowUrl, startTime, endTime, screeningDate, theaterId } = req.body;
+      let showDetailsArray = new Array();
+
+      let showdetails = new ShowDetails({
+        _id: new mongoose.Types.ObjectId(),
+        movieId: movieId,
+          bookNowUrl: bookNowUrl,
+          theaterId: theaterId,
+          startTime: startTime,
+          endTime: endTime,
+          screeningDate: screeningDate
+      });
+
+      showDetailsArray.push(showdetails);
+
+      await dbqueries_showdetails.insertShowDetails(session, showDetailsArray)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error("Error occurred while inserting updated showdetails: " + error);
+      });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.status(200).json({ success: "showdetails updated with insert successfully" });
+
+  } catch (error) {
+    // If an error occurred, abort the whole transaction and
+    // undo any changes that might have happened
+    await session.abortTransaction();
+    session.endSession();
+
+    return res.status(400).send("updating showdetails with insert failed" + error); // Rethrow so calling function sees error
+  }
+});
+
+router.route("/deleteMovieInfo/:id").post(async (req, res) => {
+  const session = await db.startSession();
+  let movieId = req.params.id;
+  await dbqueries_showdetails.deleteShowDetailsById(session, movieId)
+  .then(result => {
+    res.status(200).send(result);
+  })
+  .catch(error => {
+    res.status(400).send(error);
+  });
+  session.endSession();
 });
 
 // append /api for our http requests
