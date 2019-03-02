@@ -12,6 +12,9 @@ import MovieInfoPage from "./Components/MovieInfoPage";
 import Signin from "./Components/Modals/Signin";
 import NotFound from "./Components/NotFound";
 import Database from "./Components/Database";
+import CreateEvent from './pages/CreateEvent';
+import ListofEvents from './pages/ListofEvents';
+import ListofTheaters from './pages/ListofTheaters';
 
 class App extends Component {
   render() {
@@ -29,6 +32,34 @@ class App extends Component {
           <Route path="/movieinfopage" component={MovieInfoPage} />
           <Route path="/admin-login-mykinoplex" component={Signin} />
           <Route path="/database" component={Database} />
+          <Route path='/admin' exact component={AdminDashboard} />
+          <Route path='/createevent' component={CreateEvent} />
+        <Route path='/listofevents' component={ListofEvents} />
+        <Route path='/listoftheaters' component={ListofTheaters} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </div>
+    );
+  }
+}
+
+export default App;
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+import Login from "./Components/Login";
+import NotFound from "./Components/NotFound";
+import AdminDashboard from "./Components/AdminDashboard";
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Switch>
+          <Route exact path="/" component={AdminDashboard} />
+          <Route path="/createevent" component={AdminDashboard} />
+          <Route path="/listofevents" component={AdminDashboard} />
+          <Route path="/listoftheaters" component={AdminDashboard} />
+          <Route path="/login" component={Login} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
