@@ -1,9 +1,9 @@
-const ShowDetails = require("../schemas/ShowDetails");
+const MovieInfo = require("../schemas/MovieInfo");
 
 module.exports = {
-  findAllShowDetails: async session => {
+  findAllMovieInfo: async session => {
     var output;
-    await ShowDetails.find({ inactivatedDateTime: 0, deletedDateTime: 0 })
+    await MovieInfo.find({ inactivatedDateTime: 0, deletedDateTime: 0 })
       .session(session)
       .then(result => {
         output = result;
@@ -16,9 +16,9 @@ module.exports = {
     return output;
   },
 
-  findMultipleShowDetails: async (session, showIds) => {
+  findMultipleMovieInfo: async (session, movieIds) => {
     var output;
-    await ShowDetails.find({ showId: { $in: showIds }, inactivatedDateTime: 0, deletedDateTime: 0 })
+    await MovieInfo.find({ showId: { $in: showIds }, inactivatedDateTime: 0, deletedDateTime: 0 })
       .session(session)
       .then(result => {
         output = result;
@@ -31,9 +31,9 @@ module.exports = {
     return output;
   },
 
-  findShowDetailsById: async (session, showId) => {
+  findMovieInfoById: async (session, movieId) => {
     var output;
-    await ShowDetails.findOne({showId: showId, inactivatedDateTime: 0, deletedDateTime: 0 })
+    await MovieInfo.findOne({showId: showId, inactivatedDateTime: 0, deletedDateTime: 0 })
       .session(session)
       .then(result => {
         output = result;
@@ -46,11 +46,11 @@ module.exports = {
     return output;
   },
 
-  insertShowDetails: async (session, showDetailsArray) => {
+  insertMovieInfo: async (session, showDetailsArray) => {
     var output;
-    const opts = { session, new: true };
+    const opts = { session: session };
 
-    await ShowDetails.insertMany(showDetailsArray, opts) //testing including session
+    await MovieInfo.insertMany(showDetailsArray, opts) //testing including session
       .then(result => {
         output = result;
         return result;
@@ -62,13 +62,13 @@ module.exports = {
     return output;
   },
 
-  updateShowDetailsById: async (session, showDetails, showId) => {
+  updateMovieInfoById: async (session, showDetails, movieId) => {
     var output;
     const { bookNowUrl, startTime, endTime, screeningDate, theaterId } = showDetails;
-    const opts = { session, new: true };
+    const opts = { session: session };
     let date = new Date().valueOf();
 
-    await ShowDetails.findOneAndUpdate(
+    await MovieInfo.findOneAndUpdate(
         { showId: showId, inactivatedDateTime: 0, deletedDateTime: 0 },
         { $set: { inactivatedDateTime: date } },
         opts
@@ -85,12 +85,12 @@ module.exports = {
     return output;
   },
 
-  deleteShowDetailsById: async (session, showId) => {
+  deleteMovieInfoById: async (session, movieId) => {
     var output;
-    const opts = { session, new: true };
+    const opts = { session: session };
     let date = new Date().valueOf();
 
-    await ShowDetails.updateMany(
+    await MovieInfo.updateMany(
         { showId: showId, deletedDateTime: 0 },
         { $set: { deletedDateTime: date } },
         opts

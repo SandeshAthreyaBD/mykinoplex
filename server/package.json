@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "mykinoplexteam",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",

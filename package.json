@@ -25,8 +25,8 @@
   "scripts": {
     "start": "concurrently \"cd server && node server.js\" \"cd client && npm start\""
   },
-  "author": "",
-  "license": "ISC",
+  "author": "mykinoplexteam",
+  "license": "MIT",
   "devDependencies": {
     "expect": "^24.1.0",
     "mocha": "^6.0.2",
