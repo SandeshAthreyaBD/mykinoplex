@@ -17,16 +17,15 @@ const showDetailsSchema = new Schema(
       type: Date,
       required: [true, "Movie start time cannot be empty"]
     },
-    endTime: {
-      type: Date,
-      required: [true, "Movie end time cannot be empty"]
-    },
-    screeningDate: {
-      type: Date,
-      required: [true, "Movie show date cannot be empty"]
+    showStatus:{
+      type: String,
+      trim: true,
+      required: [true, "Show status cannot be empty"],
+      enum: ["Now Showing", "Completed", "Cancelled"],
+      default: "Now Showing"
     },
     theaterId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       ref: "Theater",
       required: [true, "Theaterid cannot be set to empty"]
     },
