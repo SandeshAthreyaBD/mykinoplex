@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
+import TimePicker from "react-time-picker"
 import "react-datepicker/dist/react-datepicker.css";
+import Showtable from "./Showtable";
+
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -8,7 +11,7 @@ class CreateEvent extends Component {
     this.state = {
       startDate: new Date(),
       format: "DD/MM/YYYY",
-      enableContainer: false,
+      enableContainer: '',
       movieInfo: {
         movieName: "",
         organizer: "",
@@ -22,6 +25,7 @@ class CreateEvent extends Component {
         backPoster: "",
         cardPoster: "",
         date: "",
+        time: '10:00',
         booknowlink: "",
         hours: "",
         theater: "",
@@ -42,6 +46,9 @@ class CreateEvent extends Component {
       startDate: date
     });
   };
+  onChange = time => this.setState({
+   movieInfo: {...this.state.movieInfo, time:time}
+   })
 
   handleSubmit = e => {
     e.preventDefault();
@@ -55,14 +62,9 @@ class CreateEvent extends Component {
     });
   };
   handleAdd = () => {
-    console.log(this.state);
+    console.log("add");
   };
   render() {
-    const { format } = this.state;
-    var divStyle = {
-      display: this.state.enableContainer ? "block" : "none"
-    };
-
     return (
       <div className="container">
         <h4 className="h4-responsive font-weight-bold text-center mb-4">
@@ -71,7 +73,7 @@ class CreateEvent extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="md-form-group ">
             <div className="row">
-              <div className="col-3">
+              <div className="col-5">
                 <label>Name of the Movie:</label>
                 <input
                   type="text"
@@ -81,19 +83,19 @@ class CreateEvent extends Component {
                 />
               </div>
               <div className="col-4">
-                <label>Organizer:</label>
-                <input
-                  type="text"
-                  id="organizer"
-                  className="form-control"
-                  onChange={this.handleMovieInfo}
-                />
-              </div>
-              <div className="col-4">
                 <label>Tagline</label>
                 <input
                   type="text"
                   id="tagline"
+                  className="form-control"
+                  onChange={this.handleMovieInfo}
+                />
+              </div>
+              <div className="col-3">
+                <label>Organizer:</label>
+                <input
+                  type="text"
+                  id="organizer"
                   className="form-control"
                   onChange={this.handleMovieInfo}
                 />
@@ -208,29 +210,43 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-6">
+              <div className="col-12">
                 <div className="md-form-group">
-                  <label>Start Date and Time: </label>
+                  <label>Theater:</label>
+                  <select
+                    id="theater"
+                    value={this.state.value}
+                    onChange={this.handleMovieInfo}
+                    className="browser-default custom-select"
+                  >
+                    <option defaultValue>Select Theater</option>
+                    <option value="Cineplex">Cineplex</option>
+                    <option value="Cineplex 2">Cineplex 2</option>
+                    <option value="Cineplex 3">Cineplex 3</option>
+                    <option value="Cineplex 4">Cineplex 4</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-4">
+              <div className="col-3">
+                <div className="md-form-group">
+                  <label>Start Date</label>
                   <br />
                   <DatePicker
-                    format={format}
-                    showTimeSelect
-                    dateFormat="Pp"
                     id="date"
                     selected={this.state.startDate}
-                    onChange={this.handleMovieInfo}
+                    onChange={this.handleChange}
                   />
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-3">
                 <div className="md-form-group">
-                  <label>Book Now Link</label>
+                  <label>Time: </label>
                   <br />
-                  <input
-                    type="text"
-                    id="booknowlink"
-                    className="form-control"
-                    onChange={this.handleMovieInfo}
+                  <TimePicker
+                    onChange={this.onChange}
+                    value={this.state.movieInfo.time}
                   />
                 </div>
               </div>
@@ -248,60 +264,15 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-3">
+              <div className="col-6">
                 <div className="md-form-group">
-                  <label>Theater:</label>
-                  <select
-                    id="theater"
-                    value={this.state.value}
-                    onChange={this.handleMovieInfo}
-                    className="browser-default custom-select"
-                  >
-                    <option defaultValue>Select Theater</option>
-                    <option value="Cineplex">Cineplex</option>
-                    <option value="Cineplex 2">Cineplex 2</option>
-                    <option value="Cineplex 3">Cineplex 3</option>
-                    <option value="Cineplex 4">Cineplex 4</option>
-                  </select>
-                </div>
-              </div>
-              <div className="col-3">
-                <div className="md-form-group">
-                  <label>City:</label>
-                  <select
-                    id="city"
-                    className="browser-default custom-select"
-                    value={this.state.value}
-                    onChange={this.handleMovieInfo}
-                  >
-                    <option defaultValue>Select City</option>
-                    <option value="Berlin">Berlin</option>
-                    <option value="Frankfurt">Frankfurt</option>
-                    <option value="Munich">Munich</option>
-                    <option value="Mannheim">Mannheim</option>
-                    <option value="Heidelberg">Heidelberg</option>
-                  </select>
-                </div>
-              </div>
-              <div className="col-3">
-                <div className="md-form-group">
-                  <label>Street:</label>
+                  <label>Book Now Link</label>
+                  <br />
                   <input
                     type="text"
-                    id="street"
+                    id="booknowlink"
                     className="form-control"
-                    placeholder="stasse, houseNo"
-                  />
-                </div>
-              </div>
-              <div className="col-2">
-                <div className="md-form-group">
-                  <label>Pincode</label>
-                  <input
-                    type="text"
-                    id="pincode"
-                    className="form-control"
-                    placeholder="74199"
+                    onChange={this.handleMovieInfo}
                   />
                 </div>
               </div>
@@ -317,10 +288,15 @@ class CreateEvent extends Component {
                 </div>
               </div>
             </div>
-            <div className="row mt-3" id="cover" style={divStyle}>
-              <ul>
-                <li>Theater Details</li>
-              </ul>
+            <div className="row mt-3" id="cover">
+              <Showtable 
+              theater={this.state.movieInfo.theater}
+              city={this.state.movieInfo.city}
+              street={this.state.movieInfo.street}
+              pincode={this.state.movieInfo.pincode}
+              date={this.state.movieInfo.date}
+              time={this.state.movieInfo.time}
+              />
             </div>
             <div className="row mt-5">
               <div className="col text-center ">

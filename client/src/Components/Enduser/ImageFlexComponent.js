@@ -19,16 +19,16 @@ const ImageFlex = () =>{
             }
           }}
           
-          style={{ backgroundColor: "#1C2331" }}
+         // style={{ backgroundColor: "#1C2331" }}
         >
        <MDBContainer fluid className="mt-5">
           <MDBRow>
             <MDBCol>
               <img 
               resizeMode={'cover'}
-              style={{width: 100, height: 250}}
-              src={require("../Images/bell.jpg")}
-              className="d-block w-100" 
+              style={{width:250, height: 350}}
+              src={require("../../Images/bell.jpg")}
+              className="d-block" 
               alt="flex" />
             </MDBCol>
           </MDBRow>

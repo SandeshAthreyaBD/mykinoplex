@@ -18,8 +18,7 @@ const movieInfoSchema = new Schema(
     genre: { type: [String] },
     image: {
       data: [Buffer],
-      contentType: String,
-      required: [true, "Minimum one image required"]
+      contentType: String
     },
     language: {
       type: String,

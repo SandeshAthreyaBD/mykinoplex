@@ -1,7 +1,6 @@
 import React from "react";
 // eslint-disable-next-line
 import { MDBContainer } from "mdbreact";
-import { ListGroup } from "react-bootstrap";
 import Movieshows from "./Movieshows";
 
 const MovieshowsGrid = () => {

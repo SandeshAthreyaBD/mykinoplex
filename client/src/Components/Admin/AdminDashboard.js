@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Routes from '../Components/Routes';
-import TopNavigation from '../Components/topNavigation';
-import SideNavigation from '../Components/sideNavigation';
-import '../index.css';
+import TopNavigation from './topNavigation';
+import SideNavigation from './sideNavigation';
+import Routes from './Routes/Routes';
+import '../../index.css';
 
 class AdminDashboard extends Component {
   
@@ -12,7 +12,7 @@ class AdminDashboard extends Component {
           <TopNavigation />
           <SideNavigation />
           <main id="content" className="p-5">
-            <Routes />
+          <Routes />
           </main>
         </div>
     );

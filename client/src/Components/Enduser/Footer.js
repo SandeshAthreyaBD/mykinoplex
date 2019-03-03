@@ -34,7 +34,7 @@ class FooterPage extends Component {
         <MDBContainer className="text-center text-md-left">
           <MDBRow className="text-center text-md-left mt-1 pb-1">
             <MDBCol md="3" lg="3" xl="3" className="mx-auto mt-3">
-              <h6 className="text-uppercase mb-4 font-weight-bold">
+              {/* <h6 className="text-uppercase mb-4 font-weight-bold">
                 Subscribe to mykinoplex
               </h6>
               <div className="form-group mb-2">
@@ -50,7 +50,7 @@ class FooterPage extends Component {
                     Subscribe
                   </MDBBtn>
                 </p>
-              </div>
+              </div> */}
             </MDBCol>
             <hr className="w-100 clearfix d-md-none" />
             <MDBCol md="3" lg="2" xl="2" className="mx-auto mt-3">
