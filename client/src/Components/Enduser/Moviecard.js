@@ -1,5 +1,5 @@
 import React from "react";
-import "../Styles/Moviecard.css";
+import "../../Styles/Moviecard.css";
 // eslint-disable-next-line
 import { Card } from "react-bootstrap";
 import TextTruncate from "react-text-truncate";
@@ -15,7 +15,7 @@ const Moviecard = ({ movieInfo }) => {
       <Card className="moviecard">
         <Card.Img
           variant="top"
-          src={require('../Images/' + movieInfo.imgsrc + '.jpg')}
+          src={require('../../Images/' + movieInfo.imgsrc + '.jpg')}
           style={{ height: "18rem" }}
         />
         <Card.Body>

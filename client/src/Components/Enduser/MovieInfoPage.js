@@ -12,7 +12,8 @@ class MovieInfoPage extends Component {
     return (
       <div className="#e3f2fd blue lighten-5">
         <Navbar />
-        <ImageFlex />
+        {/* <ImageFlex /> */}
+        <MDBContainer className="mt-4">
         <MovieDetailComponent />
         <IframeComponent />
         <MDBContainer className="#1c2a48 mdb-color darken-3">
@@ -23,6 +24,7 @@ class MovieInfoPage extends Component {
           </h2>
         </MDBContainer>
         <MovieshowsGrid />
+        </MDBContainer>
         <Footer />
       </div>
     );

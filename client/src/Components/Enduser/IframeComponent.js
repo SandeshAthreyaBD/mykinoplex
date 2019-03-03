@@ -15,7 +15,7 @@ class IframeComponent extends Component {
     return (
       <MDBContainer className="text-center">
         <MDBModalBody>
-          <MDBIframe src="https://www.youtube.com/embed/Nkq5g1eHTtk" />
+          <MDBIframe src="https://www.youtube.com/embed/Nkq5g1eHTtk" width={500}/>
         </MDBModalBody>
         <MDBModalFooter className="justify-content-center">
           <span className="mr-4">Share the video!</span>

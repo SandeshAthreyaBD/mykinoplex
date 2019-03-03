@@ -10,12 +10,14 @@ import {
   MDBModalFooter
 } from "mdbreact";
 
+
 class Signin extends Component {
   state = {
     modal1: true,
     isVerified: false,
     emailCheck: false,
-    passwordCheck: false
+    passwordCheck: false,
+    Route:null
   };
 
   toggle = nr => () => {
@@ -25,12 +27,9 @@ class Signin extends Component {
     });
   };
 
-  handleClick = () => {
-    if (this.state.isVerified) {
-      alert("Implement Admin Dashboard");
-    } else {
-      alert("Please verify that you are a human");
-    }
+  handleClick = (e) => {
+    this.props.history.push("/admin/createevent")
+   
   };
 
   recaptchaLoaded = () => {

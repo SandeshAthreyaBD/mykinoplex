@@ -53,72 +53,72 @@ class CarouselComponent extends Component {
               {/* <img src={require("../Images/album-1.png")} alt="Album one" /> */}
             </div>
             <img
-              src={require("../Images/aquaman.jpg")}
+              src={require("../../Images/aquaman.jpg")}
               alt="Album two"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/Gully.jpg")}
+              src={require("../../Images/Gully.jpg")}
               alt="Album two"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/kgf.jpg")}
+              src={require("../../Images/kgf.jpg")}
               alt="Album two"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/manikarnika.jpg")}
+              src={require("../../Images/manikarnika.jpg")}
               alt="Album two"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/uri.jpg")}
+              src={require("../../Images/uri.jpg")}
               alt="Album two"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/aquaman.jpg")}
+              src={require("../../Images/aquaman.jpg")}
               alt="Album three"
               data-action="https://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/Gully.jpg")}
+              src={require("../../Images/Gully.jpg")}
               alt="Album four"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/kgf.jpg")}
+              src={require("../../Images/kgf.jpg")}
               alt="Album five"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/manikarnika.jpg")}
+              src={require("../../Images/manikarnika.jpg")}
               alt="Album six"
               data-action="https://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/uri.jpg")}
+              src={require("../../Images/uri.jpg")}
               alt="Album seven"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/aquaman.jpg")}
+              src={require("../../Images/aquaman.jpg")}
               alt="Album one"
               data-action="https://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/Gully.jpg")}
+              src={require("../../Images/Gully.jpg")}
               alt="Album two"
               data-action="http://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/kgf.jpg")}
+              src={require("../../Images/kgf.jpg")}
               alt="Album three"
               data-action="https://www.mykinoplex.com"
             />
             <img
-              src={require("../Images/manikarnika.jpg")}
+              src={require("../../Images/manikarnika.jpg")}
               alt="Album four"
               data-action="http://www.mykinoplex.com"
             />

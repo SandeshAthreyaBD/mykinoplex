@@ -8,7 +8,7 @@ const SideNavigation = () => {
             
             <MDBListGroup className="list-group-flush">
                 <h4 className="font-weight-bold">MYKINOPLEX</h4>
-                <NavLink exact={true} to="/createevent" activeClassName="activeClass">
+                <NavLink exact={true} to="/admin/createevent" activeClassName="activeClass">
                     <MDBListGroupItem>
                         <MDBIcon icon="plus-circle" className="mr-3"/>
                         Create Events

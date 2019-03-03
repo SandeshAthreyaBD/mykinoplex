@@ -6,8 +6,6 @@ class ListofTheaters extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            EditBtn:false,
-            DelBtn:false,
             setModal:false,
             SelectedTheaterInfo: {
                 id:'',
@@ -50,10 +48,7 @@ class ListofTheaters extends Component{
         };
 
     }
-EditorDeleteTheater =(theaterInfo) =>{
-    this.setState({EditBtn:true, DelBtn:true, SelectedTheaterInfo:theaterInfo})
-    console.log(this.state.SelectedTheaterInfo);
-}
+
 handleInput = (e) => {
     this.setState({ 
       SelectedTheaterInfo:{...this.state.SelectedTheaterInfo,
@@ -63,13 +58,10 @@ handleInput = (e) => {
 
   }
 
-handleChange = (e) =>{
-    this.setState({EditBtn:true, DelBtn:true})
-}
-
 handleSubmit = (e) => {
     e.preventDefault();
-        this.state.SelectedTheaterInfo.id = Math.random();
+        let count =this.state.theaters.length;
+        this.state.SelectedTheaterInfo.id = count + 1;
         let newTheater = [...this.state.theaters,this.state.SelectedTheaterInfo];
         console.log(newTheater);
         this.setState({
@@ -79,14 +71,14 @@ handleSubmit = (e) => {
    
 }
 
-deleteTheater = () => {
+/*deleteTheater = () => {
     let delTheater = this.state.theaters.filter(theater => {
         return theater.id !== this.state.SelectedTheaterInfo.id
     });
     this.setState({
         theaters: delTheater
     });
-}
+}*/
 showModal = () => {
     this.setState({
         setModal: !this.state.setModal,
@@ -105,46 +97,45 @@ render(){
                     <MDBBtn onClick={this.showModal}>Add Theater</MDBBtn>
 
                     <MDBModal isOpen={this.state.setModal}>
-                <MDBModalHeader >Add New Theater</MDBModalHeader>
-                <MDBModalBody>
-                    <form>
-                        <div className="md-form-group ">
-                            <div className="row">
-                                <div className="col">
-                                    <label>Theater Name:</label>
-                                    <input type="text" id="TheaterName"  className="form-control" onChange={this.handleInput}/>
+                    <MDBModalHeader >Add New Theater</MDBModalHeader>
+                    <MDBModalBody>
+                        <form>
+                            <div className="md-form-group ">
+                                <div className="row">
+                                    <div className="col">
+                                        <label>Theater Name:</label>
+                                        <input type="text" id="TheaterName"  className="form-control" onChange={this.handleInput}/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-8">
+                                        <label>Street:</label>
+                                        <input type="text" id="Street" className="form-control" onChange={this.handleInput}/>
+                                    </div>
+                                    <div className="col-4">
+                                        <label>PLZ:</label>
+                                        <input type="text" id="Zipcode" className="form-control" onChange={this.handleInput}/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <label>City:</label>
+                                        <input type="text" id="City" className="form-control" onChange={this.handleInput}/>
+                                    </div>
+                                    <div className="col-6">
+                                        <label>Country:</label>
+                                        <input type="text" id="Country" className="form-control" onChange={this.handleInput}/>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-8">
-                                    <label>Street:</label>
-                                    <input type="text" id="Street" className="form-control" onChange={this.handleInput}/>
-                                </div>
-                                <div className="col-4">
-                                    <label>PLZ:</label>
-                                    <input type="text" id="Zipcode" className="form-control" onChange={this.handleInput}/>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-6">
-                                    <label>City:</label>
-                                    <input type="text" id="City" className="form-control" onChange={this.handleInput}/>
-                                </div>
-                                <div className="col-6">
-                                    <label>Country:</label>
-                                    <input type="text" id="Country" className="form-control" onChange={this.handleInput}/>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </MDBModalBody>
-                <MDBModalFooter>
-                    <MDBBtn color="grey" onClick={this.showModal}>Close</MDBBtn>
-                    <MDBBtn color="primary" onClick={this.handleSubmit}>Save</MDBBtn>
-                </MDBModalFooter>
-            </MDBModal>
-                    
-                    {/* {this.state.setModal? <AddorEditTheater AddEditTheater = {this.AddEditTheater}/> : ""} */}
+                        </form>
+                    </MDBModalBody>
+                    <MDBModalFooter>
+                        <MDBBtn color="grey" onClick={this.showModal}>Close</MDBBtn>
+                        <MDBBtn color="primary" onClick={this.handleSubmit}>Save</MDBBtn>
+                    </MDBModalFooter>
+                    </MDBModal>
+                
                 </div>
             </div>
             <div className="row">

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import "../Styles/Movieshows.css";
+import React from "react";
+import "../../Styles/Movieshows.css";
 // eslint-disable-next-line
 import { Card, Button } from "react-bootstrap";
 import { MDBContainer } from "mdbreact";

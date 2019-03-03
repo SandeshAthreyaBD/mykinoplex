@@ -5,7 +5,6 @@ import {MDBContainer, CardBody, MDBIcon,MDBModal,
     MDBModalFooter,
     MDBBtn} from 'mdbreact';
 import { Card } from "react-bootstrap";
-import EditModalComponent from '../Modals/EditModalComponent';
 
 class TheaterDetails extends Component{
  state={
@@ -20,10 +19,10 @@ class TheaterDetails extends Component{
     },
  }
 
-handleonClick = (e,theaterInfo) =>{
-        const editorDeleteTheater = this.props.editorDeleteTheater();
-        console.log(theaterInfo);
-    }
+// handleonClick = (e,theaterInfo) =>{
+//         const editorDeleteTheater = this.props.editorDeleteTheater();
+//         console.log(theaterInfo);
+//     }
 handleEdit = (theaterInfo) =>{
     this.setState({
         editModal: !this.state.editModal, 
