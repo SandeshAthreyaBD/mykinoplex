@@ -5,21 +5,36 @@ const Schema = mongoose.Schema;
 const movieInfoSchema = new Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
+    movieId: {
+      type: Number,
+      required: [true, "Movie id cannot be empty"]
+    },
     movieName: {
       type: String,
-      required: [true,"Movie name cannot be empty"]
+      trim: true,
+      required: [true, "Movie name cannot be empty"]
     },
     tagline: {
-      type: String
+      type: String,
+      trim: true
     },
-    synopsis: String,
-    cast: String,
+    synopsis: {
+      type: String,
+      trim: true
+    },
+    cast: {
+      type: String,
+      trim: true
+    },
     trailerUrl: String,
     genre: { type: [String] },
-    image: {
-      data: [Buffer],
-      contentType: String,
-      required: [true, "Minimum one image required"]
+    posterimage: {
+      data: Buffer,
+      contentType: String
+    },
+    backdropimage: {
+      data: Buffer,
+      contentType: String
     },
     language: {
       type: String,
@@ -27,15 +42,18 @@ const movieInfoSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Now Showing", "Coming Soon"]
+      trim: true,
+      required: [true, "Movie status cannot be empty"],
+      enum: ["Now Showing", "Coming Soon", "Done"],
+      default: "Coming Soon"
     },
     adminId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       ref: "Admin",
       required: [true, "Admin/OrganiserId is requred"]
     },
     showIds: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [Number],
       ref: "ShowDetails"
     },
     inactivatedDateTime: {
@@ -51,4 +69,8 @@ const movieInfoSchema = new Schema(
 );
 
 // export the new Schema so we could modify it using Node.js
-module.exports = mongoose.model("MovieInfo", movieInfoSchema, "movieInfoCollection");
+module.exports = mongoose.model(
+  "MovieInfo",
+  movieInfoSchema,
+  "movieInfoCollection"
+);
