@@ -7,7 +7,7 @@ const movieInfoSchema = new Schema(
     _id: mongoose.Schema.Types.ObjectId,
     movieName: {
       type: String,
-      required: [true,"Movie name cannot be empty"]
+      required: [true, "Movie name cannot be empty"]
     },
     tagline: {
       type: String
@@ -17,8 +17,7 @@ const movieInfoSchema = new Schema(
     trailerUrl: String,
     genre: { type: [String] },
     image: {
-      data: [Buffer],
-      contentType: String
+      data: Buffer
     },
     language: {
       type: String,
@@ -50,4 +49,8 @@ const movieInfoSchema = new Schema(
 );
 
 // export the new Schema so we could modify it using Node.js
-module.exports = mongoose.model("MovieInfo", movieInfoSchema, "movieInfoCollection");
+module.exports = mongoose.model(
+  "MovieInfo",
+  movieInfoSchema,
+  "movieInfoCollection"
+);
