@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
+const multer = require("multer");
 
 const dbqueries_theater = require("./db/dbqueries_theater");
 const dbqueries_showdetails = require("./db/dbqueries_showdetails");
@@ -16,6 +17,33 @@ const ShowDetails = require("./schemas/ShowDetails");
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
+
+const upload = multer({
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error("Please upload an image"));
+    }
+
+    cb(undefined, true);
+  }
+});
+
+router.post(
+  "/newroute",
+  auth,
+  upload.single("image"),
+  async (req, res) => {
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
+    res.send();
+  },
+  (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+  }
+);
 
 app.use(cors());
 // (optional) only made for logging and
@@ -32,7 +60,6 @@ db.on("open", () => {
   db.createCollection(Theater.collection.collectionName);
   db.createCollection(ShowDetails.collection.collectionName);
   db.createCollection(MovieInfo.collection.collectionName);
-
 });
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
@@ -278,9 +305,7 @@ router.route("/updateShowDetails/:id").post(async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
-    return res
-      .status(200)
-      .send("showdetails updated with insert successfully");
+    return res.status(200).send("showdetails updated with insert successfully");
   } catch (error) {
     // If an error occurred, abort the whole transaction and
     // undo any changes that might have happened
@@ -368,7 +393,7 @@ router.route("/insertMovieInfo").post(async (req, res) => {
     const movieInfo = req.body.movieInfo;
     const showDetailsArray = req.body.showDetailsArray;
     const adminId = req.body.adminId;
-    
+
     await dbqueries_showdetails
       .insertShowDetails(session, showDetailsArray)
       .then((resolve, reject) => {
@@ -381,33 +406,33 @@ router.route("/insertMovieInfo").post(async (req, res) => {
         );
       });
 
-      let movieInfoArray = new Array();
+    let movieInfoArray = new Array();
 
-      let movieInfo1 = new MovieInfo({
-        _id: new mongoose.Types.ObjectId(),
-        movieId: movieInfo.movieId,
-        movieName: movieInfo.movieName,
-        tagline: movieInfo.tagline,
-        synopsis: movieInfo.synopsis,
-        cast: movieInfo.cast,
-        trailerUrl: movieInfo.trailerUrl,
-        genre: movieInfo.genre,
-        posterimage: movieInfo.posterimage,
-        backdropimage: movieInfo.backdropimage,
-        language: movieInfo.language,
-        showIds: movieInfo.showIds,
-        adminId: adminId
-      });
+    let movieInfo1 = new MovieInfo({
+      _id: new mongoose.Types.ObjectId(),
+      movieId: movieInfo.movieId,
+      movieName: movieInfo.movieName,
+      tagline: movieInfo.tagline,
+      synopsis: movieInfo.synopsis,
+      cast: movieInfo.cast,
+      trailerUrl: movieInfo.trailerUrl,
+      genre: movieInfo.genre,
+      posterimage: movieInfo.posterimage,
+      backdropimage: movieInfo.backdropimage,
+      language: movieInfo.language,
+      showIds: movieInfo.showIds,
+      adminId: adminId
+    });
 
-      movieInfoArray.push(movieInfo1);
+    movieInfoArray.push(movieInfo1);
 
     await dbqueries_movieinfo
-    .insertMovieInfo(session, movieInfoArray)
-    .then((resolve, reject) => {
-      console.log(resolve);
-    })
-    .catch(error => {
-      console.log(error);
+      .insertMovieInfo(session, movieInfoArray)
+      .then((resolve, reject) => {
+        console.log(resolve);
+      })
+      .catch(error => {
+        console.log(error);
         throw new Error("Error occurred while inserting movieinfo: " + error);
       });
 
@@ -423,9 +448,7 @@ router.route("/insertMovieInfo").post(async (req, res) => {
     await session.abortTransaction();
     session.endSession();
 
-    return res
-      .status(400)
-      .send("insering movieinfo with shows failed" + error); // Rethrow so calling function sees error
+    return res.status(400).send("insering movieinfo with shows failed" + error); // Rethrow so calling function sees error
   }
 });
 
@@ -435,7 +458,7 @@ router.route("/updateMovieInfo/:id").post(async (req, res) => {
   try {
     const movieId = req.params.id;
     const adminId = req.body.adminId;
-    const movieInfo = req.body.movieInfo
+    const movieInfo = req.body.movieInfo;
     await dbqueries_movieinfo
       .updateMovieInfoById(session, movieInfo, movieId, adminId)
       .then((resolve, reject) => {
@@ -513,7 +536,8 @@ router.route("/deleteMovieInfo/:id").post(async (req, res) => {
   const session = await db.startSession();
   let movieId = req.params.id;
   let adminId = req.body.adminId;
-  await dbqueries_movieinfo.deleteMovieInfoById(session, movieId, adminId)
+  await dbqueries_movieinfo
+    .deleteMovieInfoById(session, movieId, adminId)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })

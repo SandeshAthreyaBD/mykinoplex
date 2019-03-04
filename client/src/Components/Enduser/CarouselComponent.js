@@ -23,8 +23,8 @@ class CarouselComponent extends Component {
         <div
           media={{
             "@media (max-width: 900px)": {
-              width: "600px",
-              height: "300px"
+              width: "960px",
+              height: "600px"
             },
             "@media (min-width: 900px)": {
               width: "960px",
