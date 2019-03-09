@@ -7,6 +7,8 @@ class Showdetails extends Component {
             showID: "1",
             theatreName: "Cineplex",
             address: "Am Steingarten",
+            city:"Mannheim",
+            country:"Germany",
             startDate: "12/07/2019",
             startTime: "09:00",
             status: "Now showing"
@@ -27,6 +29,12 @@ class Showdetails extends Component {
                     {show.address}
                   </td>
                   <td>
+                    {show.city}
+                  </td>
+                  <td>
+                    {show.country}
+                  </td>
+                  <td>
                     {show.startDate}
                   </td>
                   <td>
@@ -36,10 +44,10 @@ class Showdetails extends Component {
                     {show.status}
                   </td>
                   <td>
-                    <MDBIcon icon="edit" />
+                    <MDBIcon icon="edit"/>
                   </td>
                   <td>
-                    <MDBIcon icon="trash" />
+                    <MDBIcon icon="trash"/>
                   </td>
                 </tr>
               )

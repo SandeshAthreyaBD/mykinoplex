@@ -5,6 +5,7 @@ import {MDBContainer, CardBody, MDBIcon,MDBModal,
     MDBModalFooter,
     MDBBtn} from 'mdbreact';
 import { Card } from "react-bootstrap";
+import Axios from "axios";
 
 class TheaterDetails extends Component{
  state={
@@ -37,7 +38,9 @@ handleChange = (e) =>{
     console.log(this.state.theaterInfo);
 }
 handleSubmit = () =>{
-
+    this.setState({
+        theaterInfo:this.state.theaterInfo 
+    });
 }
 showModal = () => {
     this.setState({
@@ -45,17 +48,21 @@ showModal = () => {
     });
 }
 
-deleteClick=() => { 
-    
+deleteClick=(theaterInfo) => { 
+    console.log(theaterInfo.id);
     if(window.confirm("Do you want to delete this theatre?")){
-        // call axios and delete 
+        Axios.post("http://localhost:3001/api/deleteTheater/1");
+        this.setState({
+            theaterInfo:theaterInfo
+        });
+        console.log("yes");
     }
     else{
         // don't do anything
     }
 }
 
-render(){
+render(){                                                                                                                           
     this.state.theaterInfo = this.props.theaterInfo;
     return (
         <MDBContainer>
@@ -71,15 +78,15 @@ render(){
                                     <form>
                                         <div className="md-form-group ">
                                             <div className="row">
-                                                <div className="col">
+                                                <div className="col">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
                                                     <label>Theater Name:</label>
-                                                    <input type="text" value={this.state.theaterInfo.TheaterName} id="TheaterName"  className="form-control" onChange={this.handleChange}/>
+                                                    <input type="text" ref="text" defaultValue={this.state.theaterInfo.TheaterName} id="TheaterName"  className="form-control" onChange={this.handleChange}/>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-8">
                                                     <label>Street:</label>
-                                                    <input type="text" value={this.state.theaterInfo.Street} id="Street" className="form-control" onChange={this.handleChange}/>
+                                                    <input type="text" value={this.state.theaterInfo.Street} id="Street" className="form-control" onChange={this.handleChange.bind(this     )}/>
                                                 </div>
                                                 <div className="col-4">
                                                     <label>PLZ:</label>
@@ -104,7 +111,7 @@ render(){
                                     <MDBBtn color="primary" onClick={this.handleSubmit}>Save</MDBBtn>
                                 </MDBModalFooter>
                             </MDBModal>
-                        <MDBIcon icon="trash"onClick={this.deleteClick} className="ml-2 text-black"/><strong>Delete</strong>
+                        <MDBIcon icon="trash"onClick={()=> this.deleteClick(this.state.theaterInfo)} className="ml-2 text-black"/><strong>Delete</strong>
                 </CardBody>
             </Card>
         </MDBContainer>
