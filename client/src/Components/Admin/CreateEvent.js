@@ -1,40 +1,60 @@
 import React, { Component } from "react";
-import DatePicker from "react-datepicker";
-import TimePicker from "react-time-picker"
-import "react-datepicker/dist/react-datepicker.css";
+import DateTimePicker from "react-datetime-picker";
 import Showtable from "./Showtable";
-
+import axios from "axios";
 
 class CreateEvent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
       format: "DD/MM/YYYY",
-      enableContainer: '',
-      movieInfo: {
-        movieName: "",
-        organizer: "",
-        tagline: "",
-        synopsis: "",
-        cast: "",
-        genre: "",
-        language: "",
-        status: "",
-        trailerLink: "",
-        backPoster: "",
-        cardPoster: "",
-        date: "",
-        time: '10:00',
-        booknowlink: "",
-        hours: "",
-        theater: "",
-        city: "",
-        street: "",
-        pincode: ""
-      }
+      enableContainer: "",
+      movieInfo: [
+        {
+          id: 0,
+          movieName: "",
+          organizer: "",
+          tagline: "",
+          synopsis: "",
+          cast: "",
+          genre: "",
+          language: "",
+          status: "",
+          trailerUrl: "",
+          backdropimage: "",
+          cardPoster: "",
+          // date: "",
+          time: "10:00",
+          booknowlink: "",
+          hours: "",
+          theater: "",
+          city: "",
+          street: "",
+          pincode: ""
+        }
+      ],
+      showDetailsArray: [
+        {
+          showId: "",
+          bookNowUrl: "",
+          startTime: "",
+          startDate: new Date(),
+          showStatus: "",
+          theaterId: ""
+        }
+      ]
     };
   }
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:3001/api/getMultipleTheaters")
+      .then(response => {
+        let ashwini = response.data;
+        console.log(ashwini);
+      });
+  }
+
   enableDiv = () => {
     this.setState({
       enableContainer: true
@@ -43,15 +63,30 @@ class CreateEvent extends Component {
 
   handleChange = date => {
     this.setState({
-      startDate: date
+      showDetailsArray: {
+        startDate: date
+      }
     });
   };
-  onChange = time => this.setState({
-   movieInfo: {...this.state.movieInfo, time:time}
-   })
+  onChange = time =>
+    this.setState({
+      movieInfo: { ...this.state.movieInfo, time: time }
+    });
 
   handleSubmit = e => {
     e.preventDefault();
+    let currentIds = this.state.movieInfo.map(movieInfo => movieInfo.id);
+    let idToBeAdded = 0;
+    while (currentIds.includes(idToBeAdded)) {
+      ++idToBeAdded;
+    }
+    axios.post("http://localhost:3001/api/insertMovieInfo", {
+      adminId: 1,
+      movieInfo: this.state.movieInfo,
+      backdropimage: this.state.movieInfo.backdropimage,
+      posterimage: this.state.movieInfo.cardPoster,
+      showIds: this.state.showDetailsArray.showId
+    });
   };
 
   handleMovieInfo = e => {
@@ -62,7 +97,16 @@ class CreateEvent extends Component {
     });
   };
   handleAdd = () => {
+    let currentshowIds = this.state.showDetailsArray.map(
+      showDetails => showDetails.showIds
+    );
+    let showIdToBeAdded = 0;
+    while (currentshowIds.includes(showIdToBeAdded)) {
+      ++showIdToBeAdded;
+    }
+
     console.log("add");
+    console.log(this.state);
   };
   render() {
     return (
@@ -178,7 +222,7 @@ class CreateEvent extends Component {
                   <label>Trailer(link):</label>
                   <input
                     type="text"
-                    id="trailerLink"
+                    id="trailerUrl"
                     className="form-control"
                     onChange={this.handleMovieInfo}
                   />
@@ -191,7 +235,7 @@ class CreateEvent extends Component {
                 <br />
                 <input
                   type="file"
-                  id="backPoster"
+                  id="backdropimage"
                   className="file-upload"
                   data-height="300"
                   onChange={this.handleMovieInfo}
@@ -233,10 +277,9 @@ class CreateEvent extends Component {
                 <div className="md-form-group">
                   <label>Start Date</label>
                   <br />
-                  <DatePicker
-                    id="date"
-                    selected={this.state.startDate}
+                  <DateTimePicker
                     onChange={this.handleChange}
+                    value={this.state.showDetailsArray.startDate}
                   />
                 </div>
               </div>
@@ -244,10 +287,10 @@ class CreateEvent extends Component {
                 <div className="md-form-group">
                   <label>Time: </label>
                   <br />
-                  <TimePicker
+                  {/* <TimePicker
                     onChange={this.onChange}
                     value={this.state.movieInfo.time}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="col-2">
@@ -289,13 +332,12 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-3" id="cover">
-              <Showtable 
-              theater={this.state.movieInfo.theater}
-              city={this.state.movieInfo.city}
-              street={this.state.movieInfo.street}
-              pincode={this.state.movieInfo.pincode}
-              date={this.state.movieInfo.date}
-              time={this.state.movieInfo.time}
+              <Showtable
+                theater={this.state.movieInfo.theater}
+                city={this.state.movieInfo.city}
+                street={this.state.movieInfo.street}
+                pincode={this.state.movieInfo.pincode}
+                dateTime={this.state.showDetailsArray.startDate}
               />
             </div>
             <div className="row mt-5">
