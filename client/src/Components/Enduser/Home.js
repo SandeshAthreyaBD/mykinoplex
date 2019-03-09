@@ -17,8 +17,6 @@ class Home extends Component {
 
   componentDidMount() {
     this.getMoviesListFromDb();
-
-    console.log("From frontend" + this.state.moviesList);
     // if (!this.state.intervalIsSet) {
     //   let interval = setInterval(this.getDataFromDb, 60000);
     //   this.setState({ intervalIsSet: interval });
@@ -28,7 +26,6 @@ class Home extends Component {
   getMoviesListFromDb = () => {
     axios.get('http://localhost:3001/api/getAllActiveMovieInfo')
     .then(response => {
-      console.log(response);
         this.setState({moviesList: response.data});
     })
     .catch(error => {
@@ -37,6 +34,8 @@ class Home extends Component {
 };
 
   render() {
+
+    console.log(this.state.moviesList);
     return (
       <div
         style={{
@@ -46,7 +45,9 @@ class Home extends Component {
         <Navbar />
         <CarouselComponent />
         <Heading />
-        <MoviecardGrid moviesList={this.state.moviesList} />
+        { (this.state.moviesList.length > 0) ?
+          <MoviecardGrid moviesList={this.state.moviesList} /> : null
+        }
         <Footer />
       </div>
     );

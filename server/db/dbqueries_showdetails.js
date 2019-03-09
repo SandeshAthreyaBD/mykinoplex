@@ -136,7 +136,6 @@ module.exports = {
       bookNowUrl,
       startTime,
       showStatus,
-      screeningDate,
       theaterId
     } = showDetails;
     const opts = { session, new: true };

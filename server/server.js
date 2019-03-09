@@ -295,9 +295,8 @@ router.route("/insertShowDetails").post(async (req, res) => {
       showId,
       bookNowUrl,
       startTime,
-      endTime,
-      screeningDate,
-      theaterId
+      theaterId,
+      showStatus
     } = req.body[i];
 
     let showdetails = new ShowDetails({
@@ -306,8 +305,7 @@ router.route("/insertShowDetails").post(async (req, res) => {
       bookNowUrl: bookNowUrl,
       theaterId: theaterId,
       startTime: startTime,
-      endTime: endTime,
-      screeningDate: screeningDate
+      showStatus: showStatus
     });
   
     showDetailsArray.push(showdetails);
@@ -328,7 +326,14 @@ router.route("/updateShowDetails/:id").post(async (req, res) => {
   const session = await db.startSession();
   session.startTransaction();
   try {
-    const showId = req.body.showId;
+    const {
+      showId,
+      bookNowUrl,
+      startTime,
+      showStatus,
+      theaterId
+    } = req.body;
+
     await dbqueries_showdetails
       .updateShowDetailsById(session, req.body, showId)
       .then((resolve, reject) => {
@@ -339,13 +344,6 @@ router.route("/updateShowDetails/:id").post(async (req, res) => {
         throw new Error("Error occurred while updating showdetails: " + error);
       });
 
-    const {
-      bookNowUrl,
-      startTime,
-      endTime,
-      screeningDate,
-      theaterId
-    } = req.body;
     let showDetailsArray = new Array();
 
     let showdetails = new ShowDetails({
@@ -354,8 +352,7 @@ router.route("/updateShowDetails/:id").post(async (req, res) => {
       bookNowUrl: bookNowUrl,
       theaterId: theaterId,
       startTime: startTime,
-      endTime: endTime,
-      screeningDate: screeningDate
+      showStatus: showStatus
     });
 
     showDetailsArray.push(showdetails);
@@ -434,7 +431,7 @@ router.route("/getAllActiveMovieInfo").get(async (req, res) => {
   await dbqueries_movieinfo
     .findAllActiveMoviesInfo(session)
     .then((resolve, reject) => {
-      res.status(200).send(resolve);
+      res.send(resolve);
     })
     .catch(error => {
       res.status(400).send(error);
@@ -473,8 +470,7 @@ async (req, res) => {
         showId,
         bookNowUrl,
         startTime,
-        endTime,
-        screeningDate,
+        showStatus,
         theaterId
       } = showDetailsAry[i];
   
@@ -484,8 +480,7 @@ async (req, res) => {
         bookNowUrl: bookNowUrl,
         theaterId: theaterId,
         startTime: startTime,
-        endTime: endTime,
-        screeningDate: screeningDate
+        showStatus: showStatus
       });
     
       showDetailsArray.push(showdetails);
@@ -561,9 +556,20 @@ router.route("/updateMovieInfo/:id").post(
   const session = await db.startSession();
   session.startTransaction();
   try {
-    const movieId = req.body.movieId;
     const adminId = req.body.adminId;
     const movieInfo = req.body.movieInfo;
+    const {
+      movieId,
+      movieName,
+      tagline,
+      synopsis,
+      cast,
+      trailerUrl,
+      genre,
+      language,
+      showIds
+    } = movieInfo;
+    
     await dbqueries_movieinfo
       .updateMovieInfoById(session, movieInfo, movieId, adminId)
       .then((resolve, reject) => {
@@ -573,19 +579,6 @@ router.route("/updateMovieInfo/:id").post(
         console.log(error);
         throw new Error("Error occurred while updating movieinfo: " + error);
       });
-
-    const {
-      movieName,
-      tagline,
-      synopsis,
-      cast,
-      trailerUrl,
-      genre,
-      posterimage,
-      backdropimage,
-      language,
-      showIds
-    } = movieInfo;
 
     let movieInfoArray = new Array();
 
