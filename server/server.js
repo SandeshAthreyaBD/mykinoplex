@@ -9,41 +9,61 @@ const multer = require("multer");
 const dbqueries_theater = require("./db/dbqueries_theater");
 const dbqueries_showdetails = require("./db/dbqueries_showdetails");
 const dbqueries_movieinfo = require("./db/dbqueries_movieinfo");
+const dbqueries_admininfo = require("./db/dbqueries_admininfo");
 
+const Data = require("./data");
 const MovieInfo = require("./schemas/MovieInfo");
 const Theater = require("./schemas/Theater");
 const ShowDetails = require("./schemas/ShowDetails");
+const AdminInfo = require("./schemas/AdminInfo");
 
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
 
 const upload = multer({
+  // dest: "client\\src\\Images",
   limits: {
     fileSize: 1000000
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      return cb(new Error("Please upload an image"));
+      return cb(new Error("Please upload an image of type jpg|jpeg|png"));
     }
-
     cb(undefined, true);
   }
 });
 
-router.post(
-  "/newroute",
-  auth,
-  upload.single("image"),
-  async (req, res) => {
-    req.user.avatar = req.file.buffer;
-    await req.user.save();
-    res.send();
-  },
-  (error, req, res, next) => {
-    res.status(400).send({ error: error.message });
-  }
-);
+//code to test image upload functionality
+// router.route("/uploadimages").post(upload.single("image"), async (req, res) => {
+//     const data = new Data({
+//       avatar: {
+//         data: req.file.buffer,
+//         contentType: req.file.mimetype
+//       } 
+//     });
+//     await Data.create(data);
+//     res.send();
+//   },
+//   (error, req, res, next) => {
+//     res.status(400).send({ error: error.message });
+//   });
+
+// router.route("/getimages/:id/avatar").get(async (req, res) => {
+//   try {
+
+//     const data = await Data.findById(req.params.id);
+//     if(!data || !data.avatar) {
+//       throw new Error();
+//     }
+
+//     res.set("Content-Type", data.avatar.contentType);
+//     res.send(data.avatar.data);
+
+//   } catch(e) {
+//     res.status(404).send();
+//   }
+// });
 
 app.use(cors());
 // (optional) only made for logging and
@@ -105,8 +125,28 @@ router.route("/getTheater/:id").get(async (req, res) => {
 
 router.route("/insertTheater").post(async (req, res) => {
   const session = await db.startSession();
+  let theaterArray = new Array();
+
+  for(let i=0; i< req.body; i++) {
+
+    const { theaterId, theaterName, address } = req.body[i];
+    let theater = new Theater({
+      _id: new mongoose.Types.ObjectId(),
+      theaterId: theaterId,
+      theaterName: theaterName,
+      address: {
+        country: address.country,
+        city: address.city,
+        street: address.street,
+        zipcode: address.zipcode
+      }
+    });
+
+    theaterArray.push(theater);
+  }
+
   await dbqueries_theater
-    .insertTheater(session, req.body)
+    .insertTheater(session, theaterArray)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -120,7 +160,7 @@ router.route("/updateTheater/:id").post(async (req, res) => {
   const session = await db.startSession();
   session.startTransaction();
   try {
-    const theaterId = req.params.id;
+    const theaterId = req.body.theaterId;
     await dbqueries_theater
       .updateTheaterById(session, req.body, theaterId)
       .then((resolve, reject) => {
@@ -132,6 +172,8 @@ router.route("/updateTheater/:id").post(async (req, res) => {
       });
 
     const { theaterName, address } = req.body;
+    let theaterArray = new Array();
+
     let theater1 = new Theater({
       _id: new mongoose.Types.ObjectId(),
       theaterId: theaterId,
@@ -143,8 +185,10 @@ router.route("/updateTheater/:id").post(async (req, res) => {
         zipcode: address.zipcode
       }
     });
+    theaterArray.push(theater1);
+
     await dbqueries_theater
-      .insertTheater(session, theater1)
+      .insertTheater(session, theaterArray)
       .then((resolve, reject) => {
         console.log(resolve);
       })
@@ -171,7 +215,7 @@ router.route("/updateTheater/:id").post(async (req, res) => {
 
 router.route("/deleteTheater/:id").post(async (req, res) => {
   const session = await db.startSession();
-  let theaterId = req.params.id;
+  let theaterId = req.body.theaterId;
   await dbqueries_theater
     .deleteTheaterById(session, theaterId)
     .then((resolve, reject) => {
@@ -243,8 +287,34 @@ router.route("/getShowDetails/:id").get(async (req, res) => {
 
 router.route("/insertShowDetails").post(async (req, res) => {
   const session = await db.startSession();
+
+  let showDetailsArray = new Array();
+
+  for(let i=0; i<req.body; i++) {
+    const {
+      showId,
+      bookNowUrl,
+      startTime,
+      endTime,
+      screeningDate,
+      theaterId
+    } = req.body[i];
+
+    let showdetails = new ShowDetails({
+      _id: new mongoose.Types.ObjectId(),
+      showId: showId,
+      bookNowUrl: bookNowUrl,
+      theaterId: theaterId,
+      startTime: startTime,
+      endTime: endTime,
+      screeningDate: screeningDate
+    });
+  
+    showDetailsArray.push(showdetails);
+  }
+
   await dbqueries_showdetails
-    .insertShowDetails(session, req.body)
+    .insertShowDetails(session, showDetailsArray)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -258,7 +328,7 @@ router.route("/updateShowDetails/:id").post(async (req, res) => {
   const session = await db.startSession();
   session.startTransaction();
   try {
-    const showId = req.params.id;
+    const showId = req.body.showId;
     await dbqueries_showdetails
       .updateShowDetailsById(session, req.body, showId)
       .then((resolve, reject) => {
@@ -320,7 +390,7 @@ router.route("/updateShowDetails/:id").post(async (req, res) => {
 
 router.route("/deleteShowDetails/:id").post(async (req, res) => {
   const session = await db.startSession();
-  let showId = req.params.id;
+  let showId = req.body.showId;
   await dbqueries_showdetails
     .deleteShowDetailsById(session, showId)
     .then((resolve, reject) => {
@@ -386,13 +456,40 @@ router.route("/getMovieInfo/:id").get(async (req, res) => {
   session.endSession();
 });
 
-router.route("/insertMovieInfo").post(async (req, res) => {
+router.route("/insertMovieInfo").post(
+  upload.fields([{ name: 'posterimage', maxCount: 1 }, { name: 'backdropimage', maxCount: 8 }]),
+async (req, res) => {
   const session = await db.startSession();
   session.startTransaction();
   try {
     const movieInfo = req.body.movieInfo;
-    const showDetailsArray = req.body.showDetailsArray;
+    const showDetailsAry = req.body.showDetailsArray;
     const adminId = req.body.adminId;
+
+    let showDetailsArray = new Array();
+
+    for(let i=0; i<showDetailsAry; i++) {
+      const {
+        showId,
+        bookNowUrl,
+        startTime,
+        endTime,
+        screeningDate,
+        theaterId
+      } = showDetailsAry[i];
+  
+      let showdetails = new ShowDetails({
+        _id: new mongoose.Types.ObjectId(),
+        showId: showId,
+        bookNowUrl: bookNowUrl,
+        theaterId: theaterId,
+        startTime: startTime,
+        endTime: endTime,
+        screeningDate: screeningDate
+      });
+    
+      showDetailsArray.push(showdetails);
+    }
 
     await dbqueries_showdetails
       .insertShowDetails(session, showDetailsArray)
@@ -417,8 +514,14 @@ router.route("/insertMovieInfo").post(async (req, res) => {
       cast: movieInfo.cast,
       trailerUrl: movieInfo.trailerUrl,
       genre: movieInfo.genre,
-      posterimage: movieInfo.posterimage,
-      backdropimage: movieInfo.backdropimage,
+      posterimage: {
+        data: req.files["posterimage"][0].buffer,
+        contentType: req.files["posterimage"][0].mimetype
+      },
+      backdropimage: {
+        data: req.files["backdropimage"][0].buffer,
+        contentType: req.files["backdropimage"][0].mimetype
+      },
       language: movieInfo.language,
       showIds: movieInfo.showIds,
       adminId: adminId
@@ -452,11 +555,13 @@ router.route("/insertMovieInfo").post(async (req, res) => {
   }
 });
 
-router.route("/updateMovieInfo/:id").post(async (req, res) => {
+router.route("/updateMovieInfo/:id").post(
+  upload.fields([{ name: 'posterimage', maxCount: 1 }, { name: 'backdropimage', maxCount: 8 }]),
+  async (req, res) => {
   const session = await db.startSession();
   session.startTransaction();
   try {
-    const movieId = req.params.id;
+    const movieId = req.body.movieId;
     const adminId = req.body.adminId;
     const movieInfo = req.body.movieInfo;
     await dbqueries_movieinfo
@@ -493,8 +598,14 @@ router.route("/updateMovieInfo/:id").post(async (req, res) => {
       cast: cast,
       trailerUrl: trailerUrl,
       genre: genre,
-      posterimage: posterimage,
-      backdropimage: backdropimage,
+      posterimage: {
+        data: req.files["posterimage"][0].buffer,
+        contentType: req.files["posterimage"][0].mimetype
+      },
+      backdropimage: {
+        data: req.files["backdropimage"][0].buffer,
+        contentType: req.files["backdropimage"][0].mimetype
+      },
       language: language,
       showIds: showIds,
       adminId: adminId
@@ -534,7 +645,7 @@ router.route("/updateMovieInfo/:id").post(async (req, res) => {
 
 router.route("/deleteMovieInfo/:id").post(async (req, res) => {
   const session = await db.startSession();
-  let movieId = req.params.id;
+  let movieId = req.body.movieId;
   let adminId = req.body.adminId;
   await dbqueries_movieinfo
     .deleteMovieInfoById(session, movieId, adminId)
@@ -546,6 +657,149 @@ router.route("/deleteMovieInfo/:id").post(async (req, res) => {
     });
   session.endSession();
 });
+
+
+//queries to read and write from admin
+router.route("/getAllAdminsInfo").get(async (req, res) => {
+  const session = await db.startSession();
+  await dbqueries_admininfo
+    .findAllAdmin(session)
+    .then((resolve, reject) => {
+      res.status(200).send(resolve);
+    })
+    .catch(error => {
+      res.status(400).send(error);
+    });
+  session.endSession();
+});
+
+router.route("/getAdminInfoByUsername").get(async (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
+
+  const session = await db.startSession();
+  await dbqueries_admininfo
+    .findAdminByUsername(session, username, password)
+    .then((resolve, reject) => {
+      res.status(200).send(resolve);
+    })
+    .catch(error => {
+      res.status(400).send(error);
+    });
+  session.endSession();
+});
+
+router.route("/insertAdminInfo").post(async (req, res) => {
+  const session = await db.startSession();
+
+    let adminInfoArray = new Array();
+
+    for(let i=0; i<req.body; i++) {
+      const {
+        adminId,
+        username,
+        password,
+        organiserinfo
+      } = req.body[i];
+  
+      let adminInfo = new AdminInfo({
+        _id: new mongoose.Types.ObjectId(),
+        adminId: adminId,
+        username: username,
+        password: password,
+        organiserinfo: {
+            name: organiserinfo.name,
+            country: organiserinfo.country,
+            city: organiserinfo.city,
+            street: organiserinfo.street,
+            zipcode: organiserinfo.zipcode
+        }
+      });
+    
+      adminInfoArray.push(adminInfo);
+    }
+
+    await dbqueries_admininfo
+      .insertAdmin(session, adminInfoArray)
+      .then((resolve, reject) => {
+        res.status(200).send(resolve);
+      })
+      .catch(error => {
+        res.status(400).send(error);
+      });
+
+    session.endSession();
+});
+
+router.route("/updateAdminInfo/:id").post(async (req, res) => {
+  const session = await db.startSession();
+  session.startTransaction();
+  try {
+    const adminId = req.body.adminId;
+    await dbqueries_admininfo
+      .updateAdminById(session, req.body, adminId)
+      .then((resolve, reject) => {
+        console.log(resolve);
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error("Error occurred while updating admininfo: " + error);
+      });
+
+    let adminInfoArray = new Array();
+
+    const {
+      username,
+      password,
+      organiserinfo
+    } = req.body;
+
+    let adminInfo = new AdminInfo({
+      _id: new mongoose.Types.ObjectId(),
+      adminId: adminId,
+      username: username,
+      password: password,
+      organiserinfo: {
+          name: organiserinfo.name,
+          country: organiserinfo.country,
+          city: organiserinfo.city,
+          street: organiserinfo.street,
+          zipcode: organiserinfo.zipcode
+      }
+    });
+  
+    adminInfoArray.push(adminInfo);
+
+    await dbqueries_admininfo
+      .insertAdmin(session, adminInfoArray)
+      .then((resolve, reject) => {
+        console.log(resolve);
+      })
+      .catch(error => {
+        console.log(error);
+        throw new Error(
+          "Error occurred while inserting updated admininfo: " + error
+        );
+      });
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return res
+      .status(200)
+      .json({ success: "admininfo updated with insert successfully" });
+  } catch (error) {
+    // If an error occurred, abort the whole transaction and
+    // undo any changes that might have happened
+    await session.abortTransaction();
+    session.endSession();
+
+    return res
+      .status(400)
+      .send("updating admininfo with insert failed" + error); // Rethrow so calling function sees error
+  }
+});
+
 
 // append /api for our http requests
 app.use("/api", router);

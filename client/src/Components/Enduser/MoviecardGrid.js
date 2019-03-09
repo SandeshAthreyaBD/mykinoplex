@@ -10,7 +10,7 @@ const MoviecardGrid = ({ moviesList }) => {
     >
       <div className="row no-gutters">
         {moviesList.map(movie => {
-          return <Moviecard movieInfo={movie} key={movie.id} />;
+          return <Moviecard movieInfo={movie} key={movie.movieId} />;
         })}
       </div>
     </MDBContainer>

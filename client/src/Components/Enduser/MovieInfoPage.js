@@ -8,6 +8,9 @@ import IframeComponent from "./IframeComponent";
 import { MDBContainer } from "mdbreact";
 
 class MovieInfoPage extends Component {
+
+  // shows fetch - theatreid.. 
+  
   render() {
     return (
       <div className="#e3f2fd blue lighten-5">

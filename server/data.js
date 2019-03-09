@@ -7,7 +7,10 @@ const DataSchema = new Schema(
     id: Number,
     message: {
       type: String,
-      required: true
+    },
+    avatar: {
+      data: Buffer,
+      contentType: String
     }
   },
   { timestamps: true }
