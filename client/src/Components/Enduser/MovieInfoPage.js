@@ -25,7 +25,7 @@ class MovieInfoPage extends Component {
     let showIds = this.state.movieInfo.showIds;
     this.getShowDetailsFromDb(showIds);
     let theaterIds = Array;
-    showDetailsArray.map(show => {
+    this.state.showDetailsArray.map(show => {
       let theaterId = show.theaterId;
       if (theaterIds.includes(theaterId)) {
         theaterIds.push(theaterId);
@@ -35,7 +35,7 @@ class MovieInfoPage extends Component {
   }
 
   getMovieInfoFromDb = () => {
-    Axios.get("http://localhost:3001/api/getMovieInfo/" + props.movieId)
+    Axios.get("http://localhost:3001/api/getMovieInfo/")
       .then(response => {
         this.setState({ movieInfo: response.data });
       })

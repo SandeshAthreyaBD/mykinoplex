@@ -64,6 +64,7 @@ class CreateEvent extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log("in submit");
     let currentIds = this.state.allMovieInfo.map(
       movieInfo => movieInfo.movieId
     );
@@ -97,12 +98,14 @@ class CreateEvent extends Component {
         //   showDetailsArray: this.state.showDetailsArray,
         formData
       },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      }
-    );
+      { headers: {"Content-Type": "multipart/form-data"} }
+    )
+    .then(res => {
+      console.log(res);
+    })
+    .catch(error => {
+      console.log(error);
+    });
   };
 
   handleMovieInfo = e => {
@@ -116,7 +119,7 @@ class CreateEvent extends Component {
       showDetails => showDetails.showId
     );
     let showIdToBeAdded = 1;
-    while (currentshowIds.includes(showIdToBeAdded)) {
+    while (currentshowIds.includes(showIdToBeAdded) || this.state.showIds.includes(showIdToBeAdded)) {
       ++showIdToBeAdded;
     }
     let show = {
@@ -203,7 +206,6 @@ class CreateEvent extends Component {
                     <option value="Drama">Drama</option>
                   </select>
                 </div>
-                handleShowChange
               </div>
               <div className="col-6">
                 <div className="md-form-group">
@@ -356,18 +358,14 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-3" id="cover">
-                return (
                   <Showtable
                     showDetailsArray={this.state.showDetailsArray}
                     allTheaters={this.state.allTheaters}
-                    key={showDetails.showId}
                   />
-                );
-              })}
             </div>
             <div className="row mt-5">
               <div className="col text-center ">
-                <button type="button" className="btn blue-gradient">
+                <button type="button" className="btn blue-gradient" onClick={(e) => this.handleSubmit(e)}>
                   Submit
                 </button>
               </div>
