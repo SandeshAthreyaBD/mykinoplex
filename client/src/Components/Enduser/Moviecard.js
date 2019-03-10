@@ -4,21 +4,24 @@ import "../../Styles/Moviecard.css";
 import { Card } from "react-bootstrap";
 import TextTruncate from "react-text-truncate";
 
-const Moviecard = ({ movieInfo }) => {  
+const Moviecard = ({ movieInfo }) => {
   let cardtitle =
     (movieInfo.tagline !== "" || movieInfo.tagline !== null)
       ? movieInfo.movieName + ": " + movieInfo.tagline
       : movieInfo.movieName;
 
-  //     let imgsrc = "data:image/" + movieInfo.posterimage.contentType 
+  //     let imgsrc = "";
+
+  // if(!(Object.entries(movieInfo.posterimage).length === 0 
+  // && movieInfo.posterimage.constructor === Object)) {
+  //   imgsrc = "data:image/" + movieInfo.posterimage.contentType 
   //               + ";base64," + movieInfo.posterimage.data;
+  // }
  
   let moviegenre = movieInfo.genre.toString();
 
   return (
     <div className="col-12 col-sm-6 col-md-4 px-2 py-3 moviedivcard">
-
-    {console.log(movieInfo)}
       <Card className="moviecard" href="/movieinfopage">
         <Card.Img
           variant="top"

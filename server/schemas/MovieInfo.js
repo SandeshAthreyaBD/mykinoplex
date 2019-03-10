@@ -63,6 +63,10 @@ const movieInfoSchema = new Schema(
     deletedDateTime: {
       type: Number,
       default: 0
+    },
+    totalHours: {
+      type: Number,
+      default: 3
     }
   },
   { timestamps: true }

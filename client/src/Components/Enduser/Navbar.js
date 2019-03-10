@@ -40,7 +40,7 @@ class NavbarPage extends Component {
         </MDBNavbarBrand>
         <MDBNavbarToggler onClick={this.toggleCollapse} />
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-          <Searchbar />
+          {/* <Searchbar /> */}
           <MDBNavbarNav right>
             <MDBNavItem>
               <MDBNavLink exact to="/">

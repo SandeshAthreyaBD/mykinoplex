@@ -4,8 +4,7 @@ import CarouselComponent from "./CarouselComponent";
 import MoviecardGrid from "./MoviecardGrid";
 import Footer from "./Footer";
 import Heading from "./Heading";
-import IframeComponent from "./IframeComponent";
-import Axios from "axios";
+import axios from "axios";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +23,8 @@ class Home extends Component {
   }
 
   getMoviesListFromDb = () => {
-    Axios.get("http://localhost:3001/api/getAllActiveMovieInfo")
+    axios
+      .get("http://localhost:3001/api/getAllActiveMovieInfo")
       .then(response => {
         this.setState({ moviesList: response.data });
       })
