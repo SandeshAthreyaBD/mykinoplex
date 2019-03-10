@@ -227,7 +227,7 @@ router.route("/deleteTheater/:id").post(async (req, res) => {
 });
 
 // queries for showdetails collection to read and write
-router.route("/getShowDetails").get(async (req, res) => {
+router.route("/getAllShowDetails").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_showdetails
     .findAllShowDetails(session)
@@ -290,7 +290,7 @@ router.route("/insertShowDetails").post(async (req, res) => {
   let showDetailsArray = new Array();
 
   for (let i = 0; i < req.body; i++) {
-    const { showId, bookNowUrl, startTime, theaterId, showStatus } = req.body[
+    const { showId, bookNowUrl, startTime, theaterId } = req.body[
       i
     ];
 
@@ -299,8 +299,7 @@ router.route("/insertShowDetails").post(async (req, res) => {
       showId: showId,
       bookNowUrl: bookNowUrl,
       theaterId: theaterId,
-      startTime: startTime,
-      showStatus: showStatus
+      startTime: startTime
     });
 
     showDetailsArray.push(showdetails);
@@ -447,12 +446,15 @@ router
   .post(
     upload.fields([
       { name: "posterimage", maxCount: 1 },
-      { name: "backdropimage", maxCount: 8 }
+      { name: "backdropimage", maxCount: 1 }
     ]),
     async (req, res) => {
       const session = await db.startSession();
       session.startTransaction();
       try {
+
+        console.log("request: ", req);
+
         const movieInfo = req.body.movieInfo;
         const showDetailsAry = req.body.showDetailsArray;
         const adminId = req.body.adminId;

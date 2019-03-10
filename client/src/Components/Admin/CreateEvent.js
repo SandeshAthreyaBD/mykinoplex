@@ -8,103 +8,127 @@ class CreateEvent extends Component {
     super(props);
     this.state = {
       format: "DD/MM/YYYY",
-      enableContainer: "",
-      movieInfo: [
-        {
-          id: 0,
-          movieName: "",
-          organizer: "",
-          tagline: "",
-          synopsis: "",
-          cast: "",
-          genre: "",
-          language: "",
-          status: "",
-          trailerUrl: "",
-          backdropimage: "",
-          cardPoster: "",
-          // date: "",
-          time: "10:00",
-          booknowlink: "",
-          hours: "",
-          theater: "",
-          city: "",
-          street: "",
-          pincode: ""
-        }
-      ],
-      showDetailsArray: [
-        {
-          showId: "",
-          bookNowUrl: "",
-          startTime: "",
-          startDate: new Date(),
-          showStatus: "",
-          theaterId: ""
-        }
-      ]
+      movieInfo: {},
+      showInfo: { startTime: new Date() },
+      showDetailsArray: [],
+      allTheaters: [],
+      allShowDetails: [],
+      allMovieInfo: [],
+      showIds: []
     };
   }
 
   componentDidMount() {
-    axios.get("http://localhost:3001/api/getAllTheaters")
+    axios
+      .get("http://localhost:3001/api/getAllTheaters")
       .then(response => {
-        console.log(response.data);
+        this.setState({
+          allTheaters: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:3001/api/getAllShowDetails")
+      .then(response => {
+        this.setState({
+          allShowDetails: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:3001/api/getAllMovieInfo")
+      .then(response => {
+        this.setState({
+          allMovieInfo: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
-  enableDiv = () => {
+  handleShowChange = e => {
     this.setState({
-      enableContainer: true
+      showInfo: { ...this.state.showInfo, [e.target.id]: e.target.value }
     });
   };
-
-  handleChange = date => {
+  handleDateChange = date => {
     this.setState({
-      showDetailsArray: {
-        startDate: date
-      }
+      showInfo: { ...this.state.showInfo, startTime: date }
     });
   };
-  onChange = time =>
-    this.setState({
-      movieInfo: { ...this.state.movieInfo, time: time }
-    });
 
   handleSubmit = e => {
     e.preventDefault();
-    let currentIds = this.state.movieInfo.map(movieInfo => movieInfo.id);
-    let idToBeAdded = 0;
+    let currentIds = this.state.allMovieInfo.map(
+      movieInfo => movieInfo.movieId
+    );
+    let idToBeAdded = 1;
     while (currentIds.includes(idToBeAdded)) {
       ++idToBeAdded;
     }
-    axios.post("http://localhost:3001/api/insertMovieInfo", {
-      adminId: 1,
-      movieInfo: this.state.movieInfo,
-      backdropimage: this.state.movieInfo.backdropimage,
-      posterimage: this.state.movieInfo.cardPoster,
-      showIds: this.state.showDetailsArray.showId
-    });
+    let movieInfo1 = {
+      movieId: this.state.movieInfo.movieId,
+      movieName: this.state.movieInfo.movieName,
+      tagline: this.state.movieInfo.tagline,
+      synopsis: this.state.movieInfo.synopsis,
+      cast: this.state.movieInfo.cast,
+      trailerUrl: this.state.movieInfo.trailerUrl,
+      genre: this.state.movieInfo.genre,
+      language: this.state.movieInfo.language,
+      showIds: this.state.showIds
+    };
+    let formData = new FormData();
+    // let imagefile = document.querySelector('#file')
+    formData.append("backdropimage", this.state.movieInfo.backdropimage);
+    formData.append("posterimage", this.state.movieInfo.posterimage);
+    formData.append("adminId", 1);
+    formData.append("movieInfo", movieInfo1);
+    formData.append("showDetailsArray", this.state.showDetailsArray);
+    axios.post(
+      "http://localhost:3001/api/insertMovieInfo",
+      {
+        // adminId: 1,
+        //   movieInfo: movieInfo1,
+        //   showDetailsArray: this.state.showDetailsArray,
+        formData
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }
+    );
   };
 
   handleMovieInfo = e => {
     this.setState({
-      ...this.state,
-      ...this.state.movieInfo,
-      movieInfo: { [e.target.id]: e.target.value }
+      movieInfo: { ...this.state.movieInfo, [e.target.id]: e.target.value }
     });
   };
-  handleAdd = () => {
-    let currentshowIds = this.state.showDetailsArray.map(
-      showDetails => showDetails.showIds
+
+  handleShowAdd = () => {
+    let currentshowIds = this.state.allShowDetails.map(
+      showDetails => showDetails.showId
     );
-    let showIdToBeAdded = 0;
+    let showIdToBeAdded = 1;
     while (currentshowIds.includes(showIdToBeAdded)) {
       ++showIdToBeAdded;
     }
-
-    console.log("add");
-    console.log(this.state);
+    let show = {
+      showId: showIdToBeAdded,
+      theaterId: this.state.showInfo.theaterId,
+      startTime: this.state.showInfo.startTime,
+      booknowUrl: this.state.showInfo.booknowUrl
+    };
+    this.state.showDetailsArray.push(show);
+    this.setState({
+      showIds: [...this.state.showIds, show.showId]
+    });
   };
   render() {
     return (
@@ -112,7 +136,7 @@ class CreateEvent extends Component {
         <h4 className="h4-responsive font-weight-bold text-center mb-4">
           Have Screening Details ?? Please add here..
         </h4>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} encType="multipart/form-data">
           <div className="md-form-group ">
             <div className="row">
               <div className="col-5">
@@ -139,7 +163,7 @@ class CreateEvent extends Component {
                   type="text"
                   id="organizer"
                   className="form-control"
-                  onChange={this.handleMovieInfo}
+                  defaultValue="1"
                 />
               </div>
             </div>
@@ -167,18 +191,19 @@ class CreateEvent extends Component {
             <div className="row mt-4">
               <div className="col-6">
                 <div className="md-form-group">
-                  <label>Category:</label>
+                  <label>Genre:</label>
                   <select
                     id="genre"
                     className="browser-default custom-select"
                     onChange={this.handleMovieInfo}
                   >
                     <option defaultValue>Select Category</option>
-                    <option value="1">Thriller</option>
-                    <option value="2">Action</option>
-                    <option value="3">Drama</option>
+                    <option value="Thriller">Thriller</option>
+                    <option value="Action">Action</option>
+                    <option value="Drama">Drama</option>
                   </select>
                 </div>
+                handleShowChange
               </div>
               <div className="col-6">
                 <div className="md-form-group">
@@ -208,10 +233,10 @@ class CreateEvent extends Component {
                     className="browser-default custom-select"
                     onChange={this.handleMovieInfo}
                   >
-                    <option defaultValue>Select Status</option>
-                    <option value="1">Now Playing</option>
-                    <option value="2">Coming soon</option>
-                    <option value="3">Extinct</option>
+                    <option value="Now Showing">Now Showing</option>
+                    <option defaultValue value="Coming Soon">
+                      Coming Soon
+                    </option>
                   </select>
                 </div>
               </div>
@@ -240,11 +265,11 @@ class CreateEvent extends Component {
                 />
               </div>
               <div className="col-6 md-form-group file-upload-wrapper">
-                <label>Small Posters:</label>
+                <label>Poster Image:</label>
                 <br />
                 <input
                   type="file"
-                  id="cardPoster"
+                  id="posterimage"
                   className="file-upload"
                   data-height="300"
                   onChange={this.handleMovieInfo}
@@ -256,39 +281,39 @@ class CreateEvent extends Component {
                 <div className="md-form-group">
                   <label>Theater:</label>
                   <select
-                    id="theater"
+                    id="theaterId"
                     value={this.state.value}
-                    onChange={this.handleMovieInfo}
+                    onChange={this.handleShowChange}
                     className="browser-default custom-select"
                   >
-                    <option defaultValue>Select Theater</option>
-                    <option value="Cineplex">Cineplex</option>
-                    <option value="Cineplex 2">Cineplex 2</option>
-                    <option value="Cineplex 3">Cineplex 3</option>
-                    <option value="Cineplex 4">Cineplex 4</option>
+                    <option value="-1" defaultValue>
+                      Select Theater
+                    </option>
+                    {this.state.allTheaters.map(theater => {
+                      return (
+                        <option
+                          key={theater.theaterId}
+                          value={theater.theaterId}
+                        >
+                          {theater.theaterName},{theater.address.street},{" "}
+                          {theater.address.city},{theater.address.zipcode},{" "}
+                          {theater.address.country}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-3">
+              <div className="col-4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ">
                 <div className="md-form-group">
                   <label>Start Date</label>
                   <br />
                   <DateTimePicker
-                    onChange={this.handleChange}
-                    value={this.state.showDetailsArray.startDate}
+                    onChange={this.handleDateChange}
+                    value={this.state.showInfo.startTime}
                   />
-                </div>
-              </div>
-              <div className="col-3">
-                <div className="md-form-group">
-                  <label>Time: </label>
-                  <br />
-                  {/* <TimePicker
-                    onChange={this.onChange}
-                    value={this.state.movieInfo.time}
-                  /> */}
                 </div>
               </div>
               <div className="col-2">
@@ -297,8 +322,9 @@ class CreateEvent extends Component {
                   <br />
                   <input
                     type="text"
-                    id="hours"
+                    id="totalHours"
                     className="form-control"
+                    defaultValue="3"
                     onChange={this.handleMovieInfo}
                   />
                 </div>
@@ -311,9 +337,9 @@ class CreateEvent extends Component {
                   <br />
                   <input
                     type="text"
-                    id="booknowlink"
+                    id="booknowUrl"
                     className="form-control"
-                    onChange={this.handleMovieInfo}
+                    onChange={this.handleShowChange}
                   />
                 </div>
               </div>
@@ -322,7 +348,7 @@ class CreateEvent extends Component {
                   <button
                     type="button"
                     className="btn green mt-4"
-                    onClick={this.handleAdd}
+                    onClick={this.handleShowAdd}
                   >
                     ADD
                   </button>
@@ -330,13 +356,14 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-3" id="cover">
-              <Showtable
-                theater={this.state.movieInfo.theater}
-                city={this.state.movieInfo.city}
-                street={this.state.movieInfo.street}
-                pincode={this.state.movieInfo.pincode}
-                dateTime={this.state.showDetailsArray.startDate}
-              />
+                return (
+                  <Showtable
+                    showDetailsArray={this.state.showDetailsArray}
+                    allTheaters={this.state.allTheaters}
+                    key={showDetails.showId}
+                  />
+                );
+              })}
             </div>
             <div className="row mt-5">
               <div className="col text-center ">

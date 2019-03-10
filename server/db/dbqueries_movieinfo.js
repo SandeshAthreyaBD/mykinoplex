@@ -1,10 +1,9 @@
 const MovieInfo = require("../schemas/MovieInfo");
 
 module.exports = {
-  findAllMoviesInfo: async (session, adminId) => {
+  findAllMoviesInfo: async (session) => {
     var output, err, res;
     await MovieInfo.find({
-      adminId: adminId,
       inactivatedDateTime: 0,
       deletedDateTime: 0
     })
