@@ -5,13 +5,13 @@ import MoviecardGrid from "./MoviecardGrid";
 import Footer from "./Footer";
 import Heading from "./Heading";
 import IframeComponent from "./IframeComponent";
-import axios from "axios";
+import Axios from "axios";
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      moviesList: [ ]
+      moviesList: []
     };
   }
 
@@ -24,17 +24,16 @@ class Home extends Component {
   }
 
   getMoviesListFromDb = () => {
-    axios.get('http://localhost:3001/api/getAllActiveMovieInfo')
-    .then(response => {
-        this.setState({moviesList: response.data});
-    })
-    .catch(error => {
+    Axios.get("http://localhost:3001/api/getAllActiveMovieInfo")
+      .then(response => {
+        this.setState({ moviesList: response.data });
+      })
+      .catch(error => {
         console.log(error);
-    }); 
-};
+      });
+  };
 
   render() {
-
     console.log(this.state.moviesList);
     return (
       <div
@@ -45,9 +44,9 @@ class Home extends Component {
         <Navbar />
         <CarouselComponent />
         <Heading />
-        { (this.state.moviesList.length > 0) ?
-          <MoviecardGrid moviesList={this.state.moviesList} /> : null
-        }
+        {this.state.moviesList.length > 0 ? (
+          <MoviecardGrid moviesList={this.state.moviesList} />
+        ) : null}
         <Footer />
       </div>
     );
