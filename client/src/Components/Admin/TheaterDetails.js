@@ -15,33 +15,33 @@ import axios from "axios";
 class TheaterDetails extends Component {
   state = {
     editModal: false,
-    theaterInfo: {
-      id: "",
-      TheaterName: "",
-      Street: "",
-      City: "",
-      Zipcode: "",
-      Country: ""
-    }
+    theaterInfo: { }
   };
 
   // handleonClick = (e,theaterInfo) =>{
   //         const editorDeleteTheater = this.props.editorDeleteTheater();
   //         console.log(theaterInfo);
   //     }
-  handleEdit = theaterInfo => {
+  handleEdit = () => {
     this.setState({
-      editModal: !this.state.editModal,
-      theaterInfo: theaterInfo
+      editModal: !this.state.editModal
     });
+
   };
-  handleChange = e => {
+
+  handleChange = (e) => {
+    console.log(e.target);
     this.setState({
       theaterInfo: { ...this.state.theaterInfo, [e.target.id]: e.target.value }
     });
     console.log(this.state.theaterInfo);
   };
-  handleSubmit = () => {};
+
+  handleSubmit = (e,theaterInfo) => {
+    e.preventDefault();
+    this.props.onTheaterEdit(theaterInfo);
+    
+  };
   showModal = () => {
     this.setState({
       editModal: !this.state.editModal
@@ -50,9 +50,9 @@ class TheaterDetails extends Component {
 
   deleteClick = theaterInfo => {
     if (window.confirm("Do you want to delete this theatre?")) {
-      axios.post("http://localhost:3001/api/deleteTheater/${theaterInfo.id}");
-      console.log(this.state.theaterInfo);
-    }
+      this.props.onTheaterDelete(theaterInfo);
+      }
+      
   };
 
   render() {
@@ -61,16 +61,16 @@ class TheaterDetails extends Component {
       <MDBContainer>
         <Card>
           <CardBody>
-            <h6>TheaterName: {this.state.theaterInfo.TheaterName}</h6>
+            <h6>TheaterName: {this.state.theaterInfo.theaterName}</h6>
             <h6>
-              Address: {this.state.theaterInfo.Street},
-              {this.state.theaterInfo.City},{this.state.theaterInfo.Zipcode}
+              Address: {this.state.theaterInfo.address.street},
+              {this.state.theaterInfo.address.city},{this.state.theaterInfo.address.zipcode}
             </h6>
-            <h6>Country: {this.state.theaterInfo.Country}</h6>
+            <h6>Country: {this.state.theaterInfo.address.country}</h6>
             <MDBIcon
               icon="edit"
               className="mr-1 ext-black"
-              onClick={() => this.handleEdit(this.state.theaterInfo)}
+              onClick={() => this.handleEdit()}
             />
             <strong>Edit</strong>
             <MDBModal isOpen={this.state.editModal}>
@@ -81,12 +81,19 @@ class TheaterDetails extends Component {
                     <div className="row">
                       <div className="col">
                         <label>Theater Name:</label>
-                        <input
-                          type="text"
-                          value={this.state.theaterInfo.TheaterName}
-                          id="TheaterName"
+                        {/* <input
+                          
+                          defaultValue={this.state.theaterInfo.theaterName}
+                          id="theaterName"
                           className="form-control"
                           onChange={this.handleChange}
+                        /> */}
+                        <input
+                          type="text"
+                          value={this.state.theaterInfo.theaterName}
+                          id="theaterName"
+                          className="form-control"
+                          onChange={()=> this.handleChange()}
                         />
                       </div>
                     </div>
@@ -95,20 +102,20 @@ class TheaterDetails extends Component {
                         <label>Street:</label>
                         <input
                           type="text"
-                          value={this.state.theaterInfo.Street}
-                          id="Street"
+                          defaultValue={this.state.theaterInfo.address.street}
+                          id="street"
                           className="form-control"
-                          onChange={this.handleChange}
+                          onChange={()=> this.handleChange()}
                         />
                       </div>
                       <div className="col-4">
                         <label>PLZ:</label>
                         <input
                           type="text"
-                          value={this.state.theaterInfo.Zipcode}
-                          id="Zipcode"
+                          defaultValue={this.state.theaterInfo.address.zipcode}
+                          id="zipcode"
                           className="form-control"
-                          onChange={this.handleChange}
+                          onChange={()=> this.handleChange()}
                         />
                       </div>
                     </div>
@@ -117,20 +124,20 @@ class TheaterDetails extends Component {
                         <label>City:</label>
                         <input
                           type="text"
-                          value={this.state.theaterInfo.City}
-                          id="City"
+                          defaultValue={this.state.theaterInfo.address.city}
+                          id="city"
                           className="form-control"
-                          onChange={this.handleChange}
+                          onChange={()=> this.handleChange()}
                         />
                       </div>
                       <div className="col-6">
                         <label>Country:</label>
                         <input
                           type="text"
-                          value={this.state.theaterInfo.Country}
-                          id="Country"
+                          defaultValue={this.state.theaterInfo.address.country}
+                          id="country"
                           className="form-control"
-                          onChange={this.handleChange}
+                          onChange={()=> this.handleChange()}
                         />
                       </div>
                     </div>
@@ -141,7 +148,7 @@ class TheaterDetails extends Component {
                 <MDBBtn color="grey" onClick={this.showModal}>
                   Close
                 </MDBBtn>
-                <MDBBtn color="primary" onClick={this.handleSubmit}>
+                <MDBBtn color="primary" onClick={()=>this.handleSubmit(this.state.theaterInfo)}>
                   Save
                 </MDBBtn>
               </MDBModalFooter>

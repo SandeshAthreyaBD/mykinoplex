@@ -84,7 +84,7 @@ db.on("open", () => {
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // queries for theater collection to read and write
-router.route("/getTheater").get(async (req, res) => {
+router.route("/getAllTheaters").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_theater
     .findAllTheater(session)
@@ -125,11 +125,11 @@ router.route("/getTheater/:id").get(async (req, res) => {
 
 router.route("/insertTheater").post(async (req, res) => {
   const session = await db.startSession();
-  console.log(req);
+  console.log(req.body);
   let theaterArray = new Array();
 
-  for (let i = 0; i < req.body; i++) {
-    const { theaterId, theaterName, address } = req.body[i];
+
+    const { theaterId, theaterName, address } = req.body;
     let theater = new Theater({
       _id: new mongoose.Types.ObjectId(),
       theaterId: theaterId,
@@ -143,7 +143,6 @@ router.route("/insertTheater").post(async (req, res) => {
     });
 
     theaterArray.push(theater);
-  }
 
   await dbqueries_theater
     .insertTheater(session, theaterArray)

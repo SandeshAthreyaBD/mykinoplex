@@ -16,18 +16,8 @@ class ListofTheaters extends Component {
     super(props);
     this.state = {
       setModal: false,
-      SelectedTheaterInfo: {
-        id: "",
-        TheaterName: "",
-        address: { Street: "", City: "", Zipcode: "", Country: "" }
-      },
-      theaters: [
-        {
-          id: 0,
-          TheaterName: null,
-          address: { Street: null, City: null, Zipcode: null, Country: null }
-        }
-      ]
+      SelectedTheaterInfo: { },
+      theaters: [ ]
     };
   }
 
@@ -57,25 +47,61 @@ class ListofTheaters extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
-    let currentIds = this.state.theaters.map(theater => theater.id);
-    let idToBeAdded = 0;
-    while (currentIds.includes(idToBeAdded)) {
+    this.showModal();
+    let currentIds = this.state.theaters.map(theater => theater.theaterId);
+    let idToBeAdded =1;
+    while(currentIds.includes(idToBeAdded)){
       ++idToBeAdded;
     }
-
-    let newTheater = [...this.state.theaters, this.state.SelectedTheaterInfo];
-
-    this.setState({
-      theaters: newTheater
-    });
-    this.showModal();
+    console.log(this.state.SelectedTheaterInfo);
+    let address= { 
+      street:this.state.SelectedTheaterInfo.street, 
+      city: this.state.SelectedTheaterInfo.city, 
+      zipcode: this.state.SelectedTheaterInfo.zipcode, 
+      country: this.state.SelectedTheaterInfo.country }
     Axios.post("http://localhost:3001/api/insertTheater", {
-      theaterId: this.state.theaters.id,
-      theaterName: this.state.theaters.TheaterName,
-      address: this.state.theaters.address
+      theaterId: idToBeAdded,
+      theaterName: this.state.SelectedTheaterInfo.theaterName,
+      address: address
+    }).then(res => {
+     Axios.get("http://localhost:3001/api/getAllTheaters").then(response =>{
+     console.log(response.data);  
+     this.setState({
+         theaters: response.data
+       });
+     })
     });
   };
+
+  handleDelete = (delTheaterInfo) => {
+    Axios.post("http://localhost:3001/api/deleteTheater/"+delTheaterInfo.theaterId,{
+          theaterId:delTheaterInfo.theaterId
+        })
+        .then(response=>{
+          let updatedTheaters = this.state.theaters.filter(theater =>{
+            return theater.theaterId !== delTheaterInfo.theaterId
+          });
+          this.setState({
+            theaters:updatedTheaters
+          });
+        });
+  }
+  handleEdit = (editTheaterInfo) => {
+    Axios.post("http://localhost:3001/api/updateTheater/"+editTheaterInfo.theaterId,{
+          theaterId:editTheaterInfo.theaterId,
+        theaterName: editTheaterInfo.theaterName,
+        address: editTheaterInfo.address
+        })
+        .then(response=>{
+          let updatedTheaters = this.state.theaters.filter(theater =>{
+            return theater.theaterId !== editTheaterInfo.theaterId
+          });
+          this.state.theaters.push(editTheaterInfo);
+          this.setState({
+            theaters:[...this.state.theaters,updatedTheaters]
+          });
+        });
+  }
 
   showModal = () => {
     this.setState({
@@ -107,9 +133,9 @@ class ListofTheaters extends Component {
                         <label>Theater Name:</label>
                         <input
                           type="text"
-                          id="TheaterName"
+                          id="theaterName"
                           className="form-control"
-                          onChange={this.handleInput}
+                          onChange={(e)=>this.handleInput(e)}
                         />
                       </div>
                     </div>
@@ -118,18 +144,18 @@ class ListofTheaters extends Component {
                         <label>Street:</label>
                         <input
                           type="text"
-                          id="Street"
+                          id="street"
                           className="form-control"
-                          onChange={this.handleInput}
+                          onChange={(e)=>this.handleInput(e)}
                         />
                       </div>
                       <div className="col-4">
                         <label>PLZ:</label>
                         <input
                           type="text"
-                          id="Zipcode"
+                          id="zipcode"
                           className="form-control"
-                          onChange={this.handleInput}
+                          onChange={(e)=>this.handleInput(e)}
                         />
                       </div>
                     </div>
@@ -138,18 +164,18 @@ class ListofTheaters extends Component {
                         <label>City:</label>
                         <input
                           type="text"
-                          id="City"
+                          id="city"
                           className="form-control"
-                          onChange={this.handleInput}
+                          onChange={(e)=>this.handleInput(e)}
                         />
                       </div>
                       <div className="col-6">
                         <label>Country:</label>
                         <input
                           type="text"
-                          id="Country"
+                          id="country"
                           className="form-control"
-                          onChange={this.handleInput}
+                          onChange={(e)=>this.handleInput(e)}
                         />
                       </div>
                     </div>
@@ -171,18 +197,14 @@ class ListofTheaters extends Component {
           <div className="col">
             <div>
               {this.state.theaters.map(theater => {
-                {
-                  console.log(this.state.theaters);
-                  if (this.state.theaters.id !== null) {
                     return (
-                      <TheaterDetails
+                      <TheaterDetails onTheaterDelete={this.handleDelete}
+                        onTheaterEdit={this.handleEdit}
                         theaterInfo={theater}
                         editorDeleteTheater={this.EditorDeleteTheater}
                         key={theater.id}
                       />
                     );
-                  }
-                }
               })}
             </div>
           </div>

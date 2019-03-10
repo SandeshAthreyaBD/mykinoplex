@@ -47,11 +47,9 @@ class CreateEvent extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get("http://localhost:3001/api/getMultipleTheaters")
+    axios.get("http://localhost:3001/api/getAllTheaters")
       .then(response => {
-        let ashwini = response.data;
-        console.log(ashwini);
+        console.log(response.data);
       });
   }
 
