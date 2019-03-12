@@ -27,7 +27,8 @@ const upload = multer({
     fileSize: 1000000
   },
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+    file.mimetype = file.mimetype.toLowerCase();
+    if (!file.mimetype.match(/(jpg|jpeg|png)$/)) {
       return cb(new Error("Please upload an image of type jpg|jpeg|png"));
     }
     cb(undefined, true);
@@ -71,7 +72,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
-
+app.use(express.json());
 let db = mongoose.connection;
 // checks if connection with the database is successful
 db.on("open", () => {
@@ -453,11 +454,14 @@ router
       session.startTransaction();
       try {
 
-        console.log("request: ", req);
-
-        const movieInfo = req.body.movieInfo;
-        const showDetailsAry = req.body.showDetailsArray;
+        
+        console.log(req.body);
+        const movieInfo = JSON.parse(req.body.movieInfo);
+        const showDetailsAry = JSON.parse(req.body.showDetailsArray);
         const adminId = req.body.adminId;
+        console.log("movieInfo: ", movieInfo);
+        console.log("adminId: ", adminId);
+        console.log("showDetailsAry: ", showDetailsAry);
 
         let showDetailsArray = new Array();
 

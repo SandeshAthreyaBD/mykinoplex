@@ -10,14 +10,12 @@ const Moviecard = ({ movieInfo }) => {
       ? movieInfo.movieName + ": " + movieInfo.tagline
       : movieInfo.movieName;
 
-  //     let imgsrc = "";
+      var thumb = new Buffer(movieInfo.posterimage.data.data).toString('base64');
 
-  // if(!(Object.entries(movieInfo.posterimage).length === 0 
-  // && movieInfo.posterimage.constructor === Object)) {
-  //   imgsrc = "data:image/" + movieInfo.posterimage.contentType 
-  //               + ";base64," + movieInfo.posterimage.data;
-  // }
+     let imgsrc = "data:" + movieInfo.posterimage.contentType 
+                + ";base64," + thumb;
  
+                console.log(imgsrc);
   let moviegenre = movieInfo.genre.toString();
 
   return (
@@ -25,7 +23,7 @@ const Moviecard = ({ movieInfo }) => {
       <Card className="moviecard" href="/movieinfopage">
         <Card.Img
           variant="top"
-          src="http"
+          src={imgsrc}
           style={{ height: "18rem" }}
         />
         <Card.Body>

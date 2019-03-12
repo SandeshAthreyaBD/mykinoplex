@@ -73,7 +73,7 @@ class CreateEvent extends Component {
       ++idToBeAdded;
     }
     let movieInfo1 = {
-      movieId: this.state.movieInfo.movieId,
+      movieId: idToBeAdded,
       movieName: this.state.movieInfo.movieName,
       tagline: this.state.movieInfo.tagline,
       synopsis: this.state.movieInfo.synopsis,
@@ -85,27 +85,24 @@ class CreateEvent extends Component {
     };
     let formData = new FormData();
     // let imagefile = document.querySelector('#file')
+    formData.set('adminId', 1);
     formData.append("backdropimage", this.state.movieInfo.backdropimage);
     formData.append("posterimage", this.state.movieInfo.posterimage);
-    formData.append("adminId", 1);
-    formData.append("movieInfo", movieInfo1);
-    formData.append("showDetailsArray", this.state.showDetailsArray);
-    axios.post(
-      "http://localhost:3001/api/insertMovieInfo",
-      {
-        // adminId: 1,
-        //   movieInfo: movieInfo1,
-        //   showDetailsArray: this.state.showDetailsArray,
-        formData
-      },
-      { headers: {"Content-Type": "multipart/form-data"} }
-    )
-    .then(res => {
-      console.log(res);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    formData.append("movieInfo", JSON.stringify(movieInfo1));
+    formData.append("showDetailsArray", JSON.stringify(this.state.showDetailsArray));
+    console.log("moviedata", movieInfo1);
+    //console.log("this" ,formData.values());
+
+    axios
+      .post(
+        "http://localhost:3001/api/insertMovieInfo", formData
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   handleMovieInfo = e => {
@@ -114,12 +111,21 @@ class CreateEvent extends Component {
     });
   };
 
+  handleImageData = e => {
+    this.setState({
+      movieInfo: { ...this.state.movieInfo, [e.target.id]: e.target.files[0] }
+    });
+  };
+
   handleShowAdd = () => {
     let currentshowIds = this.state.allShowDetails.map(
       showDetails => showDetails.showId
     );
     let showIdToBeAdded = 1;
-    while (currentshowIds.includes(showIdToBeAdded) || this.state.showIds.includes(showIdToBeAdded)) {
+    while (
+      currentshowIds.includes(showIdToBeAdded) ||
+      this.state.showIds.includes(showIdToBeAdded)
+    ) {
       ++showIdToBeAdded;
     }
     let show = {
@@ -140,7 +146,7 @@ class CreateEvent extends Component {
           Have Screening Details ?? Please add here..
         </h4>
         <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-          <div className="md-form-group ">
+          <div className="md-form-group">
             <div className="row">
               <div className="col-5">
                 <label>Name of the Movie:</label>
@@ -148,7 +154,7 @@ class CreateEvent extends Component {
                   type="text"
                   id="movieName"
                   className="form-control"
-                  onChange={this.handleMovieInfo}
+                  onChange={e => this.handleMovieInfo(e)}
                 />
               </div>
               <div className="col-4">
@@ -157,7 +163,7 @@ class CreateEvent extends Component {
                   type="text"
                   id="tagline"
                   className="form-control"
-                  onChange={this.handleMovieInfo}
+                  onChange={e => this.handleMovieInfo(e)}
                 />
               </div>
               <div className="col-3">
@@ -178,7 +184,7 @@ class CreateEvent extends Component {
                   placeholder="Write few words about event"
                   className="form-control"
                   rows="5"
-                  onChange={this.handleMovieInfo}
+                  onChange={e => this.handleMovieInfo(e)}
                 />
               </div>
               <div className="col-6">
@@ -187,7 +193,7 @@ class CreateEvent extends Component {
                   id="cast"
                   className="form-control"
                   rows="5"
-                  onChange={this.handleMovieInfo}
+                  onChange={e => this.handleMovieInfo(e)}
                 />
               </div>
             </div>
@@ -198,7 +204,7 @@ class CreateEvent extends Component {
                   <select
                     id="genre"
                     className="browser-default custom-select"
-                    onChange={this.handleMovieInfo}
+                    onChange={e => this.handleMovieInfo(e)}
                   >
                     <option defaultValue>Select Category</option>
                     <option value="Thriller">Thriller</option>
@@ -213,7 +219,7 @@ class CreateEvent extends Component {
                   <select
                     id="language"
                     className="browser-default custom-select"
-                    onChange={this.handleMovieInfo}
+                    onChange={e => this.handleMovieInfo(e)}
                   >
                     <option defaultValue>Select Language</option>
                     <option value="1">Kannada</option>
@@ -233,7 +239,7 @@ class CreateEvent extends Component {
                   <select
                     id="status"
                     className="browser-default custom-select"
-                    onChange={this.handleMovieInfo}
+                    onChange={e => this.handleMovieInfo(e)}
                   >
                     <option value="Now Showing">Now Showing</option>
                     <option defaultValue value="Coming Soon">
@@ -249,7 +255,7 @@ class CreateEvent extends Component {
                     type="text"
                     id="trailerUrl"
                     className="form-control"
-                    onChange={this.handleMovieInfo}
+                    onChange={e => this.handleMovieInfo(e)}
                   />
                 </div>
               </div>
@@ -263,7 +269,7 @@ class CreateEvent extends Component {
                   id="backdropimage"
                   className="file-upload"
                   data-height="300"
-                  onChange={this.handleMovieInfo}
+                  onChange={e => this.handleImageData(e)}
                 />
               </div>
               <div className="col-6 md-form-group file-upload-wrapper">
@@ -274,7 +280,7 @@ class CreateEvent extends Component {
                   id="posterimage"
                   className="file-upload"
                   data-height="300"
-                  onChange={this.handleMovieInfo}
+                  onChange={e => this.handleImageData(e)}
                 />
               </div>
             </div>
@@ -285,7 +291,7 @@ class CreateEvent extends Component {
                   <select
                     id="theaterId"
                     value={this.state.value}
-                    onChange={this.handleShowChange}
+                    onChange={e => this.handleShowChange(e)}
                     className="browser-default custom-select"
                   >
                     <option value="-1" defaultValue>
@@ -313,7 +319,7 @@ class CreateEvent extends Component {
                   <label>Start Date</label>
                   <br />
                   <DateTimePicker
-                    onChange={this.handleDateChange}
+                    onChange={e => this.handleDateChange(e)}
                     value={this.state.showInfo.startTime}
                   />
                 </div>
@@ -327,7 +333,7 @@ class CreateEvent extends Component {
                     id="totalHours"
                     className="form-control"
                     defaultValue="3"
-                    onChange={this.handleMovieInfo}
+                    onChange={e => this.handleMovieInfo(e)}
                   />
                 </div>
               </div>
@@ -341,7 +347,7 @@ class CreateEvent extends Component {
                     type="text"
                     id="booknowUrl"
                     className="form-control"
-                    onChange={this.handleShowChange}
+                    onChange={e => this.handleShowChange(e)}
                   />
                 </div>
               </div>
@@ -350,7 +356,7 @@ class CreateEvent extends Component {
                   <button
                     type="button"
                     className="btn green mt-4"
-                    onClick={this.handleShowAdd}
+                    onClick={e => this.handleShowAdd(e)}
                   >
                     ADD
                   </button>
@@ -358,14 +364,17 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-3" id="cover">
-                  <Showtable
-                    showDetailsArray={this.state.showDetailsArray}
-                    allTheaters={this.state.allTheaters}
-                  />
+              <Showtable
+                showDetailsArray={this.state.showDetailsArray}
+                allTheaters={this.state.allTheaters}
+              />
             </div>
             <div className="row mt-5">
               <div className="col text-center ">
-                <button type="button" className="btn blue-gradient" onClick={(e) => this.handleSubmit(e)}>
+                <button
+                  type="submit"
+                  className="btn blue-gradient"
+                >
                   Submit
                 </button>
               </div>
