@@ -1,5 +1,5 @@
-@import '~slick-carousel/slick/slick-theme.css';
-@import '~slick-carousel/slick/slick.css';
+@import "~slick-carousel/slick/slick-theme.css";
+@import "~slick-carousel/slick/slick.css";
 
 body {
   margin: 0;
@@ -24,16 +24,16 @@ code {
   border-radius: 5px !important;
   background-color: #007bff !important;
 }
-.list-group-flush{
+.list-group-flush {
   color: #495057;
 }
 
-.active{
+.active {
   background-color: #e9ecef !;
 }
 
 main {
-  background-color:rgb(231, 251, 255);
+  background-color: rgb(231, 251, 255);
 }
 
 .sidebar-fixed {
@@ -48,19 +48,17 @@ main {
   padding-top: 0;
 }
 
-
 .flexible-navbar {
   transition: padding-left 0.5s;
   padding-left: 270px;
   background: #fff;
 }
 
-#content{
+#content {
   margin-left: 270px;
-}    
+}
 
-
-.sidebar-fixed .logo-wrapper img{
+.sidebar-fixed .logo-wrapper img {
   width: 100%;
   padding: 2.5rem;
 }
@@ -68,10 +66,10 @@ main {
 .activeClass {
   z-index: 5;
   color: #fff;
-  border-color:blue-gradient;
+  border-color: blue-gradient;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   border-radius: 5px !important;
-  background-color:blue-gradient !important;
+  background-color: blue-gradient !important;
 }
 
 @media (max-width: 1199.98px) {
@@ -85,8 +83,7 @@ main {
     padding-left: 10px;
   }
 
-  #content{
+  #content {
     margin-left: 0px;
   }
-
 }

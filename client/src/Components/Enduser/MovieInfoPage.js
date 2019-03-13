@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Navbar from "./Navbar";
-import ImageFlex from "./ImageFlexComponent";
 import MovieDetailComponent from "./MovieDetailComponent";
 import Footer from "./Footer";
 import MovieshowsGrid from "./MovieshowsGrid";
@@ -74,7 +73,7 @@ class MovieInfoPage extends Component {
 
   render() {
     return (
-      <div className="#e3f2fd blue lighten-5">
+      <div style={{ backgroundColor: "#1C2331" }}>
         <Navbar />
         {/* <ImageFlex /> */}
         <MDBContainer className="mt-4">

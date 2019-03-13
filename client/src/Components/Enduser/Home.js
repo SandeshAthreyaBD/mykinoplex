@@ -37,11 +37,7 @@ class Home extends Component {
   render() {
     console.log(this.state.moviesList);
     return (
-      <div
-        style={{
-          backgroundColor: "Black"
-        }}
-      >
+      <div style={{ backgroundColor: "#1C2331" }}>
         <Navbar />
         <CarouselComponent />
         <Heading />
