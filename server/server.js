@@ -1,4 +1,4 @@
-const axios = require("axios");
+const compression = require('compression')
 const { mongoose } = require("./db/mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -11,7 +11,6 @@ const dbqueries_showdetails = require("./db/dbqueries_showdetails");
 const dbqueries_movieinfo = require("./db/dbqueries_movieinfo");
 const dbqueries_admininfo = require("./db/dbqueries_admininfo");
 
-const Data = require("./data");
 const MovieInfo = require("./schemas/MovieInfo");
 const Theater = require("./schemas/Theater");
 const ShowDetails = require("./schemas/ShowDetails");
@@ -35,37 +34,7 @@ const upload = multer({
   }
 });
 
-//code to test image upload functionality
-// router.route("/uploadimages").post(upload.single("image"), async (req, res) => {
-//     const data = new Data({
-//       avatar: {
-//         data: req.file.buffer,
-//         contentType: req.file.mimetype
-//       }
-//     });
-//     await Data.create(data);
-//     res.send();
-//   },
-//   (error, req, res, next) => {
-//     res.status(400).send({ error: error.message });
-//   });
-
-// router.route("/getimages/:id/avatar").get(async (req, res) => {
-//   try {
-
-//     const data = await Data.findById(req.params.id);
-//     if(!data || !data.avatar) {
-//       throw new Error();
-//     }
-
-//     res.set("Content-Type", data.avatar.contentType);
-//     res.send(data.avatar.data);
-
-//   } catch(e) {
-//     res.status(404).send();
-//   }
-// });
-
+app.use(compression());
 app.use(cors());
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
@@ -73,6 +42,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(express.json());
+
 let db = mongoose.connection;
 // checks if connection with the database is successful
 db.on("open", () => {

@@ -6,7 +6,7 @@ import MovieshowsGrid from "./MovieshowsGrid";
 import IframeComponent from "./IframeComponent";
 import { MDBContainer } from "mdbreact";
 import Axios from "axios";
-
+import * as constants from "../../Constants";
 class MovieInfoPage extends Component {
   // shows fetch - theatreid..
   constructor(props) {
@@ -34,7 +34,7 @@ class MovieInfoPage extends Component {
   }
 
   getMovieInfoFromDb = () => {
-    Axios.get("http://localhost:3001/api/getMovieInfo/")
+    Axios.get(constants.URL_TO_USE+"/api/getMovieInfo/")
       .then(response => {
         this.setState({ movieInfo: response.data });
       })
@@ -44,7 +44,7 @@ class MovieInfoPage extends Component {
   };
 
   getShowDetailsFromDb = showIds => {
-    Axios.get("http://localhost:3001/api/getMultipleShowDetailsById", {
+    Axios.get(constants.URL_TO_USE+"/api/getMultipleShowDetailsById", {
       data: {
         showIds: showIds
       }
@@ -58,7 +58,7 @@ class MovieInfoPage extends Component {
   };
 
   getTheaterDetailsFromDb = theaterIds => {
-    Axios.get("http://localhost:3001/api/getMultipleTheatersById", {
+    Axios.get(constants.URL_TO_USE+"/api/getMultipleTheatersById", {
       data: {
         theaterIds: theaterIds
       }
