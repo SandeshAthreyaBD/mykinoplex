@@ -95,7 +95,7 @@ class CreateEvent extends Component {
 
     axios
       .post(
-        "http://localhost:3001/api/insertMovieInfo", formData
+        "http://ec2-54-93-63-36.eu-central-1.compute.amazonaws.com:3001/api/insertMovieInfo", formData
       )
       .then(res => {
         console.log(res);
