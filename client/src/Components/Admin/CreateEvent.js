@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DateTimePicker from "react-datetime-picker";
 import Showtable from "./Showtable";
 import axios from "axios";
+import * as constants from "../../Constants";
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class CreateEvent extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:3001/api/getAllTheaters")
+      .get(constants.URL_TO_USE+"/api/getAllTheaters")
       .then(response => {
         this.setState({
           allTheaters: response.data
@@ -30,7 +31,7 @@ class CreateEvent extends Component {
         console.log(error);
       });
     axios
-      .get("http://localhost:3001/api/getAllShowDetails")
+      .get(constants.URL_TO_USE+"/api/getAllShowDetails")
       .then(response => {
         this.setState({
           allShowDetails: response.data
@@ -40,7 +41,7 @@ class CreateEvent extends Component {
         console.log(error);
       });
     axios
-      .get("http://localhost:3001/api/getAllMovieInfo")
+      .get(constants.URL_TO_USE+"/api/getAllMovieInfo")
       .then(response => {
         this.setState({
           allMovieInfo: response.data
@@ -95,7 +96,7 @@ class CreateEvent extends Component {
 
     axios
       .post(
-        "http://ec2-54-93-63-36.eu-central-1.compute.amazonaws.com:3001/api/insertMovieInfo", formData
+        constants.URL_TO_USE+"/api/insertMovieInfo", formData
       )
       .then(res => {
         console.log(res);

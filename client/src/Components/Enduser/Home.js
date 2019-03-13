@@ -5,6 +5,7 @@ import MoviecardGrid from "./MoviecardGrid";
 import Footer from "./Footer";
 import Heading from "./Heading";
 import axios from "axios";
+import * as constants from "../../Constants";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +25,7 @@ class Home extends Component {
 
   getMoviesListFromDb = () => {
     axios
-      .get("http://localhost:3001/api/getAllActiveMovieInfo")
+      .get(constants.URL_TO_USE+"/api/getAllActiveMovieInfo")
       .then(response => {
         this.setState({ moviesList: response.data });
       })

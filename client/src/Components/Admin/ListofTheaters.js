@@ -59,12 +59,13 @@ class ListofTheaters extends Component {
       city: this.state.SelectedTheaterInfo.city, 
       zipcode: this.state.SelectedTheaterInfo.zipcode, 
       country: this.state.SelectedTheaterInfo.country }
-    Axios.post("http://localhost:3001/api/insertTheater", {
+
+    Axios.post(constants.URL_TO_USE+"/api/insertTheater", {
       theaterId: idToBeAdded,
       theaterName: this.state.SelectedTheaterInfo.theaterName,
       address: address
     }).then(res => {
-     Axios.get("http://localhost:3001/api/getAllTheaters").then(response =>{
+     Axios.get(constants.URL_TO_USE+"/api/getAllTheaters").then(response =>{
      console.log(response.data);  
      this.setState({
          theaters: response.data
@@ -74,7 +75,7 @@ class ListofTheaters extends Component {
   };
 
   handleDelete = (delTheaterInfo) => {
-    Axios.post("http://localhost:3001/api/deleteTheater/"+delTheaterInfo.theaterId,{
+    Axios.post(constants.URL_TO_USE+"/api/deleteTheater/"+delTheaterInfo.theaterId,{
           theaterId:delTheaterInfo.theaterId
         })
         .then(response=>{
@@ -87,7 +88,7 @@ class ListofTheaters extends Component {
         });
   }
   handleEdit = (editTheaterInfo) => {
-    Axios.post("http://localhost:3001/api/updateTheater/"+editTheaterInfo.theaterId,{
+    Axios.post(constants.URL_TO_USE+"/api/updateTheater/"+editTheaterInfo.theaterId,{
           theaterId:editTheaterInfo.theaterId,
         theaterName: editTheaterInfo.theaterName,
         address: editTheaterInfo.address
