@@ -5,6 +5,7 @@ import MoviecardGrid from "./MoviecardGrid";
 import Footer from "./Footer";
 import Heading from "./Heading";
 import axios from "axios";
+import { MDBContainer } from "mdbreact";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -36,11 +37,7 @@ class Home extends Component {
   render() {
     console.log(this.state.moviesList);
     return (
-      <div
-        style={{
-          backgroundColor: "Black"
-        }}
-      >
+      <div style={{ backgroundColor: "#1C2331" }}>
         <Navbar />
         <CarouselComponent />
         <Heading />
