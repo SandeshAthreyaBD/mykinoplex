@@ -85,7 +85,7 @@ class CreateEvent extends Component {
     };
     let formData = new FormData();
     // let imagefile = document.querySelector('#file')
-    formData.set('adminId', 1);
+    formData.append("adminId", 1);
     formData.append("backdropimage", this.state.movieInfo.backdropimage);
     formData.append("posterimage", this.state.movieInfo.posterimage);
     formData.append("movieInfo", JSON.stringify(movieInfo1));
