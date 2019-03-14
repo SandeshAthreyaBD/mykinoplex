@@ -11,7 +11,6 @@ import Contact from "./Components/Enduser/Contact";
 import MovieInfoPage from "./Components/Enduser/MovieInfoPage";
 import Signin from "./Components/Modals/Signin";
 import NotFound from "./Components/NotFound";
-import Database from "./Components/Database";
 import AdminDashboard from "./Components/Admin/AdminDashboard";
 
 class App extends Component {
@@ -29,7 +28,6 @@ class App extends Component {
           <Route path="/contact" component={Contact} />
           <Route path="/movieinfopage" component={MovieInfoPage} />
           <Route path="/admin-login-mykinoplex" component={Signin} />
-          <Route path="/database" component={Database} />
           <Route path="/admin/createevent" component={AdminDashboard} />
           <Route path="/listofevents" component={AdminDashboard} />
           <Route path="/listoftheaters" component={AdminDashboard} />

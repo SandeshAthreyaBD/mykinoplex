@@ -1,4 +1,3 @@
-const compression = require('compression')
 const { mongoose } = require("./db/mongoose");
 const express = require("express");
 const cors = require("cors");
@@ -34,7 +33,6 @@ const upload = multer({
   }
 });
 
-app.use(compression());
 app.use(cors());
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format

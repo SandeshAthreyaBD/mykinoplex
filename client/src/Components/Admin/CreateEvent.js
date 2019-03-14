@@ -91,8 +91,7 @@ class CreateEvent extends Component {
     formData.append("posterimage", this.state.movieInfo.posterimage);
     formData.append("movieInfo", JSON.stringify(movieInfo1));
     formData.append("showDetailsArray", JSON.stringify(this.state.showDetailsArray));
-    console.log("moviedata", movieInfo1);
-    //console.log("this" ,formData.values());
+    console.log("showDetailsArray" ,JSON.stringify(this.state.showDetailsArray));
 
     axios
       .post(

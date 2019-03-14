@@ -10,12 +10,11 @@ const Moviecard = ({ movieInfo }) => {
       ? movieInfo.movieName + ": " + movieInfo.tagline
       : movieInfo.movieName;
 
-      var thumb = new Buffer(movieInfo.posterimage.data.data).toString('base64');
+      let thumb = new Buffer(movieInfo.posterimage.data.data).toString('base64');
 
      let imgsrc = "data:" + movieInfo.posterimage.contentType 
                 + ";base64," + thumb;
  
-                console.log(imgsrc);
   let moviegenre = movieInfo.genre.toString();
 
   return (
