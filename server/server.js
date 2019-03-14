@@ -2,8 +2,10 @@ const { mongoose } = require("./db/mongoose");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const logger = require("morgan");
+const morgan = require("morgan");
 const multer = require("multer");
+const fs = require('fs');
+const path = require('path');
 
 const dbqueries_theater = require("./db/dbqueries_theater");
 const dbqueries_showdetails = require("./db/dbqueries_showdetails");
@@ -18,6 +20,9 @@ const AdminInfo = require("./schemas/AdminInfo");
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
+
+// create a write stream (in append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 const upload = multer({
   // dest: "client\\src\\Images",
@@ -38,7 +43,7 @@ app.use(cors());
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(logger("dev"));
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
 
 let db = mongoose.connection;
@@ -422,23 +427,17 @@ router
       session.startTransaction();
       try {
 
-        
-        console.log(req.body);
         const movieInfo = JSON.parse(req.body.movieInfo);
         const showDetailsAry = JSON.parse(req.body.showDetailsArray);
         const adminId = req.body.adminId;
-        console.log("movieInfo: ", movieInfo);
-        console.log("adminId: ", adminId);
-        console.log("showDetailsAry: ", showDetailsAry);
 
         let showDetailsArray = new Array();
 
-        for (let i = 0; i < showDetailsAry; i++) {
+        for (let i = 0; i < showDetailsAry.length; i++) {
           const {
             showId,
             bookNowUrl,
             startTime,
-            showStatus,
             theaterId
           } = showDetailsAry[i];
 
@@ -447,10 +446,10 @@ router
             showId: showId,
             bookNowUrl: bookNowUrl,
             theaterId: theaterId,
-            startTime: startTime,
-            showStatus: showStatus
+            startTime: startTime
           });
 
+          console.log(showdetails);
           showDetailsArray.push(showdetails);
         }
 

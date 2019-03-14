@@ -26,23 +26,26 @@ const MovieshowsGrid = ({showDetailsArray, theatersArray}) => {
       });
     }
   })
+});
 
   let uniqueCities = [...new Set(showandtheaterInfos.map(item => item.city))];
 
   return (
     <MDBContainer>
       <div className="flex-column no-gutters">
-        <div className="flex-column p-2">
         {uniqueCities.map(city => {
-          <h4>{city}</h4>
           let cityRelatedShows = [ ];
           showandtheaterInfos.map(item => {
             if(item.city === city) 
               cityRelatedShows.push({item});
           });
+          return (
+            <div className="flex-column p-2">
+          <h4>{city}</h4> 
           <Movieshows shows={cityRelatedShows}/>
-        })}
           </div>
+          )
+        })}
           <div className="flex-column p-2">
             <h4>Frankfurt</h4>
             <Movieshows />

@@ -16,10 +16,11 @@ const Moviecard = ({ movieInfo }) => {
                 + ";base64," + thumb;
  
   let moviegenre = movieInfo.genre.toString();
+  let moviehref = "/movieinfopage/"+movieInfo.movieId;
 
   return (
     <div className="col-12 col-sm-6 col-md-4 px-2 py-3 moviedivcard">
-      <Card className="moviecard" href="/movieinfopage">
+      <Card className="moviecard">
         <Card.Img
           variant="top"
           src={imgsrc}
@@ -34,7 +35,7 @@ const Moviecard = ({ movieInfo }) => {
           <h6 className="cardsubtitle">
               {moviegenre} | {movieInfo.language}
             </h6>
-            <Card.Link href="/movieinfopage">Book >></Card.Link>
+            <Card.Link href={moviehref}>Book >></Card.Link>
           </div>
             <div>
             <h6 className="cardsubtitle">

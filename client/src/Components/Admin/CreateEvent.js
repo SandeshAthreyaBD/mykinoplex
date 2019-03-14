@@ -132,7 +132,7 @@ class CreateEvent extends Component {
       showId: showIdToBeAdded,
       theaterId: this.state.showInfo.theaterId,
       startTime: this.state.showInfo.startTime,
-      booknowUrl: this.state.showInfo.booknowUrl
+      bookNowUrl: this.state.showInfo.bookNowUrl
     };
     this.state.showDetailsArray.push(show);
     this.setState({
@@ -345,7 +345,7 @@ class CreateEvent extends Component {
                   <br />
                   <input
                     type="text"
-                    id="booknowUrl"
+                    id="bookNowUrl"
                     className="form-control"
                     onChange={e => this.handleShowChange(e)}
                   />
