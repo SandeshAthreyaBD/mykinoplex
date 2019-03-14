@@ -10,6 +10,7 @@ import {
 } from "mdbreact";
 import TheaterDetails from "./TheaterDetails";
 import Axios from "axios";
+import * as constants from "../../Constants";
 
 class ListofTheaters extends Component {
   constructor(props) {

@@ -27,7 +27,7 @@ const ImageFlex = () =>{
               <img 
               resizeMode={'cover'}
               style={{width:250, height: 350}}
-              src={require("../../Images/bell.jpg")}
+              src="https://abc.jpg"
               className="d-block" 
               alt="flex" />
             </MDBCol>
