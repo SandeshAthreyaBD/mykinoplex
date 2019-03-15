@@ -3,12 +3,11 @@ import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import "../../index.css";
 
 const MovieDetailComponent = movieInfo => {
-  // let imgsrc =
-  //   "data:image/" +
-  //   movieInfo.backdropimage.contentType +
-  //   ";base64," +
-  //   movieInfo.backdropimage.data;
 
+  let thumb = new Buffer(movieInfo.posterimage.data.data).toString('base64');
+  let imgsrc = "data:" + movieInfo.posterimage.contentType 
+                + ";base64," + thumb;
+                
   return (
     <MDBContainer fluid className="mt-5">
       <MDBRow>
@@ -16,7 +15,7 @@ const MovieDetailComponent = movieInfo => {
           <img
             resizeMode={"cover"}
             style={{ width: 300, height: 400 }}
-            src=""
+            src={imgsrc}
             className="d-block"
             alt="flex"
           />

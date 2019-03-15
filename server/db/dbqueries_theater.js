@@ -24,7 +24,7 @@ module.exports = {
       });
   },
 
-  findMultipleTheaters: async (session, theaterIds) => {
+  findMultipleTheatersById: async (session, theaterIds) => {
     var output, res, err;
     await Theater.find({
       theaterId: { $in: theaterIds },

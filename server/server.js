@@ -71,10 +71,10 @@ router.route("/getAllTheaters").get(async (req, res) => {
   session.endSession();
 });
 
-router.route("/getMultipleTheaters").get(async (req, res) => {
+router.route("/getMultipleTheatersById").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_theater
-    .findMultipleTheaters(session, req.body)
+    .findMultipleTheatersById(session, req.query.theaterIds)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -217,7 +217,7 @@ router.route("/getAllShowDetails").get(async (req, res) => {
 router.route("/getMultipleShowDetailsById").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_showdetails
-    .findMultipleShowDetailsById(session, req.body.showIds)
+    .findMultipleShowDetailsById(session, req.query.showIds)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -232,8 +232,8 @@ router.route("/getMultipleShowDetailsByStatus").get(async (req, res) => {
   await dbqueries_showdetails
     .findMultipleShowDetailsByStatus(
       session,
-      req.body.showIds,
-      req.body.showStatus
+      req.query.showIds,
+      req.query.showStatus
     )
     .then((resolve, reject) => {
       res.status(200).send(resolve);
@@ -378,7 +378,7 @@ router.route("/getAllMovieInfo").get(async (req, res) => {
 router.route("/getMultipleMovieInfo").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_movieinfo
-    .findMultipleMoviesInfo(session, req.body.movieIds)
+    .findMultipleMoviesInfo(session, req.query.movieIds)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
