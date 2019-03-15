@@ -3,22 +3,45 @@ import React from "react";
 import { MDBContainer } from "mdbreact";
 import Movieshows from "./Movieshows";
 
-const MovieshowsGrid = () => {
+const MovieshowsGrid = ({ showDetailsArray, theatersArray }) => {
+  const showandtheaterInfos = [];
+
+  showDetailsArray.map(show => {
+    theatersArray.some(theater => {
+      if (theater.theaterId === show.theaterId) {
+        showandtheaterInfos.push({
+          theaterId: theater.theaterId,
+          theaterName: theater.theaterName,
+          country: theater.address.country,
+          city: theater.address.city,
+          street: theater.address.street,
+          zipcode: theater.address.zipcode,
+          showId: show.showId,
+          bookNowUrl: show.bookNowUrl,
+          startTime: new Date(show.startTime),
+          showStatus: show.showStatus
+        });
+      }
+    });
+  });
+
+  let uniqueCities = [...new Set(showandtheaterInfos.map(item => item.city))];
+
   return (
     <MDBContainer>
       <div className="flex-column no-gutters">
-        <div className="flex-column p-2">
-            <h4>Berlin</h4>
-            <Movieshows />
-          </div>
-          <div className="flex-column p-2">
-            <h4>Frankfurt</h4>
-            <Movieshows />
-          </div>
-          <div className="flex-column p-2">
-            <h4>Mannheim</h4>
-            <Movieshows />
-          </div>
+        {uniqueCities.map(city => {
+          let cityRelatedShows = [];
+          showandtheaterInfos.map(item => {
+            if (item.city === city) cityRelatedShows.push(item);
+          });
+          return (
+            <div className="flex-column p-2" key={city}>
+              <h4 color="#ffffff">{city}</h4>
+              <Movieshows shows={cityRelatedShows} />
+            </div>
+          );
+        })}
       </div>
     </MDBContainer>
   );

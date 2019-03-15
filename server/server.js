@@ -2,8 +2,10 @@ const { mongoose } = require("./db/mongoose");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const logger = require("morgan");
+const morgan = require("morgan");
 const multer = require("multer");
+const fs = require('fs');
+const path = require('path');
 
 const dbqueries_theater = require("./db/dbqueries_theater");
 const dbqueries_showdetails = require("./db/dbqueries_showdetails");
@@ -19,6 +21,9 @@ const API_PORT = 3001;
 const app = express();
 const router = express.Router();
 
+// create a write stream (in append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+
 const upload = multer({
   // dest: "client\\src\\Images",
   limits: {
@@ -33,13 +38,12 @@ const upload = multer({
   }
 });
 
-
 app.use(cors());
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(logger("dev"));
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
 
 let db = mongoose.connection;
@@ -67,10 +71,10 @@ router.route("/getAllTheaters").get(async (req, res) => {
   session.endSession();
 });
 
-router.route("/getMultipleTheaters").get(async (req, res) => {
+router.route("/getMultipleTheatersById").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_theater
-    .findMultipleTheaters(session, req.body)
+    .findMultipleTheatersById(session, req.query.theaterIds)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -213,7 +217,7 @@ router.route("/getAllShowDetails").get(async (req, res) => {
 router.route("/getMultipleShowDetailsById").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_showdetails
-    .findMultipleShowDetailsById(session, req.body.showIds)
+    .findMultipleShowDetailsById(session, req.query.showIds)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -228,8 +232,8 @@ router.route("/getMultipleShowDetailsByStatus").get(async (req, res) => {
   await dbqueries_showdetails
     .findMultipleShowDetailsByStatus(
       session,
-      req.body.showIds,
-      req.body.showStatus
+      req.query.showIds,
+      req.query.showStatus
     )
     .then((resolve, reject) => {
       res.status(200).send(resolve);
@@ -374,7 +378,7 @@ router.route("/getAllMovieInfo").get(async (req, res) => {
 router.route("/getMultipleMovieInfo").get(async (req, res) => {
   const session = await db.startSession();
   await dbqueries_movieinfo
-    .findMultipleMoviesInfo(session, req.body.movieIds)
+    .findMultipleMoviesInfo(session, req.query.movieIds)
     .then((resolve, reject) => {
       res.status(200).send(resolve);
     })
@@ -423,23 +427,17 @@ router
       session.startTransaction();
       try {
 
-        
-        console.log(req.body);
         const movieInfo = JSON.parse(req.body.movieInfo);
         const showDetailsAry = JSON.parse(req.body.showDetailsArray);
         const adminId = req.body.adminId;
-        console.log("movieInfo: ", movieInfo);
-        console.log("adminId: ", adminId);
-        console.log("showDetailsAry: ", showDetailsAry);
 
         let showDetailsArray = new Array();
 
-        for (let i = 0; i < showDetailsAry; i++) {
+        for (let i = 0; i < showDetailsAry.length; i++) {
           const {
             showId,
             bookNowUrl,
             startTime,
-            showStatus,
             theaterId
           } = showDetailsAry[i];
 
@@ -448,10 +446,10 @@ router
             showId: showId,
             bookNowUrl: bookNowUrl,
             theaterId: theaterId,
-            startTime: startTime,
-            showStatus: showStatus
+            startTime: startTime
           });
 
+          console.log(showdetails);
           showDetailsArray.push(showdetails);
         }
 

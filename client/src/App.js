@@ -26,13 +26,12 @@ class App extends Component {
           <Route path="/malayalam" component={Malayalam} />
           <Route path="/login" component={Login} />
           <Route path="/contact" component={Contact} />
-          <Route path="/movieinfopage" component={MovieInfoPage} />
+          <Route path="/movieinfopage/:id" component={MovieInfoPage} />
           <Route path="/admin-login-mykinoplex" component={Signin} />
-          <Route path='/admin/createevent' component={AdminDashboard} />
-        <Route path='/listofevents' component={AdminDashboard} />
-        <Route path='/listoftheaters' component={AdminDashboard} />
-        <Route path='/showdetails' component={AdminDashboard} />
-        
+          <Route path="/admin/createevent" component={AdminDashboard} />
+          <Route path="/listofevents" component={AdminDashboard} />
+          <Route path="/listoftheaters" component={AdminDashboard} />
+          <Route path="/showdetails" component={AdminDashboard} />
           <Route path="*" component={NotFound} />
         </Switch>
       </div>

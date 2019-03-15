@@ -37,13 +37,9 @@ class Home extends Component {
   render() {
     console.log(this.state.moviesList);
     return (
-      <div
-        style={{
-          backgroundColor: "Black"
-        }}
-      >
+      <div style={{ backgroundColor: "#1C2331" }}>
         <Navbar />
-        <CarouselComponent />
+        <CarouselComponent movieslist={this.state.moviesList}/>
         <Heading />
         {this.state.moviesList.length > 0 ? (
           <MoviecardGrid moviesList={this.state.moviesList} />

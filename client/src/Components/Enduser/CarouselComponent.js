@@ -1,65 +1,34 @@
 import React, { Component } from "react";
-import Coverflow from "react-coverflow";
-import { StyleRoot } from "radium";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
-class CarouselComponent extends Component {
-  constructor(props) {
-    super(props);
+const CarouselComponent = ({movieslist}) => {
+  return (
+    <Carousel
+      centerMode
+      centerSlidePercentage={50}
+      emulateTouch
+      showStatus={false}
+      showThumbs={false}
+      autoPlay
+      interval={3000}
+      transitionTime={1000}
+      infiniteLoop
+    >
+      {movieslist.map(movieInfo => {
+        let thumb = new Buffer(movieInfo.backdropimage.data.data).toString(
+          "base64"
+        );
+        let imgsrc =
+          "data:" + movieInfo.backdropimage.contentType + ";base64," + thumb;
+        return (
+          <div>
+            <img src={imgsrc} />
+          </div>
+        );
+      })}
+    </Carousel>
+  );
+};
 
-    this.state = {
-      active: 0
-    };
-  }
-  _handleClick() {
-    var num = Math.floor(Math.random() * 10 + 1);
-    this.setState({
-      active: num
-    });
-  }
-
-  render() {
-    return (
-      <StyleRoot>
-        <div
-          media={{
-            "@media (max-width: 900px)": {
-              width: "960px",
-              height: "600px"
-            },
-            "@media (min-width: 900px)": {
-              width: "960px",
-              height: "600px"
-            }
-          }}
-          style={{ backgroundColor: "#1C2331" }}
-        >
-          <Coverflow
-            width={960}
-            height={470}
-            displayQuantityOfSide={3}
-            // navigation={true}
-            enableHeading={false}
-            active={this.state.active}
-            infiniteScroll={true}
-            style={{ backgroundColor: "black" }}
-          >
-            <div
-              // onClick={}
-              // onKeyDown={}
-              role="menuitem"
-              tabIndex="0"
-              style={{ backgroundColor: "black" }}
-            >
-              {/* <img src={require("../Images/album-1.png")} alt="Album one" /> */}
-            </div>
-            <img
-              src="https%3A%2F%2Fimages.pexels.com%2Fphotos%2F248797%2Fpexels-photo-248797.jpeg"
-              data-action="http://www.mykinoplex.com"
-            />
-          </Coverflow>
-        </div>
-      </StyleRoot>
-    );
-  }
-}
 export default CarouselComponent;

@@ -91,8 +91,7 @@ class CreateEvent extends Component {
     formData.append("posterimage", this.state.movieInfo.posterimage);
     formData.append("movieInfo", JSON.stringify(movieInfo1));
     formData.append("showDetailsArray", JSON.stringify(this.state.showDetailsArray));
-    console.log("moviedata", movieInfo1);
-    //console.log("this" ,formData.values());
+    console.log("showDetailsArray" ,JSON.stringify(this.state.showDetailsArray));
 
     axios
       .post(
@@ -133,7 +132,7 @@ class CreateEvent extends Component {
       showId: showIdToBeAdded,
       theaterId: this.state.showInfo.theaterId,
       startTime: this.state.showInfo.startTime,
-      booknowUrl: this.state.showInfo.booknowUrl
+      bookNowUrl: this.state.showInfo.bookNowUrl
     };
     this.state.showDetailsArray.push(show);
     this.setState({
@@ -346,7 +345,7 @@ class CreateEvent extends Component {
                   <br />
                   <input
                     type="text"
-                    id="booknowUrl"
+                    id="bookNowUrl"
                     className="form-control"
                     onChange={e => this.handleShowChange(e)}
                   />

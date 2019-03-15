@@ -21,7 +21,7 @@ const Showtable = ({ showDetailsArray, allTheaters }) => {
         {showDetails.startTime.getHours()} :{" "}
         {showDetails.startTime.getMinutes()}
       </td>
-      <td>{showDetails.booknowUrl}</td>
+      <td>{showDetails.bookNowUrl}</td>
     </tr>
     );
   });

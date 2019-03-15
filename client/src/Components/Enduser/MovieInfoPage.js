@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Navbar from "./Navbar";
-import ImageFlex from "./ImageFlexComponent";
 import MovieDetailComponent from "./MovieDetailComponent";
 import Footer from "./Footer";
 import MovieshowsGrid from "./MovieshowsGrid";
@@ -14,56 +13,52 @@ class MovieInfoPage extends Component {
     super(props);
 
     this.state = {
-      movieInfo: Object,
+      movieInfo: {},
       showDetailsArray: [],
       theatersArray: []
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getMovieInfoFromDb();
-    let showIds = this.state.movieInfo.showIds;
-    this.getShowDetailsFromDb(showIds);
-    let theaterIds = Array;
-    this.state.showDetailsArray.map(show => {
-      let theaterId = show.theaterId;
-      if (theaterIds.includes(theaterId)) {
-        theaterIds.push(theaterId);
-      }
-    });
-    this.getTheaterDetailsFromDb(theaterIds);
   }
 
   getMovieInfoFromDb = () => {
-    Axios.get(constants.URL_TO_USE+"/api/getMovieInfo/")
+    Axios.get(
+      constants.URL_TO_USE + "/api/getMovieInfo/" + this.props.match.params.id
+    )
       .then(response => {
         this.setState({ movieInfo: response.data });
+        let showIds = this.state.movieInfo.showIds;
+        return showIds;
       })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  getShowDetailsFromDb = showIds => {
-    Axios.get(constants.URL_TO_USE+"/api/getMultipleShowDetailsById", {
-      data: {
-        showIds: showIds
-      }
-    })
+      .then(showIds => {
+        return Axios.get(
+          constants.URL_TO_USE + "/api/getMultipleShowDetailsById",
+          {
+            params: { showIds: showIds }
+          }
+        );
+      })
       .then(response => {
         this.setState({ showDetailsArray: response.data });
+        let theaterIds = [];
+        this.state.showDetailsArray.map(show => {
+          let theaterId = show.theaterId;
+          if (!theaterIds.includes(theaterId)) {
+            theaterIds.push(theaterId);
+          }
+        });
+        return theaterIds;
       })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  getTheaterDetailsFromDb = theaterIds => {
-    Axios.get(constants.URL_TO_USE+"/api/getMultipleTheatersById", {
-      data: {
-        theaterIds: theaterIds
-      }
-    })
+      .then(theaterIds => {
+        return Axios.get(
+          constants.URL_TO_USE + "/api/getMultipleTheatersById",
+          {
+            params: { theaterIds: theaterIds }
+          }
+        );
+      })
       .then(response => {
         this.setState({ theatersArray: response.data });
       })
@@ -73,12 +68,15 @@ class MovieInfoPage extends Component {
   };
 
   render() {
+    if(this.state.movieInfo === undefined || this.state.movieInfo === null) {
+      return null; //Or some other replacement component or markup
+   }
     return (
-      <div className="#e3f2fd blue lighten-5">
+      <div>
         <Navbar />
         {/* <ImageFlex /> */}
         <MDBContainer className="mt-4">
-          <MovieDetailComponent movieInfo={this.state.movieinfo} />
+          <MovieDetailComponent movieInfo={this.state.movieInfo} />
           <IframeComponent trailerUrl={this.state.movieInfo.trailerUrl} />
           <MDBContainer className="#1c2a48 mdb-color darken-3">
             <h2
