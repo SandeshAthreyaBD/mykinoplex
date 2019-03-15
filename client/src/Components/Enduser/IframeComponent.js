@@ -1,11 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   MDBContainer,
   MDBIframe,
   MDBModalBody,
-  MDBModalFooter,
-  MDBBtn,
-  MDBIcon
 } from "mdbreact";
 
 const IframeComponent = ({ trailerUrl }) => {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
@@ -23,7 +23,7 @@ const CarouselComponent = ({movieslist}) => {
           "data:" + movieInfo.backdropimage.contentType + ";base64," + thumb;
         return (
           <div>
-            <img src={imgsrc} />
+            <img src={imgsrc} alt="movie-backdrop-image"/>
           </div>
         );
       })}

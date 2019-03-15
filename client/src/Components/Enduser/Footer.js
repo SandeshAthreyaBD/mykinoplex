@@ -90,17 +90,17 @@ class FooterPage extends Component {
               <div className="text-center text-md-right">
                 <ul className="list-unstyled list-inline">
                   <li className="list-inline-item">
-                    <a className="btn-floating btn-sm rgba-white-slight mx-1">
+                    <a className="btn-floating btn-sm rgba-white-slight mx-1" href="#!">
                       <i className="fab fa-facebook-f" />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a className="btn-floating btn-sm rgba-white-slight mx-1">
+                    <a className="btn-floating btn-sm rgba-white-slight mx-1"  href="#!">
                       <i className="fab fa-twitter" />
                     </a>
                   </li>
                   <li className="list-inline-item">
-                    <a className="btn-floating btn-sm rgba-white-slight mx-1">
+                    <a className="btn-floating btn-sm rgba-white-slight mx-1"  href="#!">
                       <i className="fab fa-google-plus" />
                     </a>
                   </li>

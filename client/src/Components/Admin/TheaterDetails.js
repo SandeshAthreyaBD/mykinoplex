@@ -10,7 +10,6 @@ import {
   MDBBtn
 } from "mdbreact";
 import { Card } from "react-bootstrap";
-import axios from "axios";
 
 class TheaterDetails extends Component {
   state = {
@@ -56,7 +55,7 @@ class TheaterDetails extends Component {
   };
 
   render() {
-    this.state.theaterInfo = this.props.theaterInfo;
+    this.setState({ theaterInfo: this.props.theaterInfo });
     return (
       <MDBContainer>
         <Card>
