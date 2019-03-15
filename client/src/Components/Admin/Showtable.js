@@ -1,12 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 
 const Showtable = ({ showDetailsArray, allTheaters }) => {
 
   const tableValues = showDetailsArray.map(showDetails => {
-    let selectedTheater;
-    allTheaters.map(theater => {
+    let selectedTheater = allTheaters.map(theater => {
       if (theater.theaterId == showDetails.theaterId) {
-        selectedTheater = theater;
+        return theater;
       }
     });
     return (

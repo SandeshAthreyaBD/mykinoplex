@@ -23,7 +23,7 @@ const CarouselComponent = ({movieslist}) => {
           "data:" + movieInfo.backdropimage.contentType + ";base64," + thumb;
         return (
           <div>
-            <img src={imgsrc} alt="movie-backdrop-image"/>
+            <img src={imgsrc} alt="movie-backdrop"/>
           </div>
         );
       })}
