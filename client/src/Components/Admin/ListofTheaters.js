@@ -27,7 +27,7 @@ class ListofTheaters extends Component {
   };
 
   getTheaterlistfromDB = () => {
-    Axios.get("http://localhost:3001/api/getAllTheaters")
+    Axios.get(constants.URL_TO_USE+"/api/getAllTheaters")
       .then(response => {
         this.setState({ theaters: response.data });
       })
