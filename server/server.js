@@ -20,9 +20,10 @@ const AdminInfo = require("./schemas/AdminInfo");
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
+var winston = require('./winston');
+app.use(morgan('combined', { stream: winston.stream }));
 
 // create a write stream (in append mode)
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 
 const upload = multer({
   // dest: "client\\src\\Images",
@@ -43,7 +44,6 @@ app.use(cors());
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
 
 let db = mongoose.connection;
