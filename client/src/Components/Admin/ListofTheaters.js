@@ -98,9 +98,9 @@ class ListofTheaters extends Component {
           let updatedTheaters = this.state.theaters.filter(theater =>{
             return theater.theaterId !== editTheaterInfo.theaterId
           });
-          this.state.theaters.push(editTheaterInfo);
+          updatedTheaters.push(editTheaterInfo);
           this.setState({
-            theaters:[...this.state.theaters,updatedTheaters]
+            theaters: updatedTheaters
           });
         });
   }

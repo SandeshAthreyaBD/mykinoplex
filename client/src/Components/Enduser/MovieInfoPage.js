@@ -13,13 +13,10 @@ class MovieInfoPage extends Component {
     super(props);
 
     this.state = {
-      movieInfo: {},
+      movieInfo: new Object(),
       showDetailsArray: [],
       theatersArray: []
     };
-  }
-
-  componentWillMount() {
     this.getMovieInfoFromDb();
   }
 
@@ -68,9 +65,10 @@ class MovieInfoPage extends Component {
   };
 
   render() {
-    if(this.state.movieInfo === undefined || this.state.movieInfo === null) {
-      return null; //Or some other replacement component or markup
-   }
+    if(Object.keys(this.state.movieInfo).length === 0 && this.state.movieInfo.constructor === Object) {
+      return (<div/>);
+    } 
+    else {
     return (
       <div>
         <Navbar />
@@ -85,14 +83,18 @@ class MovieInfoPage extends Component {
               Show Timimgs and Places
             </h2>
           </MDBContainer>
+          {this.state.showDetailsArray.length > 0 && 
+          this.state.theatersArray.length > 0 ? (
           <MovieshowsGrid
             showDetailsArray={this.state.showDetailsArray}
             theatersArray={this.state.theatersArray}
           />
+          ) : <div/>}
         </MDBContainer>
         <Footer />
       </div>
     );
+    }
   }
 }
 

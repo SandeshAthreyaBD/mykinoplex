@@ -117,7 +117,8 @@ class CreateEvent extends Component {
     });
   };
 
-  handleShowAdd = () => {
+  handleShowAdd = e => {
+    e.preventDefault();
     let currentshowIds = this.state.allShowDetails.map(
       showDetails => showDetails.showId
     );

@@ -2,10 +2,10 @@ import React from "react";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import "../../index.css";
 
-const MovieDetailComponent = movieInfo => {
+const MovieDetailComponent = ({movieInfo}) => {
 
-  let thumb = new Buffer(movieInfo.posterimage.data.data).toString('base64');
-  let imgsrc = "data:" + movieInfo.posterimage.contentType 
+  let thumb = new Buffer(movieInfo.backdropimage.data.data).toString('base64');
+  let imgsrc = "data:" + movieInfo.backdropimage.contentType 
                 + ";base64," + thumb;
                 
   return (

@@ -12,10 +12,15 @@ import {
 import { Card } from "react-bootstrap";
 
 class TheaterDetails extends Component {
-  state = {
-    editModal: false,
-    theaterInfo: { }
-  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editModal: false,
+      theaterInfo: this.props.theaterInfo
+    };
+  }
 
   // handleonClick = (e,theaterInfo) =>{
   //         const editorDeleteTheater = this.props.editorDeleteTheater();
@@ -28,18 +33,24 @@ class TheaterDetails extends Component {
 
   };
 
-  handleChange = (e) => {
-    console.log(e.target);
+  handleTheaterChange = (e) => {
     this.setState({
       theaterInfo: { ...this.state.theaterInfo, [e.target.id]: e.target.value }
     });
-    console.log(this.state.theaterInfo);
   };
 
-  handleSubmit = (e,theaterInfo) => {
-    e.preventDefault();
+  handleAddressChange = (e) => {
+    this.setState({
+      theaterInfo: { ...this.state.theaterInfo, 
+        address: { ...this.state.theaterInfo.address, [e.target.id]: e.target.value }
+      }
+    });
+  };
+
+  handleSubmit = (theaterInfo) => {
+    console.log(theaterInfo);
     this.props.onTheaterEdit(theaterInfo);
-    
+    this.showModal();
   };
   showModal = () => {
     this.setState({
@@ -55,9 +66,8 @@ class TheaterDetails extends Component {
   };
 
   render() {
-    this.setState({ theaterInfo: this.props.theaterInfo });
     return (
-      <MDBContainer>
+      <MDBContainer key={this.state.theaterInfo.theaterId}>
         <Card>
           <CardBody>
             <h6>TheaterName: {this.state.theaterInfo.theaterName}</h6>
@@ -80,19 +90,12 @@ class TheaterDetails extends Component {
                     <div className="row">
                       <div className="col">
                         <label>Theater Name:</label>
-                        {/* <input
-                          
+                        <input
+                          type="text"
                           defaultValue={this.state.theaterInfo.theaterName}
                           id="theaterName"
                           className="form-control"
-                          onChange={this.handleChange}
-                        /> */}
-                        <input
-                          type="text"
-                          value={this.state.theaterInfo.theaterName}
-                          id="theaterName"
-                          className="form-control"
-                          onChange={()=> this.handleChange()}
+                          onChange={(e)=> this.handleChange(e)}
                         />
                       </div>
                     </div>
@@ -104,7 +107,7 @@ class TheaterDetails extends Component {
                           defaultValue={this.state.theaterInfo.address.street}
                           id="street"
                           className="form-control"
-                          onChange={()=> this.handleChange()}
+                          onChange={(e)=> this.handleAddressChange(e)}
                         />
                       </div>
                       <div className="col-4">
@@ -114,7 +117,7 @@ class TheaterDetails extends Component {
                           defaultValue={this.state.theaterInfo.address.zipcode}
                           id="zipcode"
                           className="form-control"
-                          onChange={()=> this.handleChange()}
+                          onChange={(e)=> this.handleAddressChange(e)}
                         />
                       </div>
                     </div>
@@ -126,7 +129,7 @@ class TheaterDetails extends Component {
                           defaultValue={this.state.theaterInfo.address.city}
                           id="city"
                           className="form-control"
-                          onChange={()=> this.handleChange()}
+                          onChange={(e)=> this.handleAddressChange(e)}
                         />
                       </div>
                       <div className="col-6">
@@ -136,7 +139,7 @@ class TheaterDetails extends Component {
                           defaultValue={this.state.theaterInfo.address.country}
                           id="country"
                           className="form-control"
-                          onChange={()=> this.handleChange()}
+                          onChange={(e)=> this.handleAddressChange(e)}
                         />
                       </div>
                     </div>
