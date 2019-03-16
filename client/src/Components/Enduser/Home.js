@@ -13,14 +13,7 @@ class Home extends Component {
     this.state = {
       moviesList: []
     };
-  }
-
-  componentDidMount() {
     this.getMoviesListFromDb();
-    // if (!this.state.intervalIsSet) {
-    //   let interval = setInterval(this.getDataFromDb, 60000);
-    //   this.setState({ intervalIsSet: interval });
-    // }
   }
 
   getMoviesListFromDb = () => {
@@ -35,15 +28,16 @@ class Home extends Component {
   };
 
   render() {
-    console.log(this.state.moviesList);
     return (
       <div style={{ backgroundColor: "#1C2331" }}>
         <Navbar />
+        {this.state.moviesList.length > 0 ? (
         <CarouselComponent movieslist={this.state.moviesList}/>
+        ) : <div/>}
         <Heading />
         {this.state.moviesList.length > 0 ? (
           <MoviecardGrid moviesList={this.state.moviesList} />
-        ) : null}
+        ) : <div/>}
         <Footer />
       </div>
     );
