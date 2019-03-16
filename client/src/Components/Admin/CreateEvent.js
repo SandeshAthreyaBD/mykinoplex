@@ -222,12 +222,12 @@ class CreateEvent extends Component {
                     onChange={e => this.handleMovieInfo(e)}
                   >
                     <option defaultValue>Select Language</option>
-                    <option value="1">Kannada</option>
-                    <option value="2">Telugu</option>
-                    <option value="3">Tamil</option>
-                    <option value="4">Hindi</option>
-                    <option value="5">Malayalam</option>
-                    <option value="6">English</option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="Telugu">Telugu</option>
+                    <option value="Tamil">Tamil</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Malayalam">Malayalam</option>
+                    <option value="English">English</option>
                   </select>
                 </div>
               </div>

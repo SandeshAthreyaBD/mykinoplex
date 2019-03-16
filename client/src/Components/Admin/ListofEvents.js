@@ -2,38 +2,52 @@ import React, { Component } from 'react'
 import {
   MDBInput
 } from 'mdbreact';
-
+import Axios from "axios";
+import * as constants from "../../Constants";
+import ShowDetails from './Showdetails';
+import { NavLink,Link} from 'react-router-dom'
 class ListofEvents extends Component{
 
 constructor (props) {
   super(props)
   this.state = {
-    movieDetails : [{
-      id: "1",
-      moviename: "Ashwini",
-      language: "tulu",
-      status: "upcoming"
-    }]
+    movieDetails : [],
+    showDetailsArray:[],
+    theatersArray:[]
   };
 }
+
+componentDidMount = () => {
+  this.getMovieslistfromDB();
+};
+getMovieslistfromDB = () => {
+  Axios.get(constants.URL_TO_USE+"/api/getAllMovieInfo")
+    .then(response => {
+      this.setState({ movieDetails: response.data });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 handleChange =(val)=> {
   this.setState({
   })
 }
-handleClick = (e) => {
-  this.props.history.push("/showdetails")
- 
+
+handleClick = (movieDetails) => {
+ // this.getAllDatafromDB(movieDetails)
+  
+  //this.props.history.push('/showdetails',movieDetails)
+  
 };
+
 render(){
   const mappedmovies= this.state.movieDetails.map(movie => {
     return (
-      <tr key={movie.id}>
+      <tr key={movie.movieId}>
         <td>
-          {movie.id}
-        </td>
-        <td>
-          {movie.moviename}
+          {movie.movieName}
         </td>
         <td>
           {movie.language}
@@ -42,36 +56,41 @@ render(){
           {movie.status}
         </td>
         <td>
-          <button onClick={this.handleClick}>
+        <Link to={{
+            pathname: '/showdetails/'+movie.movieName,
+            state: {movie}
+          }}>
+          <button>
             Click Here
           </button>
+          </Link>
         </td>
       </tr>
     )
   })
     return( 
     <div>
-      <h4 class="text-center h4-responsive font-weight-bold ">List of all your screening details</h4>
-        <div class="row mt-4">
-          <div class="col-7">
+      <h4 className="text-center h4-responsive font-weight-bold ">List of all your screening details</h4>
+        <div className="row mt-4">
+          <div className="col-7">
             <MDBInput hint="Search" type="text" containerClass="mt-0" />
           </div>
-          <div class="col-3">
-            <select class="browser-default custom-select" value={this.state.value} onChange={this.handleChange}>
-            <option selected>Select Language</option>
-            <option selected>Kannada</option>
-            <option selected>Hindi</option>
-            <option selected>Telgu</option>
-            <option selected>Tamil</option>
-            <option selected>Malyalam</option>
+          <div className="col-3">
+            <select className="browser-default custom-select" value={this.state.value} onChange={this.handleChange}>
+            <option defaultValue>Select Language</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Telgu">Telgu</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Malyalam">Malyalam</option>
+            <option value="English">English</option>
             </select>
           </div>
         </div>
-        <div class="table-responsive">
-        <table class="table table-hover w-auto table-fixed ">
+        <div className="table-responsive">
+        <table className="table table-hover w-auto table-fixed ">
           <thead>
             <tr>
-              <th >ID</th>
               <th >MovieName</th>
               <th >Language</th>
               <th >Status</th>
@@ -83,6 +102,8 @@ render(){
           </tbody>
         </table>
       </div>
+      {/* <Showdetails showDetailsArray={this.state.showDetailsArray}
+                   TheaterDetails ={this.state.showDetailsArray}/> */}
     </div>
         
     );

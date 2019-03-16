@@ -5,3 +5,5 @@ export const LOCALHOST_URL = "http://localhost";
 export const SERVER_URL = "http://ec2-52-59-253-197.eu-central-1.compute.amazonaws.com";
 
 export const URL_TO_USE = SERVER_URL + SERVER_PORT;
+
+export const LANGUAGES = ["Kannada","Hindi","Telgu","Tamil","Malyalam","English"];

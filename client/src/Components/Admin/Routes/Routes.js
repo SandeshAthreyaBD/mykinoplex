@@ -13,7 +13,7 @@ class Routes extends React.Component {
         {/* <Route path='/createevent' component={CreateEvent} /> */}
         <Route path='/listofevents' component={ListofEvents} />
         <Route path='/listoftheaters' component={ListofTheaters} />
-        <Route path='/showdetails' component={Showdetails} />
+        <Route path='/showdetails/:id' component={Showdetails} />
       </Switch>
     );
   }
