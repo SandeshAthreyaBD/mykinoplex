@@ -1,7 +1,20 @@
-FROM node:8
+#from node 10
+FROM node:10
+
+#set working directory /app
 WORKDIR /app
-COPY package.json /app
+
+#copy package.json to workdir
+COPY package*.json ./
+
+#run command 
 RUN npm install
-COPY . /app
+
+#copy current directory to workdir
+COPY . .
+
+#run command 
 CMD node server.js
+
+#expose port 3001
 EXPOSE 3001
