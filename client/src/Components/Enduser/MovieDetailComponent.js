@@ -1,20 +1,18 @@
 import React from "react";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import "../../index.css";
 
-const MovieDetailComponent = ({movieInfo}) => {
+const MovieDetailComponent = ({ movieInfo }) => {
+  let thumb = new Buffer(movieInfo.backdropimage.data.data).toString("base64");
+  let imgsrc =
+    "data:" + movieInfo.backdropimage.contentType + ";base64," + thumb;
 
-  let thumb = new Buffer(movieInfo.backdropimage.data.data).toString('base64');
-  let imgsrc = "data:" + movieInfo.backdropimage.contentType 
-                + ";base64," + thumb;
-                
   return (
     <MDBContainer fluid className="mt-5">
       <MDBRow>
         <MDBCol className="col-4">
           <img
             resizeMode={"cover"}
-            style={{ width: 300, height: 400 }}
+            style={{ width: 250, height: 250 }}
             src={imgsrc}
             className="d-block"
             alt="flex"

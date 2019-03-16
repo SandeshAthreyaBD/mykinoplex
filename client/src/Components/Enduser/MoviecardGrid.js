@@ -3,12 +3,11 @@ import { MDBContainer } from "mdbreact";
 import Moviecard from "./Moviecard.js";
 
 const MoviecardGrid = ({ moviesList }) => {
-
   console.log("inside movielist map : ", moviesList.length);
 
   return (
     <MDBContainer
-      style={{ backgroundColor: "black" }}
+      style={{ backgroundColor: "#1C2331" }}
       className="moviecardgrid"
     >
       <div className="row no-gutters">
