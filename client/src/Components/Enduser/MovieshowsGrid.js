@@ -28,7 +28,7 @@ const MovieshowsGrid = ({ showDetailsArray, theatersArray }) => {
   let uniqueCities = [...new Set(showandtheaterInfos.map(item => item.city))];
 
   return (
-    <MDBContainer>
+    <MDBContainer fluid>
       <div className="flex-column no-gutters">
         {uniqueCities.map(city => {
           let cityRelatedShows = [];
@@ -37,7 +37,7 @@ const MovieshowsGrid = ({ showDetailsArray, theatersArray }) => {
           });
           return (
             <div className="flex-column p-2" key={city}>
-              <h4 color="#ffffff">{city}</h4>
+              <h4 className="text-center text-white">{city}</h4>
               <Movieshows shows={cityRelatedShows} />
             </div>
           );
