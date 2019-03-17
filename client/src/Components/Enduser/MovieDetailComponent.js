@@ -30,9 +30,8 @@ const MovieDetailComponent = ({ movieInfo }) => {
         </MDBRow>
       </div>
 
-      <MDBRow>
-        <div className="flex-row d-flex">
-          <div className="col mt-2" sm="6" md="6" lg="6" xl="6">
+      <MDBRow className="mt-1">
+          <MDBCol className="mt-1" sm="12" md="12" lg="4" xl="4">
             <h5 className="font-weight-bold text-center mt-5">
               <p className="text-white">{movieInfo.movieName}</p>
             </h5>
@@ -40,26 +39,22 @@ const MovieDetailComponent = ({ movieInfo }) => {
               <p className="text-white">{movieInfo.tagline}</p>
             </h6>
             <h6 className="font-weight-bold text-center ">
-              <p className="text-white">{movieInfo.language}</p>
+              <p className="text-white">{movieInfo.genre + "\t"} : {"\t" + movieInfo.language}</p>
             </h6>
             <h6 className="font-weight-bold text-center ">
               <p className="text-white">{movieInfo.status}</p>
             </h6>
-            <h6 className="font-weight-bold text-center">
-              <p className="text-white">{movieInfo.genre}</p>
-            </h6>
-          </div>
-          <div className="col mt-2" sm="6" md="6" lg="6" xl="6">
+          </MDBCol>
+          <MDBCol className=" mt-1" sm="12" md="12" lg="4" xl="4">
             <h6 className="text-white font-weight-bold text-center mt-5">
               Synopsis
             </h6>
             <p className="text-justify text-white">{movieInfo.synopsis}</p>
-          </div>
-          <div className="col mt-2" sm="6" md="6" lg="6" xl="6" align="center">
+          </MDBCol>
+          <MDBCol className=" mt-1" sm="12" md="12" lg="4" xl="4" align="center">
             <h6 className="text-white font-weight-bold mt-5">Cast</h6>
             <p className="text-white">{movieInfo.cast}</p>
-          </div>
-        </div>
+          </MDBCol>
       </MDBRow>
     </MDBContainer>
   );

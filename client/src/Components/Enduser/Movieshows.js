@@ -15,19 +15,17 @@ const Movieshows = ({ shows }) => {
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
-
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
-          dots: true
+          infinite: true
         }
       },
       {
-        breakpoint: 600,
+        breakpoint: 780,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -48,10 +46,10 @@ const Movieshows = ({ shows }) => {
       <Slider {...settings}>
         {shows.map(show => {
           return (
-            <div>
+            <div className="no-gutters">
               <Card
                 border="dark"
-                style={{ backgroundColor: "#212121", width: "14rem" }}
+                style={{ backgroundColor: "#212121" }}
                 key={show.showId}
               >
                 <Card.Body>

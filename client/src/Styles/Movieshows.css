@@ -13,4 +13,13 @@
     font-size: 12px;
   }
 
+  .slick-slide {
+    padding: 0 15px;
+    width: 14rem;
+  }
+  
+  .slick-list {
+    margin: 0 2em;
+  }
+
   .slick-prev, .slick-next{ background:black;}
