@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DateTimePicker from "react-datetime-picker";
 import Showtable from "./Showtable";
 import axios from "axios";
+import "../../Styles/MovieDetail.css";
 import * as constants from "../../Constants";
 import {ToastsContainer, ToastsStore,ToastsContainerPosition} from 'react-toasts';
 
@@ -163,7 +164,7 @@ class CreateEvent extends Component {
                 <input
                   type="text"
                   id="movieName"
-                  className="form-control"
+                  className="form-control input-preserve-whitespace"
                   onChange={e => this.handleMovieInfo(e)}
                 />
               </div>
@@ -172,7 +173,7 @@ class CreateEvent extends Component {
                 <input
                   type="text"
                   id="tagline"
-                  className="form-control"
+                  className="form-control input-preserve-whitespace"
                   onChange={e => this.handleMovieInfo(e)}
                 />
               </div>
@@ -192,7 +193,7 @@ class CreateEvent extends Component {
                 <textarea
                   id="synopsis"
                   placeholder="Write few words about event"
-                  className="form-control"
+                  className="form-control input-preserve-whitespace"
                   rows="5"
                   onChange={e => this.handleMovieInfo(e)}
                 />
@@ -201,7 +202,7 @@ class CreateEvent extends Component {
                 <label>Cast:</label>
                 <textarea
                   id="cast"
-                  className="form-control"
+                  className="form-control input-preserve-whitespace"
                   rows="5"
                   onChange={e => this.handleMovieInfo(e)}
                 />

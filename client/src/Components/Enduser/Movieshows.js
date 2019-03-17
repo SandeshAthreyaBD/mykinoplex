@@ -33,7 +33,7 @@ const Movieshows = ({ shows }) => {
                         {show.zipcode}, {" " + show.city}, <br />
                         {show.country} <br />
                       </h6>
-                      <Card.Link href="#!">Book Now</Card.Link>
+                      <Card.Link href={show.bookNowUrl}>Book Now</Card.Link>
                     </div>
                   </Card.Text>
                 </Card.Body>
