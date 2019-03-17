@@ -65,35 +65,44 @@ class MovieInfoPage extends Component {
   };
 
   render() {
-    if(Object.keys(this.state.movieInfo).length === 0 && this.state.movieInfo.constructor === Object) {
-      return (<div/>);
-    } 
-    else {
-    return (
-      <div>
-        <Navbar />
-        {/* <ImageFlex /> */}
-        <MDBContainer className="mt-4">
-          <MovieDetailComponent movieInfo={this.state.movieInfo} />
-          <IframeComponent trailerUrl={this.state.movieInfo.trailerUrl} />
-          <MDBContainer className="#1c2a48 mdb-color darken-3">
-            <h2
-              style={{ color: "White", marginLeft: "350px", marginTop: "20px" }}
-            >
-              Show Timimgs and Places
-            </h2>
+    if (
+      Object.keys(this.state.movieInfo).length === 0 &&
+      this.state.movieInfo.constructor === Object
+    ) {
+      return <div />;
+    } else {
+      return (
+        <div>
+          <Navbar />
+          <MDBContainer>
+            <MovieDetailComponent movieInfo={this.state.movieInfo} />
+            <IframeComponent trailerUrl={this.state.movieInfo.trailerUrl} />
+            <MDBContainer className="#1c2a48 mdb-color darken-3">
+              <h2
+                style={{
+                  color: "White",
+                  marginLeft: "350px",
+                  marginTop: "20px"
+                }}
+              >
+                Show Timimgs and Places
+              </h2>
+            </MDBContainer>
+            {this.state.showDetailsArray.length > 0 &&
+            this.state.theatersArray.length > 0 ? (
+              <MovieshowsGrid
+                showDetailsArray={this.state.showDetailsArray}
+                theatersArray={this.state.theatersArray}
+              />
+            ) : (
+              <div>
+                <h3>To be updated soon !</h3>
+              </div>
+            )}
           </MDBContainer>
-          {this.state.showDetailsArray.length > 0 && 
-          this.state.theatersArray.length > 0 ? (
-          <MovieshowsGrid
-            showDetailsArray={this.state.showDetailsArray}
-            theatersArray={this.state.theatersArray}
-          />
-          ) : <div/>}
-        </MDBContainer>
-        <Footer />
-      </div>
-    );
+          <Footer />
+        </div>
+      );
     }
   }
 }

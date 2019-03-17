@@ -18,7 +18,7 @@ class Navbar extends Component {
   };
   render() {
     return (
-      <MDBNavbar color="#1C2331" dark expand="md">
+      <MDBNavbar color="black" dark expand="md">
         <MDBNavbarBrand>
           <strong style={{ color: "#2BBBAD", padding: "2px" }}>
             MyKinoPlex

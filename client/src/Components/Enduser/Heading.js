@@ -8,7 +8,7 @@ const Heading = () => {
         className="text-center #1C2331"
         titleClass="w-100"
       >
-        Movies List
+        Events List
       </h1>
     </MDBContainer>
   );
