@@ -7,7 +7,7 @@ const MoviecardGrid = ({ moviesList }) => {
 
   return (
     <MDBContainer
-      style={{ backgroundColor: "#1C2331" }}
+      style={{ backgroundColor: "#263238" }}
       className="moviecardgrid"
     >
       <div className="row no-gutters">

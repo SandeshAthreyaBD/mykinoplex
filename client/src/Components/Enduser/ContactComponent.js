@@ -12,9 +12,9 @@ import {
 } from "mdbreact";
 const ContactComponent = () => {
   return (
-    <MDBContainer style={{ marginTop: 60, backgroundColor: "#1C2331" }} fluid>
-      <section className="mt-4">
-        <h2 className="h2-responsive text-white font-weight-bold text-center ">
+    <MDBContainer style={{ backgroundColor: "#1C2331" }} fluid>
+      <section>
+        <h2 className="h2-responsive text-white font-weight-bold text-center">
           Contact us
         </h2>
         <h4 className="text-center text-white w-responsive mx-auto pb-5">

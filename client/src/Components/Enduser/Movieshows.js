@@ -7,8 +7,41 @@ import Slider from "react-slick";
 
 const Movieshows = ({ shows }) => {
   var settings = {
-    slidesPerRow: 4,
-    arrows: true
+    // slidesPerRow: 4,
+    arrows: true,
+
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
   return (
     <MDBContainer>
@@ -16,9 +49,13 @@ const Movieshows = ({ shows }) => {
         {shows.map(show => {
           return (
             <div>
-              <Card border="dark" style={{ width: "14rem" }} key={show.showId}>
+              <Card
+                border="dark"
+                style={{ backgroundColor: "#212121", width: "14rem" }}
+                key={show.showId}
+              >
                 <Card.Body>
-                  <Card.Text>
+                  <Card.Text className="text-center font-weight-bold text-uppercase text-white">
                     <div>
                       <h6 className="cardsubtitle">
                         {show.startTime.toLocaleDateString()}
