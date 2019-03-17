@@ -4,8 +4,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const multer = require("multer");
-const fs = require('fs');
-const path = require('path');
 
 const dbqueries_theater = require("./db/dbqueries_theater");
 const dbqueries_showdetails = require("./db/dbqueries_showdetails");
@@ -20,8 +18,9 @@ const AdminInfo = require("./schemas/AdminInfo");
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
+
 var winston = require('./winston');
-app.use(morgan('combined', { stream: winston.stream }));
+//app.use(morgan('combined', { stream: winston.stream }));
 
 // create a write stream (in append mode)
 
