@@ -29,7 +29,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: "#263238" }}>
         <Navbar />
         {this.state.moviesList.length > 0 ? (
           <CarouselComponent movieslist={this.state.moviesList} />

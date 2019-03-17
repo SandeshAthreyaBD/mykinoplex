@@ -25,38 +25,16 @@ class FooterPage extends Component {
 
   render() {
     return (
-      <MDBFooter color="#1c2a48" dark expand="md" className="font-small">
+      <MDBFooter
+        color="mdb-color darken-4"
+        dark
+        expand="md"
+        className="font-small"
+      >
         <MDBContainer className="text-center text-md-left">
           <MDBRow className="text-center text-md-left mt-1 pb-1">
             <hr className="w-100 clearfix d-md-none" />
-            <MDBCol md="3" lg="2" xl="2" className="mx-auto mt-3">
-              <h6
-                className="text-uppercase mb-4 font-weight-bold"
-                style={{ color: "#2BBBAD" }}
-              >
-                ABOUT
-              </h6>
-              <p>
-                <a href="#!" style={{ color: "#2BBBAD" }}>
-                  Blog
-                </a>
-              </p>
-              <p>
-                <a href="/contact" style={{ color: "#2BBBAD" }}>
-                  Contact Us
-                </a>
-              </p>
-              <p>
-                <a href="#!" style={{ color: "#2BBBAD" }}>
-                  SignIn
-                </a>
-              </p>
-              <p>
-                <a href="#!" style={{ color: "#2BBBAD" }}>
-                  Help
-                </a>
-              </p>
-            </MDBCol>
+            {/* <MDBCol md="3" lg="2" xl="2" className="mx-auto mt-3"> */}
             <hr className="w-100 clearfix d-md-none" />
             <MDBCol md="3" lg="3" xl="4" className="mx-auto mt-3">
               <h6
@@ -128,7 +106,10 @@ class FooterPage extends Component {
                       className="btn-floating btn-sm rgba-white-slight mx-1"
                       href="#!"
                     >
-                      <i className="fab fa-facebook-f" />
+                      <i
+                        className="fab fa-facebook-f"
+                        style={{ color: "#2BBBAD" }}
+                      />
                     </a>
                   </li>
                   <li className="list-inline-item">
@@ -136,7 +117,10 @@ class FooterPage extends Component {
                       className="btn-floating btn-sm rgba-white-slight mx-1"
                       href="#!"
                     >
-                      <i className="fab fa-twitter" />
+                      <i
+                        className="fab fa-twitter"
+                        style={{ color: "#2BBBAD" }}
+                      />
                     </a>
                   </li>
                   <li className="list-inline-item">
@@ -144,7 +128,10 @@ class FooterPage extends Component {
                       className="btn-floating btn-sm rgba-white-slight mx-1"
                       href="#!"
                     >
-                      <i className="fab fa-google-plus" />
+                      <i
+                        className="fab fa-google-plus"
+                        style={{ color: "#2BBBAD" }}
+                      />
                     </a>
                   </li>
                 </ul>

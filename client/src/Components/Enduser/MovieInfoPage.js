@@ -72,21 +72,19 @@ class MovieInfoPage extends Component {
       return <div />;
     } else {
       return (
-        <div>
+        <div style={{ backgroundColor: "#263238" }}>
           <Navbar />
           <MDBContainer>
             <MovieDetailComponent movieInfo={this.state.movieInfo} />
             <IframeComponent trailerUrl={this.state.movieInfo.trailerUrl} />
-            <MDBContainer className="#1c2a48 mdb-color darken-3">
-              <h2
-                style={{
-                  color: "White",
-                  marginLeft: "350px",
-                  marginTop: "20px"
-                }}
+            <MDBContainer color="#1C2331">
+              <h1
+                style={{ color: "#2BBBAD" }}
+                className="text-center #1C2331"
+                titleClass="w-100"
               >
-                Show Timimgs and Places
-              </h2>
+                Show Timings and Venue
+              </h1>
             </MDBContainer>
             {this.state.showDetailsArray.length > 0 &&
             this.state.theatersArray.length > 0 ? (
@@ -95,9 +93,15 @@ class MovieInfoPage extends Component {
                 theatersArray={this.state.theatersArray}
               />
             ) : (
-              <div>
-                <h3>To be updated soon !</h3>
-              </div>
+              <MDBContainer color="#1C2331">
+                <h4
+                  style={{ color: "#2BBBAD" }}
+                  className="text-center #1C2331"
+                  titleClass="w-100"
+                >
+                  Will Be Updated Soon !!!
+                </h4>
+              </MDBContainer>
             )}
           </MDBContainer>
           <Footer />
