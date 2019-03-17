@@ -1,20 +1,20 @@
-#from node 10
-FROM node:10
+# #from node 10
+# FROM node:10
 
-#set working directory /app
-WORKDIR /app
+# #set working directory /app
+# WORKDIR /app
 
-#copy package*.json to workdir
-COPY package*.json ./
+# #copy package*.json to workdir
+# COPY package*.json ./
 
-#install npm
-RUN npm install
+# #install npm
+# RUN npm install
 
-#copy all files to workdir
-COPY . .
+# #copy all files to workdir
+# COPY . .
 
-#build production code
-CMD ["npm","run build"]
+# #build production code
+# CMD ["npm","run build"]
 
 #from nginx 1.15
 FROM nginx:1.15
