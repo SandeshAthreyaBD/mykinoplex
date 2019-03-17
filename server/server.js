@@ -20,7 +20,7 @@ const app = express();
 const router = express.Router();
 
 var winston = require('./winston');
-//app.use(morgan('combined', { stream: winston.stream }));
+app.use(morgan('combined', { stream: winston.stream }));
 
 // create a write stream (in append mode)
 
