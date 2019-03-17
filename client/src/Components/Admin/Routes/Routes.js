@@ -10,7 +10,6 @@ class Routes extends React.Component {
     return (
       <Switch>
         <Route path='/admin/createevent' exact component={CreateEvent} />
-        {/* <Route path='/createevent' component={CreateEvent} /> */}
         <Route path='/listofevents' component={ListofEvents} />
         <Route path='/listoftheaters' component={ListofTheaters} />
         <Route path='/showdetails/:id' component={Showdetails} />

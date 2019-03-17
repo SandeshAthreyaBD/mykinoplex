@@ -3,6 +3,7 @@ import DateTimePicker from "react-datetime-picker";
 import Showtable from "./Showtable";
 import axios from "axios";
 import * as constants from "../../Constants";
+import {ToastsContainer, ToastsStore,ToastsContainerPosition} from 'react-toasts';
 
 class CreateEvent extends Component {
   constructor(props) {
@@ -15,11 +16,19 @@ class CreateEvent extends Component {
       allTheaters: [],
       allShowDetails: [],
       allMovieInfo: [],
-      showIds: []
+      showIds: [],
+      listofGenre: [],
+      languages :[],
+      
     };
+    this.myForm = React.createRef();
   }
 
   componentDidMount() {
+    this.setState({
+      listofGenre: constants.GENRE,
+      languages:constants.LANGUAGES
+    })
     axios
       .get(constants.URL_TO_USE+"/api/getAllTheaters")
       .then(response => {
@@ -65,7 +74,6 @@ class CreateEvent extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log("in submit");
     let currentIds = this.state.allMovieInfo.map(
       movieInfo => movieInfo.movieId
     );
@@ -91,20 +99,21 @@ class CreateEvent extends Component {
     formData.append("posterimage", this.state.movieInfo.posterimage);
     formData.append("movieInfo", JSON.stringify(movieInfo1));
     formData.append("showDetailsArray", JSON.stringify(this.state.showDetailsArray));
-    console.log("showDetailsArray" ,JSON.stringify(this.state.showDetailsArray));
 
     axios
       .post(
         constants.URL_TO_USE+"/api/insertMovieInfo", formData
       )
       .then(res => {
-        console.log(res);
+        this.clearAllFieds()
       })
       .catch(error => {
         console.log(error);
       });
   };
-
+ clearAllFieds=()=>{
+  this.myForm.reset();
+ }
   handleMovieInfo = e => {
     this.setState({
       movieInfo: { ...this.state.movieInfo, [e.target.id]: e.target.value }
@@ -146,7 +155,7 @@ class CreateEvent extends Component {
         <h4 className="h4-responsive font-weight-bold text-center mb-4">
           Have Screening Details ?? Please add here..
         </h4>
-        <form onSubmit={this.handleSubmit} encType="multipart/form-data">
+        <form ref={(el) => this.myForm = el} onSubmit={this.handleSubmit} encType="multipart/form-data">
           <div className="md-form-group">
             <div className="row">
               <div className="col-5">
@@ -203,14 +212,10 @@ class CreateEvent extends Component {
                 <div className="md-form-group">
                   <label>Genre:</label>
                   <select
-                    id="genre"
-                    className="browser-default custom-select"
-                    onChange={e => this.handleMovieInfo(e)}
-                  >
-                    <option defaultValue>Select Category</option>
-                    <option value="Thriller">Thriller</option>
-                    <option value="Action">Action</option>
-                    <option value="Drama">Drama</option>
+                  id="genre"
+                  className="browser-default custom-select"
+                  onChange={e => this.handleMovieInfo(e)}>
+                  {this.state.listofGenre.map((genre) => <option key={genre} value={genre}>{genre}</option>)}
                   </select>
                 </div>
               </div>
@@ -218,17 +223,10 @@ class CreateEvent extends Component {
                 <div className="md-form-group">
                   <label>Language:</label>
                   <select
-                    id="language"
-                    className="browser-default custom-select"
-                    onChange={e => this.handleMovieInfo(e)}
-                  >
-                    <option defaultValue>Select Language</option>
-                    <option value="Kannada">Kannada</option>
-                    <option value="Telugu">Telugu</option>
-                    <option value="Tamil">Tamil</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Malayalam">Malayalam</option>
-                    <option value="English">English</option>
+                  id="language"
+                  className="browser-default custom-select"
+                  onChange={e => this.handleMovieInfo(e)}>
+                  {this.state.languages.map((language) => <option key={language} value={language}>{language}</option>)}
                   </select>
                 </div>
               </div>
@@ -315,7 +313,7 @@ class CreateEvent extends Component {
               </div>
             </div>
             <div className="row mt-4">
-              <div className="col-4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ">
+              <div className="col-6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ">
                 <div className="md-form-group">
                   <label>Start Date</label>
                   <br />
@@ -375,9 +373,11 @@ class CreateEvent extends Component {
                 <button
                   type="submit"
                   className="btn blue-gradient"
+                  onClick={()=>ToastsStore.success("Event added Successfully")}
                 >
                   Submit
                 </button>
+                <ToastsContainer position={ToastsContainerPosition.BOTTOM_CENTER} store={ToastsStore}/>
               </div>
             </div>
           </div>

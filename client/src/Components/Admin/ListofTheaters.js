@@ -11,6 +11,7 @@ import {
 import TheaterDetails from "./TheaterDetails";
 import Axios from "axios";
 import * as constants from "../../Constants";
+import {ToastsContainer, ToastsStore,ToastsContainerPosition} from 'react-toasts';
 
 class ListofTheaters extends Component {
   constructor(props) {
@@ -43,7 +44,6 @@ class ListofTheaters extends Component {
         [e.target.id]: e.target.value
       }
     });
-    console.log(this.state.SelectedTheaterInfo);
   };
 
   handleSubmit = e => {
@@ -54,7 +54,6 @@ class ListofTheaters extends Component {
     while(currentIds.includes(idToBeAdded)){
       ++idToBeAdded;
     }
-    console.log(this.state.SelectedTheaterInfo);
     let address= { 
       street:this.state.SelectedTheaterInfo.street, 
       city: this.state.SelectedTheaterInfo.city, 
@@ -67,12 +66,15 @@ class ListofTheaters extends Component {
       address: address
     }).then(res => {
      Axios.get(constants.URL_TO_USE+"/api/getAllTheaters").then(response =>{
-     console.log(response.data);  
      this.setState({
          theaters: response.data
        });
+      ToastsStore.success("Theater added Successfully")
      })
-    });
+    })
+    .catch(error=>{
+      ToastsStore.success(error)
+     });
   };
 
   handleDelete = (delTheaterInfo) => {
@@ -86,6 +88,10 @@ class ListofTheaters extends Component {
           this.setState({
             theaters:updatedTheaters
           });
+          ToastsStore.success("Theater deleted Successfully")
+        })
+        .catch(error=>{
+          ToastsStore.success(error)
         });
   }
   handleEdit = (editTheaterInfo) => {
@@ -102,6 +108,10 @@ class ListofTheaters extends Component {
           this.setState({
             theaters: updatedTheaters
           });
+          ToastsStore.success("Theater updated Successfully")
+        })
+        .catch(error=>{
+          ToastsStore.success(error)
         });
   }
 
@@ -191,6 +201,7 @@ class ListofTheaters extends Component {
                 <MDBBtn color="primary" onClick={this.handleSubmit}>
                   Save
                 </MDBBtn>
+              <ToastsContainer position={ToastsContainerPosition.BOTTOM_CENTER} store={ToastsStore}/>
               </MDBModalFooter>
             </MDBModal>
           </div>
@@ -206,8 +217,10 @@ class ListofTheaters extends Component {
                         editorDeleteTheater={this.EditorDeleteTheater}
                         key={theater.id}
                       />
+                      
                     );
               })}
+              <ToastsContainer position={ToastsContainerPosition.BOTTOM_CENTER} store={ToastsStore}/>
             </div>
           </div>
         </div>

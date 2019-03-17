@@ -9,7 +9,8 @@ class ShowDetails extends Component {
     this.state = {
       showDetailsArray: [],
       theatersArray: [],
-      showandtheaterInfos: []
+      showandtheaterInfos: [],
+      showStatus: null
     };
   }
 
@@ -75,6 +76,9 @@ class ShowDetails extends Component {
       showandtheaterInfos: showTheaterArray
     });
   };
+  handleEdit = ()=>{
+
+  }
   handleDelete = showDetails => {
     if (window.confirm("Do you want to delete this show?")) {
       Axios.post(
@@ -94,16 +98,21 @@ class ShowDetails extends Component {
       });
     }
   };
+  handleShowInfo =() =>{
+
+  }
   render() {
     if (this.state.showandtheaterInfos.length <= 0) {
       return <div>Loading data Please wait....</div>;
     }
     const mappedshows = this.state.showandtheaterInfos.map(
-      (show, row, index) => {
+      (show) => {
+        show.showStatus ==="Now Showing" ? this.state.showStatus = "Coming Soon" : this.state.showStatus = "Now Showing"
+ 
         return (
           <tr key={show.showId}>
             <td>
-              <MDBIcon icon="edit" onClick={() => this.handleEdit()} />
+              <MDBIcon icon="edit" onClick={() => this.handleEdit(show)} />
             </td>
             <td>{show.theaterName}</td>
             <td>{show.street}</td>

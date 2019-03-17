@@ -3,17 +3,18 @@ import React from "react";
 const Showtable = ({ showDetailsArray, allTheaters }) => {
 
   const tableValues = showDetailsArray.map(showDetails => {
-    let selectedTheater = allTheaters.map(theater => {
+    let selectedTheater = allTheaters.filter(theater => {
       if (theater.theaterId == showDetails.theaterId) {
         return theater;
       }
     });
+    
     return (
     <tr key={showDetails.showId}>
-      <td>{selectedTheater.theaterName}</td>
+      <td>{selectedTheater[0].theaterName}</td>
       <td>
-        {selectedTheater.address.street},{selectedTheater.address.city},
-        {selectedTheater.address.country}
+        {selectedTheater[0].address.street},{selectedTheater[0].address.city},
+        {selectedTheater[0].address.country}
       </td>
       <td>{showDetails.startTime.toLocaleDateString()}</td>
       <td>
