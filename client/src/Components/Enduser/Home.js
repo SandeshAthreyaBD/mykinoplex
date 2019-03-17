@@ -18,7 +18,7 @@ class Home extends Component {
 
   getMoviesListFromDb = () => {
     axios
-      .get(constants.URL_TO_USE+"/api/getAllActiveMovieInfo")
+      .get(constants.URL_TO_USE + "/api/getAllActiveMovieInfo")
       .then(response => {
         this.setState({ moviesList: response.data });
       })
@@ -29,15 +29,19 @@ class Home extends Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "#1C2331" }}>
+      <div>
         <Navbar />
         {this.state.moviesList.length > 0 ? (
-        <CarouselComponent movieslist={this.state.moviesList}/>
-        ) : <div/>}
+          <CarouselComponent movieslist={this.state.moviesList} />
+        ) : (
+          <div />
+        )}
         <Heading />
         {this.state.moviesList.length > 0 ? (
           <MoviecardGrid moviesList={this.state.moviesList} />
-        ) : <div/>}
+        ) : (
+          <div />
+        )}
         <Footer />
       </div>
     );

@@ -74,8 +74,7 @@ class MovieInfoPage extends Component {
       return (
         <div>
           <Navbar />
-          {/* <ImageFlex /> */}
-          <MDBContainer className="mt-4">
+          <MDBContainer>
             <MovieDetailComponent movieInfo={this.state.movieInfo} />
             <IframeComponent trailerUrl={this.state.movieInfo.trailerUrl} />
             <MDBContainer className="#1c2a48 mdb-color darken-3">
@@ -96,7 +95,9 @@ class MovieInfoPage extends Component {
                 theatersArray={this.state.theatersArray}
               />
             ) : (
-              <div />
+              <div>
+                <h3>To be updated soon !</h3>
+              </div>
             )}
           </MDBContainer>
           <Footer />

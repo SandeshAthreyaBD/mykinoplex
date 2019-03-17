@@ -25,7 +25,7 @@ class FooterPage extends Component {
 
   render() {
     return (
-      <MDBFooter color="#1C2331" dark expand="md" className="font-small">
+      <MDBFooter color="#1c2a48" dark expand="md" className="font-small">
         <MDBContainer className="text-center text-md-left">
           <MDBRow className="text-center text-md-left mt-1 pb-1">
             <hr className="w-100 clearfix d-md-none" />
@@ -114,7 +114,7 @@ class FooterPage extends Component {
           <MDBRow className="d-flex align-items-center">
             <MDBCol md="8" lg="8">
               <p
-                className="text-center text-md-left grey-text"
+                className="text-center text-md-left"
                 style={{ color: "#2BBBAD" }}
               >
                 &copy; {new Date().getFullYear()} Copyright: All Right Reserved
