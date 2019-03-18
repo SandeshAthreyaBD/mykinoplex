@@ -6,14 +6,20 @@ import Footer from "./Footer";
 import Heading from "./Heading";
 import axios from "axios";
 import * as constants from "../../Constants";
+import SpinnerPage from "./SpinnerPage";
 class Home extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      moviesList: []
+      moviesList: [],
+      isLoading: true
     };
     this.getMoviesListFromDb();
+  }
+
+  componentWillMount() {
+    this.setState({ isLoading: false });
   }
 
   getMoviesListFromDb = () => {
@@ -28,7 +34,9 @@ class Home extends Component {
   };
 
   render() {
-    return (
+    return this.state.isLoading ? (
+      <SpinnerPage />
+    ) : (
       <div style={{ backgroundColor: "#263238" }}>
         <Navbar />
         {this.state.moviesList.length > 0 ? (
