@@ -105,9 +105,11 @@ class CreateEvent extends Component {
         constants.URL_TO_USE+"/api/insertMovieInfo", formData
       )
       .then(res => {
+        ToastsStore.success("Event added Successfully")
         this.clearAllFieds()
       })
       .catch(error => {
+        ToastsStore.success(error)
         console.log(error);
       });
   };
@@ -373,7 +375,6 @@ class CreateEvent extends Component {
                 <button
                   type="submit"
                   className="btn blue-gradient"
-                  onClick={()=>ToastsStore.success("Event added Successfully")}
                 >
                   Submit
                 </button>
