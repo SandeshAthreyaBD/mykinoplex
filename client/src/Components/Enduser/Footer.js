@@ -30,6 +30,7 @@ class FooterPage extends Component {
         dark
         expand="md"
         className="font-small"
+        id="footer"
       >
         <MDBContainer className="text-center text-md-left">
           <MDBRow className="text-center text-md-left mt-1 pb-1">

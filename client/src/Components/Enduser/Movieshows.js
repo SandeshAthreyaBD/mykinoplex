@@ -68,7 +68,9 @@ const Movieshows = ({ shows }) => {
                         {show.zipcode}, {" " + show.city}, <br />
                         {show.country} <br />
                       </h6>
-                      <Card.Link href={show.bookNowUrl}>Book Now</Card.Link>
+                      <Button size="sm" href={show.bookNowUrl}>
+                        Book Now
+                      </Button>
                     </div>
                   </Card.Text>
                 </Card.Body>

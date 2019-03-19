@@ -11,6 +11,7 @@ const CarouselComponent = ({ movieslist }) => {
       showStatus={false}
       showThumbs={false}
       autoPlay
+      dynamicHeight
       interval={3000}
       transitionTime={1000}
       infiniteLoop

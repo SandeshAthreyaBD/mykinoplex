@@ -1,7 +1,7 @@
 import React from "react";
 import "../../Styles/Moviecard.css";
 // eslint-disable-next-line
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import TextTruncate from "react-text-truncate";
 
 const Moviecard = ({ movieInfo }) => {
@@ -18,25 +18,31 @@ const Moviecard = ({ movieInfo }) => {
 
   return (
     <div className="col-12 col-sm-6 col-md-4 px-2 py-3 moviedivcard">
-      <Card className="moviecard">
-        <Card.Img variant="top" src={imgsrc} style={{ height: "18rem" }} />
-        <Card.Body>
-          <Card.Title className="cardtitle">
-            <TextTruncate line={1} truncateText="…" text={cardtitle} />
-          </Card.Title>
-          <Card.Text>
-            <div className="flex-container">
-              <h6 className="cardsubtitle">
-                {moviegenre} | {movieInfo.language}
-              </h6>
-              <Card.Link href={moviehref}>Book >></Card.Link>
-            </div>
-            <div>
-              <h6 className="cardsubtitle">{movieInfo.status}</h6>
-            </div>
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      <a style={{ textDecoration: "none", color: "inherit" }} href={moviehref}>
+        <Card className="moviecard">
+          <Card.Img variant="top" src={imgsrc} style={{ height: "18rem" }} />
+          <Card.Body>
+            <Card.Title className="cardtitle">
+              <TextTruncate line={1} truncateText="…" text={cardtitle} />
+            </Card.Title>
+            <Card.Text>
+              <div className="flex-container">
+                <h6 className="cardsubtitle">
+                  {moviegenre} | {movieInfo.language}
+                </h6>
+                <Button size="sm" href={moviehref}>
+                  Book >>
+                </Button>
+              </div>
+              <div>
+                <h6 style={{ marginTop: "-25px" }} className="cardsubtitle">
+                  {movieInfo.status}
+                </h6>
+              </div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </a>
     </div>
   );
 };

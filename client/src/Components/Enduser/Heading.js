@@ -5,10 +5,10 @@ const Heading = () => {
     <MDBContainer color="#1C2331">
       <h1
         style={{ color: "#2BBBAD" }}
-        className="text-center #1C2331"
+        className="text-center #1C2331 mt-3"
         titleClass="w-100"
       >
-        Events List
+        Events
       </h1>
     </MDBContainer>
   );
